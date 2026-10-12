@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import MediaHero from '../components/MediaHero.astro';
+import { HERO } from '../data/media';
+import Form from '../components/Form.astro';
+import { t, CONTACT, ROUTES, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const d = all.careersPage;
+---
+<Base lang={lang} page="careers" crumb={all.nav.careers}>
+  <MediaHero image={HERO.careers} seq="careers" eyebrow={d.eyebrow} title={d.title} intro={d.intro} measure="PDF · 5 MB" run="45svh" runPortrait="35svh" pos="40% 50%" />
+  <section class="careers on-light section" aria-labelledby="careers-title">
+    <div class="wrap careers__grid">
+      <div class="careers__form">
+        <h2 id="careers-title" class="display h-2">{d.formTitle}</h2>
+        <Form lang={lang} kind="careers" />
+      </div>
+      <aside class="careers__side">
+        <h3 class="side-h">{d.dataTitle}</h3>
+        <ul role="list">{d.data.map((x) => <li>{x}</li>)}</ul>
+        <p><a class="text-link" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></p>
+        <p><a class="text-link" href={ROUTES.privacy[lang]}>{all.footer.privacy}</a></p>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .careers__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(2.5rem, 6vw, 7rem); }
+  .careers__form { display: grid; gap: 2.5rem; align-content: start; }
+  .careers__side { display: grid; gap: 1rem; align-content: start; padding-top: 1.25rem; border-top: 1px solid var(--line); }
+  .careers__side ul { display: grid; gap: 0.75rem; color: var(--muted); }
+  .side-h { font-size: var(--fs-xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--copper-deep); font-weight: 500; }
+  @media (max-width: 900px) { .careers__grid { grid-template-columns: 1fr; } }
+</style>

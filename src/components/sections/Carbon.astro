@@ -1,0 +1,43 @@
+---
+import { Image } from 'astro:assets';
+import { MISC } from '../../data/media';
+import { t, type Lang } from '../../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang).carbon;
+---
+<section class="carbon on-dark section cv" id="carbon-footprint" aria-labelledby="carbon-title">
+  <div class="wrap carbon__grid">
+    <div class="carbon__media media grain" data-reveal="clip">
+      <Image src={MISC.altuveDetail} alt={{ en: 'Built-in bar cabinet clad in 5 mm Dark Emperador marble, Altuve Residence, Houston', es: 'Mueble bar revestido en mármol Dark Emperador de 5 mm, Altuve Residence, Houston', fr: 'Meuble bar habillé de marbre Dark Emperador de 5 mm, Altuve Residence, Houston' }[lang]} widths={[640, 960, 1280, 1600]} sizes="(max-width: 900px) 100vw, 50vw" quality={70} data-parallax="0.08" />
+      <span class="carbon__stamp mono" aria-hidden="true">80–90 %</span>
+    </div>
+    <div class="carbon__copy">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 id="carbon-title" class="display h-1" data-split>{d.title}</h2>
+      <p class="lede">{d.body}</p>
+      <dl class="carbon__list">
+        {d.points.map((p, i) => (
+          <div data-reveal style={`--d:${i * 0.08}s`}>
+            <dt>{p.t}</dt>
+            <dd>{p.d}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .carbon__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2.5rem, 6vw, 7rem); align-items: center; }
+  .carbon__media { aspect-ratio: 4 / 5; }
+  .carbon__media :global(img) { height: 116%; margin-top: -8%; object-position: 70% 50%; }
+  .carbon__stamp { position: absolute; right: 1rem; bottom: 1rem; color: var(--copper); font-size: var(--fs-sm); }
+  .carbon__copy { display: grid; gap: 1.5rem; }
+  .carbon__list { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem var(--gutter); margin-top: 1rem; }
+  .carbon__list div { border-top: 1px solid var(--copper); padding-top: 1rem; }
+  .carbon__list dt { font-weight: 600; margin-bottom: 0.4rem; }
+  .carbon__list dd { color: var(--muted-dark); font-size: var(--fs-sm); }
+  @media (max-width: 900px) { .carbon__grid { grid-template-columns: 1fr; } .carbon__media { aspect-ratio: 4 / 3; } }
+  @media (max-width: 520px) { .carbon__list { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,172 @@
+---
+import Logo from './Logo.astro';
+import { t, ROUTES, CONTACT, LANGS, LOCALE, LANG_NAME, type Lang, type PageId, type NavId } from '../i18n';
+
+interface Props { lang: Lang; page: PageId | 'notFound' }
+const { lang, page } = Astro.props;
+const d = t(lang);
+const r = (id: PageId) => ROUTES[id][lang];
+const left: NavId[] = ['technology', 'applications', 'materials'];
+const right: NavId[] = ['projects', 'casanova'];
+const all: NavId[] = [...left, ...right, 'contact'];
+const hrefFor = (l: Lang) => (page === 'notFound' ? ROUTES.home[l] : ROUTES[page][l]);
+const cur = (id: PageId) => (id === page ? 'page' : undefined);
+---
+<header class="hdr" data-header>
+  <div class="hdr__bar wrap">
+    <nav class="hdr__nav hdr__nav--l" aria-label={d.nav.primary}>
+      {left.map((id) => <a class="hdr__link" href={r(id)} aria-current={cur(id)}><span class="link-u">{d.nav[id]}</span></a>)}
+    </nav>
+
+    <a class="hdr__logo" href={r('home')} aria-label={`MILLIMETER by Casanova — ${d.nav.home}`}>
+      <Logo decorative />
+    </a>
+
+    <nav class="hdr__nav hdr__nav--r" aria-label={d.nav.primary + ' 2'}>
+      {right.map((id) => <a class="hdr__link" href={r(id)} aria-current={cur(id)}><span class="link-u">{d.nav[id]}</span></a>)}
+      <span class="hdr__langs" role="group" aria-label={d.nav.language}>
+        {LANGS.map((l) => (
+          <a class="hdr__lang" href={hrefFor(l)} hreflang={LOCALE[l]} lang={l} aria-current={l === lang ? 'true' : undefined} title={LANG_NAME[l]}>{l.toUpperCase()}</a>
+        ))}
+      </span>
+      <a class="hdr__cta" href={r('contact')} aria-current={cur('contact')}>{d.nav.contact}</a>
+    </nav>
+
+    <button class="hdr__burger" type="button" aria-expanded="false" aria-controls="menu" data-menu-toggle>
+      <span class="sr-only" data-label-open>{d.nav.menu}</span>
+      <span class="sr-only" data-label-close hidden>{d.nav.close}</span>
+      <span class="hdr__burger-lines" aria-hidden="true"><i></i><i></i></span>
+    </button>
+  </div>
+
+  <!-- Signature: a millimeter ruler that fills with scroll progress -->
+  <div class="ruler" aria-hidden="true"><span class="ruler__fill" data-ruler></span></div>
+
+  <div class="menu" id="menu" data-menu hidden>
+    <nav class="menu__inner wrap" aria-label={d.nav.menu}>
+      <ul class="menu__list" role="list">
+        <li><a href={r('home')} aria-current={cur('home')}>{d.nav.home}</a></li>
+        {all.map((id) => <li><a href={r(id)} aria-current={cur(id)}>{d.nav[id]}</a></li>)}
+        <li><a href={r('careers')} aria-current={cur('careers')}>{d.nav.careers}</a></li>
+      </ul>
+      <div class="menu__meta">
+        <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+        <a href={CONTACT.whatsappLink(d.common.whatsappText)} rel="noopener" target="_blank">WhatsApp · {CONTACT.whatsappDisplay}</a>
+        <span class="menu__langs">
+          {LANGS.map((l) => <a href={hrefFor(l)} hreflang={LOCALE[l]} lang={l} aria-current={l === lang ? 'true' : undefined}>{LANG_NAME[l]}</a>)}
+        </span>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .hdr {
+    position: fixed; inset: 0 0 auto 0; z-index: 100; height: var(--header-h);
+    color: var(--text-dark);
+    transition: transform 0.6s var(--ease), background-color 0.5s var(--ease);
+  }
+  .hdr::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; opacity: 0;
+    background: rgba(18, 16, 13, 0.82);
+    -webkit-backdrop-filter: saturate(140%) blur(14px); backdrop-filter: saturate(140%) blur(14px);
+    transition: opacity 0.5s var(--ease);
+  }
+  :global(.hdr.is-solid)::before { opacity: 1; }
+  :global(.hdr.is-open)::before { opacity: 0; }
+
+  .hdr__bar { height: 100%; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2rem; }
+  .hdr__nav { display: flex; align-items: center; gap: clamp(1.25rem, 2.2vw, 2.25rem); font-size: var(--fs-sm); letter-spacing: 0.04em; }
+  .hdr__nav--r { justify-content: flex-end; }
+  .hdr__link { padding-block: 0.5rem; color: color-mix(in srgb, var(--text-dark) 82%, transparent); transition: color 0.3s; }
+  .hdr__link:hover, .hdr__link[aria-current='page'] { color: var(--text-dark); }
+  .hdr__link[aria-current='page'] .link-u { background-size: 100% 1px; }
+  .hdr__logo { display: block; width: clamp(8.5rem, 11vw, 10.5rem); color: var(--text-dark); }
+  .hdr__langs { display: inline-flex; gap: 0.1rem; }
+  .hdr__lang { font-family: var(--f-mono); font-size: var(--fs-xs); letter-spacing: 0.1em; padding: 0.5rem 0.3rem; color: var(--muted-dark); transition: color 0.3s; }
+  .hdr__lang:hover { color: var(--copper); }
+  .hdr__lang[aria-current='true'] { color: var(--text-dark); text-decoration: underline; text-decoration-color: var(--copper); text-underline-offset: 5px; }
+  .hdr__cta {
+    padding: 0.65rem 1.1rem; border: 1px solid var(--copper); color: var(--copper);
+    font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    transition: background-color 0.35s var(--ease), color 0.35s var(--ease);
+  }
+  .hdr__cta:hover, .hdr__cta[aria-current='page'] { background: var(--copper); color: var(--ink); }
+
+  .hdr__burger { display: none; width: 2.75rem; height: 2.75rem; justify-self: end; place-items: center; }
+  .hdr__burger-lines { display: grid; gap: 7px; width: 1.6rem; }
+  .hdr__burger-lines i { display: block; height: 1px; background: currentColor; transition: transform 0.5s var(--ease); }
+  :global(.hdr.is-open) .hdr__burger-lines i:first-child { transform: translateY(4px) rotate(45deg); }
+  :global(.hdr.is-open) .hdr__burger-lines i:last-child { transform: translateY(-4px) rotate(-45deg); }
+
+  .ruler {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 6px; pointer-events: none;
+    background:
+      repeating-linear-gradient(90deg, rgba(237,234,228,.22) 0 1px, transparent 1px 10px) left bottom / 100% 4px no-repeat,
+      repeating-linear-gradient(90deg, rgba(237,234,228,.35) 0 1px, transparent 1px 100px) left bottom / 100% 6px no-repeat;
+    opacity: 0; transition: opacity 0.5s;
+  }
+  :global(.hdr.is-solid) .ruler { opacity: 1; }
+  .ruler__fill { position: absolute; left: 0; bottom: 0; height: 1px; width: 100%; background: var(--copper); transform-origin: left; transform: scaleX(0); }
+
+  .menu {
+    position: fixed; inset: 0; z-index: -1; background: var(--ink);
+    padding-top: calc(var(--header-h) + 2rem); overflow-y: auto;
+    clip-path: inset(0 0 100% 0); transition: clip-path 0.8s var(--ease);
+  }
+  :global(.hdr.is-open) .menu { clip-path: inset(0 0 0 0); }
+  .menu__inner { display: grid; gap: 3rem; padding-bottom: 3rem; }
+  .menu__list { display: grid; gap: 0.25rem; }
+  .menu__list a {
+    display: block; font-family: var(--f-display); font-size: clamp(2.25rem, 9vw, 3.5rem); line-height: 1.15;
+    padding-block: 0.15rem; border-bottom: 1px solid var(--line-dark);
+  }
+  .menu__list a[aria-current='page'] { color: var(--copper); font-style: italic; }
+  .menu__meta { display: grid; gap: 0.75rem; font-size: var(--fs-sm); color: var(--muted-dark); }
+  .menu__langs { display: flex; gap: 1.25rem; }
+  .menu__langs a[aria-current='true'] { color: var(--copper); }
+
+  @media (max-width: 1080px) {
+    .hdr__nav { display: none; }
+    .hdr__bar { grid-template-columns: 1fr auto; }
+    .hdr__logo { justify-self: start; width: 8.5rem; }
+    .hdr__burger { display: grid; }
+  }
+  @media (min-width: 1081px) { .menu { display: none !important; } }
+</style>
+
+<script>
+  const hdr = document.querySelector<HTMLElement>('[data-header]')!;
+  const btn = hdr.querySelector<HTMLButtonElement>('[data-menu-toggle]')!;
+  const menu = hdr.querySelector<HTMLElement>('[data-menu]')!;
+  const open = hdr.querySelector<HTMLElement>('[data-label-open]')!;
+  const close = hdr.querySelector<HTMLElement>('[data-label-close]')!;
+
+  function setMenu(state: boolean) {
+    btn.setAttribute('aria-expanded', String(state));
+    hdr.classList.toggle('is-open', state);
+    open.hidden = state; close.hidden = !state;
+    document.documentElement.style.overflow = state ? 'hidden' : '';
+    window.dispatchEvent(new CustomEvent(state ? 'mm:lock' : 'mm:unlock'));
+    if (state) { menu.hidden = false; menu.querySelector<HTMLElement>('a')?.focus({ preventScroll: true }); }
+    else { setTimeout(() => { if (!hdr.classList.contains('is-open')) menu.hidden = true; }, 800); }
+  }
+  btn.addEventListener('click', () => setMenu(btn.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && hdr.classList.contains('is-open')) { setMenu(false); btn.focus(); } });
+  menu.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) setMenu(false); });
+
+  // Solid / hidden states on scroll (works with native and Lenis scrolling).
+  // The bar stays visible (never hides); scroll state is rAF-throttled and never forces layout on load.
+  let max = 0, ticking = false;
+  const fill = hdr.querySelector<HTMLElement>('[data-ruler]')!;
+  const measure = () => { max = document.documentElement.scrollHeight - innerHeight; };
+  new ResizeObserver(measure).observe(document.body);
+  function update() {
+    ticking = false;
+    const y = window.scrollY;
+    hdr.classList.toggle('is-solid', y > 40);
+    fill.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
+  }
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  if (window.scrollY > 0) requestAnimationFrame(update);
+</script>

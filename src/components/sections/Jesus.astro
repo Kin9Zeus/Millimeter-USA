@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import Arrow from '../Arrow.astro';
+import { MISC } from '../../data/media';
+import { t, ROUTES, CONTACT, type Lang } from '../../i18n';
+interface Props { lang: Lang; showcase?: boolean }
+const { lang, showcase = false } = Astro.props;
+const all = t(lang);
+const d = all.jesus;
+---
+<section class="jesus on-light section cv" id="jesus-casanova" aria-labelledby="jesus-title">
+  <div class="wrap jesus__grid">
+    <figure class="jesus__photo">
+      <div class="media" data-reveal="clip">
+        <Image src={MISC.jesus} alt={d.alt} widths={[400, 640, 900, 1200]} sizes="(max-width: 900px) 90vw, 40vw" quality={78} data-parallax="0.06" />
+      </div>
+      {showcase && (
+        <div class="jesus__second media" data-reveal="clip" style="--d:.2s">
+          <Image src={MISC.jesusShowroom} alt={{ en: 'Jesús Casanova among MILLIMETER stone samples', es: 'Jesús Casanova entre muestras de piedra MILLIMETER', fr: 'Jesús Casanova parmi des échantillons de pierre MILLIMETER' }[lang]} widths={[300, 500, 700]} sizes="(max-width: 900px) 45vw, 18vw" quality={74} />
+        </div>
+      )}
+      <figcaption class="mono">MILLIMETER · Houston, TX</figcaption>
+    </figure>
+
+    <div class="jesus__copy">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 id="jesus-title" class="display h-1">{d.name}</h2>
+      <p class="jesus__role">{d.role}</p>
+      <blockquote class="jesus__quote display"><p>“{d.quote}”</p></blockquote>
+      <div class="jesus__bio">{d.p.map((p) => <p>{p}</p>)}</div>
+      <div class="jesus__ctas">
+        <a class="btn" href={CONTACT.whatsappLink(all.common.whatsappText)} target="_blank" rel="noopener" data-magnetic>
+          WhatsApp · {CONTACT.whatsappDisplay}<Arrow dir="up-right" />
+        </a>
+        <a class="btn btn--ghost" href={ROUTES.contact[lang]}>{all.common.talk}<Arrow /></a>
+      </div>
+      <p class="jesus__reply mono">● {all.common.reply}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .jesus__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2.5rem, 6vw, 7rem); align-items: start; }
+  .jesus__photo { position: relative; display: grid; gap: 1rem; }
+  .jesus__photo > .media { aspect-ratio: 4 / 5; }
+  .jesus__photo .media :global(img) { height: 112%; margin-top: -6%; object-position: 50% 20%; }
+  .jesus__second { position: absolute; right: -2rem; bottom: 2.5rem; width: 40%; aspect-ratio: 3 / 5; border: 6px solid var(--bone); }
+  .jesus__second :global(img) { height: 100% !important; margin: 0 !important; }
+  .jesus__photo figcaption { font-size: var(--fs-xs); color: var(--muted); }
+  .jesus__copy { display: grid; gap: 1.25rem; padding-top: 1rem; }
+  .jesus__role { font-size: var(--fs-xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--copper-deep); }
+  .jesus__quote { font-size: var(--fs-xl); font-style: italic; line-height: 1.2; padding: 1.25rem 0; border-block: 1px solid var(--line); margin-block: 0.5rem; }
+  .jesus__bio { display: grid; gap: 1rem; color: #3a332b; max-width: 56ch; text-align: justify; hyphens: auto; -webkit-hyphens: auto; text-wrap: wrap; }
+  .jesus__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.75rem; }
+  .jesus__reply { font-size: var(--fs-xs); color: var(--copper-deep); }
+  @media (max-width: 900px) { .jesus__grid { grid-template-columns: 1fr; } .jesus__second { right: 0.5rem; } }
+</style>

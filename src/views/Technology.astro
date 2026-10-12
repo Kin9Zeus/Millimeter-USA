@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import MediaHero from '../components/MediaHero.astro';
+import { HERO } from '../data/media';
+import Weight from '../components/sections/Weight.astro';
+import Curve from '../components/sections/Curve.astro';
+import Health from '../components/sections/Health.astro';
+import Carbon from '../components/sections/Carbon.astro';
+import Faq from '../components/sections/Faq.astro';
+import Cta from '../components/sections/Cta.astro';
+import Arrow from '../components/Arrow.astro';
+import { faqSchema } from '../lib/schema';
+import { t, ROUTES, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const d = all.tech;
+---
+<Base lang={lang} page="technology" crumb={all.nav.technology} schema={[faqSchema(all.faq.items)]}>
+  <MediaHero image={HERO.technology} seq="technology" eyebrow={d.eyebrow} title={d.title} intro={d.intro} measure={d.aside} pos="50% 45%" />
+
+  <section class="specs on-dark section--tight" aria-labelledby="specs-title">
+    <div class="wrap">
+      <p class="eyebrow">{d.specEyebrow}</p>
+      <h2 id="specs-title" class="display h-2 specs__title">{d.specTitle}</h2>
+      <dl class="specs__grid">
+        {d.specs.map((s, i) => (
+          <div class="spec" data-reveal style={`--d:${i * 0.08}s`}>
+            <dt>{s.k}</dt>
+            <dd class="spec__v display">{s.v}</dd>
+            <dd class="spec__d">{s.d}</dd>
+          </div>
+        ))}
+        <div class="spec spec--note" data-reveal style="--d:.32s">
+          <dt>{d.installTitle}</dt>
+          <dd class="spec__d">{d.installBody}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <Weight lang={lang} />
+  <Curve lang={lang} />
+  <Health lang={lang} withTable />
+  <Carbon lang={lang} />
+
+  <section class="fit on-dark section--tight">
+    <div class="wrap fit__grid">
+      <h2 class="display h-2">{d.fitTitle}</h2>
+      <div class="fit__copy">
+        <p class="lede">{d.fitBody}</p>
+        <p class="mono fit__reply">● {all.common.reply}</p>
+        <div class="fit__ctas">
+          <a class="btn" href={ROUTES.contact[lang]}>{all.common.talk}<Arrow /></a>
+          <a class="btn btn--ghost" href={ROUTES.applications[lang]}>{all.nav.applications}<Arrow /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Faq lang={lang} />
+  <Cta lang={lang} />
+</Base>
+
+<style>
+  .specs__title { margin-top: 1.25rem; }
+  .specs__grid { margin-top: 3rem; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--gutter); }
+  .spec { background: var(--ink-2); border-top: 1px solid var(--copper); padding: 1.5rem; display: grid; gap: 0.75rem; align-content: start; }
+  .spec dt { font-size: var(--fs-xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted-dark); }
+  .spec__v { font-size: var(--fs-2xl); color: var(--copper); line-height: 1; }
+  .spec__d { color: var(--muted-dark); font-size: var(--fs-sm); }
+  .spec--note { background: transparent; border: 1px solid var(--line-dark); border-top-color: var(--copper); }
+  .fit { border-top: 1px solid var(--line-dark); }
+  .fit__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); align-items: start; }
+  .fit__copy { display: grid; gap: 1.25rem; }
+  .fit__reply { font-size: var(--fs-xs); color: var(--copper); }
+  .fit__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  @media (max-width: 1100px) { .specs__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 900px) { .fit__grid { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .specs__grid { grid-template-columns: 1fr; } }
+</style>

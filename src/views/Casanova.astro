@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import Legacy from '../components/sections/Legacy.astro';
+import MediaHero from '../components/MediaHero.astro';
+import { HERO } from '../data/media';
+import Jesus from '../components/sections/Jesus.astro';
+import Process from '../components/sections/Process.astro';
+import Cta from '../components/sections/Cta.astro';
+import { t, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+---
+<Base lang={lang} page="casanova" crumb={all.nav.casanova}>
+  <MediaHero image={HERO.casanova} seq="casanova" eyebrow={all.casanova.eyebrow} title={[all.casanova.title]} intro={all.casanova.statLabel.replace(/^/, all.casanova.stat + ' ')} pos="65% 50%" />
+  <Legacy lang={lang} full noBand />
+  <Jesus lang={lang} showcase />
+  <Process lang={lang} />
+  <Cta lang={lang} />
+</Base>

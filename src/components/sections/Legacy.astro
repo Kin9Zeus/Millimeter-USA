@@ -1,0 +1,62 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import Arrow from '../Arrow.astro';
+import { t, ROUTES, type Lang } from '../../i18n';
+interface Props { lang: Lang; full?: boolean; asH1?: boolean; noBand?: boolean }
+const { lang, full = false, asH1 = false, noBand = false } = Astro.props;
+const all = t(lang);
+const d = all.casanova;
+const paras = full ? d.p : d.p.slice(0, 2);
+const H = asH1 ? 'h1' : 'h2';
+// The legacy footage is played by the scroll (never looped): frames in public/media/seq/casanova/{d,m}.
+const count = (v: string) => { try { return fs.readdirSync(path.join(process.cwd(), 'public', 'media', 'seq', 'casanova', v)).filter((f) => f.endsWith('.webp')).length; } catch { return 0; } };
+const cd = count('d'), cm = count('m');
+---
+<section class="legacy on-dark" aria-labelledby={noBand ? undefined : 'legacy-title'} aria-label={noBand ? d.title : undefined}>
+  {!noBand && <div class="legacy__band">
+    {cd + cm > 0 && <canvas class="legacy__canvas" data-scrub-seq="casanova" data-count-d={cd} data-count-m={cm} aria-hidden="true"></canvas>}
+    <div class="legacy__shade" aria-hidden="true"></div>
+    <div class="wrap legacy__title">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <H id="legacy-title" class="display h-1" data-split>{d.title}</H>
+      <p class="legacy__stat"><span class="display" data-count="90" data-suffix="+" data-from="0">{d.stat}</span><span>{d.statLabel}</span></p>
+    </div>
+  </div>}
+
+  <div class="wrap section legacy__body">
+    <div class="legacy__text">
+      {paras.map((p, i) => <p class={i === 0 ? 'legacy__lead display' : ''}>{p}</p>)}
+      {!full && <a class="btn btn--ghost" href={ROUTES.casanova[lang]}>{d.cta}<Arrow /></a>}
+    </div>
+    <ol class="tl" role="list">
+      {d.timeline.map((s, i) => (
+        <li class="tl__item" data-reveal style={`--d:${i * 0.1}s`}>
+          <span class="tl__k">{s.k}</span>
+          <span class="tl__v">{s.v}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .legacy__band { position: relative; min-height: min(88svh, 52rem); display: flex; align-items: flex-end; overflow: hidden; background: #1b140e url('/media/video/legacy-poster.webp') center / cover; }
+  .legacy__canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.6s; }
+  :global(.has-seq) > .legacy__canvas { opacity: 1; }
+  .legacy__shade { position: absolute; inset: 0; background: linear-gradient(0deg, var(--ink) 0%, rgba(18,16,13,.55) 45%, rgba(18,16,13,.25) 100%); }
+  .legacy__title { position: relative; display: grid; gap: 1.25rem; padding-bottom: clamp(2.5rem, 6vw, 5rem); }
+  .legacy__title h1, .legacy__title h2 { max-width: 12ch; }
+  .legacy__stat { display: flex; align-items: baseline; gap: 1rem; color: var(--muted-dark); font-size: var(--fs-sm); letter-spacing: 0.06em; }
+  .legacy__stat .display { font-size: var(--fs-2xl); color: var(--copper); }
+  .legacy__body { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(2.5rem, 6vw, 7rem); padding-top: clamp(3rem, 6vw, 5rem); }
+  .legacy__text { display: grid; gap: 1.5rem; justify-items: start; color: color-mix(in srgb, var(--text-dark) 86%, transparent); max-width: 44rem; }
+  .legacy__lead { font-size: clamp(1.5rem, 1.15rem + 1.3vw, 2.25rem); line-height: 1.22; color: var(--text-dark); }
+  .tl { list-style: none; padding: 0; position: relative; display: grid; gap: 2rem; align-content: start; }
+  .tl::before { content: ''; position: absolute; left: 4px; top: 0.5rem; bottom: 0.5rem; width: 1px; background: linear-gradient(var(--copper), var(--line-dark)); }
+  .tl__item { position: relative; padding-left: 2rem; display: grid; gap: 0.35rem; }
+  .tl__item::before { content: ''; position: absolute; left: 0; top: 0.45rem; width: 9px; height: 9px; border: 1px solid var(--copper); background: var(--ink); transform: rotate(45deg); }
+  .tl__k { font-family: var(--f-display); font-size: var(--fs-xl); line-height: 1.1; }
+  .tl__v { color: var(--muted-dark); font-size: var(--fs-sm); }
+  @media (max-width: 900px) { .legacy__body { grid-template-columns: 1fr; } }
+</style>

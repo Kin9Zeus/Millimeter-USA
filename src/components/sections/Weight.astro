@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import { MISC } from '../../data/media';
+import { t, type Lang } from '../../i18n';
+interface Props { lang: Lang; headingLevel?: 'h2' | 'h3' }
+const { lang, headingLevel = 'h2' } = Astro.props;
+const d = t(lang).weight;
+const H = headingLevel;
+---
+<section class="weight on-dark section" aria-labelledby="weight-title">
+  <div class="wrap weight__grid">
+    <div class="weight__copy">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <H id="weight-title" class="display h-1" data-split>{d.title}</H>
+      <p class="lede">{d.body}</p>
+
+      <ul class="bars" role="list">
+        {d.bars.map((b) => (
+          <li class="bars__row">
+            <div class="bars__meta">
+              <span>{b.label}</span>
+              <span><strong class="mono">{b.imperial}</strong> <span class="muted mono">({b.metric})</span></span>
+            </div>
+            <div class="bars__track"><span class="bars__fill" data-bar={b.ratio} style={`transform: scaleX(${b.ratio})`}></span></div>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <figure class="weight__visual">
+      <div class="weight__media media grain">
+        <Image class="weight__img" src={MISC.ceiling} alt={{ en: 'A living room ceiling clad in 5 mm marble panels', es: 'Techo de un salón revestido con paneles de mármol de 5 mm', fr: 'Plafond de salon habillé de panneaux de marbre de 5 mm' }[lang]} widths={[480, 800, 1200, 1600]} sizes="(max-width: 900px) 100vw, 45vw" quality={74} data-parallax="0.06" />
+        <span class="weight__tag mono" aria-hidden="true">5 mm · 3–4 lb/ft²</span>
+      </div>
+      <figcaption class="weight__big">
+        <span class="display" data-count="93" data-prefix="−" data-suffix={lang === 'en' ? '%' : ' %'} data-from="0">{d.big}</span>
+        <span class="weight__note">{d.bigNote}</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .weight__grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(3rem, 7vw, 8rem); align-items: center; }
+  .weight__copy { display: grid; gap: 1.75rem; }
+  .bars { display: grid; gap: 1.75rem; margin-top: 1.5rem; }
+  .bars__meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1rem; font-size: var(--fs-sm); margin-bottom: 0.65rem; }
+  .bars__meta strong { font-weight: 500; color: var(--text-dark); }
+  .bars__track { height: 0.9rem; background: rgba(237,234,228,.06); }
+  .bars__fill { display: block; height: 100%; transform-origin: left; background: var(--copper); }
+  .bars__row:first-child .bars__fill { background: #8d8476; }
+
+  .weight__visual { display: grid; gap: 1.5rem; }
+  .weight__media { aspect-ratio: 16 / 11; background: #1d1611; }
+  .weight__media :global(.weight__img) { position: absolute; inset: -6% 0; width: 100%; height: 112%; object-fit: cover; }
+  .weight__tag { position: absolute; left: 1rem; bottom: 1rem; font-size: var(--fs-xs); color: var(--copper); background: rgba(18,16,13,.72); padding: 0.3rem 0.55rem; }
+  .weight__big { display: grid; gap: 0.5rem; border-left: 1px solid var(--copper); padding-left: 1.5rem; }
+  .weight__big .display { font-size: var(--fs-3xl); color: var(--copper); line-height: 0.9; }
+  .weight__note { color: var(--muted-dark); max-width: 30ch; }
+  @media (max-width: 900px) { .weight__grid { grid-template-columns: 1fr; } .weight__media { aspect-ratio: 1; } }
+</style>

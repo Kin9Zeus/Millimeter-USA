@@ -1,0 +1,88 @@
+---
+import { Image } from 'astro:assets';
+import Arrow from '../Arrow.astro';
+import { APP_IMG } from '../../data/media';
+import { t, ROUTES, type Lang } from '../../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const d = all.applications;
+---
+<section class="apps on-dark" data-hscroll aria-labelledby="apps-title">
+  <div class="apps__viewport">
+    <div class="apps__track" data-track>
+      <header class="apps__intro">
+        <p class="eyebrow">{d.eyebrow}</p>
+        <h2 id="apps-title" class="display h-2">{d.title}</h2>
+        <p class="lede">{d.intro}</p>
+        <div class="apps__progress" aria-hidden="true"><span data-hcount></span></div>
+        <p class="apps__hint muted" aria-hidden="true">{all.common.scroll} →</p>
+      </header>
+
+      <ul class="apps__list" role="list">
+        {d.items.map((it) => (
+          <li class="card" data-hcard>
+            <a href={`${ROUTES.applications[lang]}#${it.id}`} class="card__link" data-cursor={all.common.view}>
+              <div class="card__media media">
+                <Image src={APP_IMG[it.img]} alt={`${it.title} — ${it.short}`} widths={[480, 720, 960, 1280]} sizes="(max-width: 900px) 78vw, 21vw" quality={78} loading="lazy" />
+                <span class="card__thick mono">{it.thick}</span>
+              </div>
+              <h3 class="card__title display">{it.title}</h3>
+              <p class="card__text">{it.short}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <div class="apps__end">
+        <p class="display apps__end-t">{d.notListedTitle}</p>
+        <p class="muted">{d.notListedBody}</p>
+        <a class="btn btn--ghost" href={ROUTES.applications[lang]}>{d.cta}<Arrow /></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .apps { position: relative; overflow: hidden; }
+  .apps__viewport { height: 100svh; min-height: 40rem; display: flex; align-items: center; }
+  .apps__track { display: flex; align-items: center; gap: clamp(1.5rem, 3vw, 3rem); padding-inline: var(--gutter); padding-top: var(--header-h); will-change: transform; }
+  .apps__intro { flex: 0 0 min(26rem, 30vw); display: grid; gap: 1.5rem; padding-right: 2rem; }
+  .apps__progress { position: relative; height: 1px; background: var(--line-dark); margin-top: 1rem; }
+  .apps__progress span { position: absolute; inset: 0; background: var(--copper); transform-origin: left; transform: scaleX(0); }
+  .apps__hint { font-size: var(--fs-xs); letter-spacing: 0.2em; text-transform: uppercase; }
+  .apps__list { display: flex; gap: clamp(1.5rem, 3vw, 3rem); }
+  .card { flex: 0 0 clamp(15rem, 21vw, 20rem); }
+  .card__link { display: grid; gap: 1rem; }
+  .card__media { aspect-ratio: 4 / 5; width: 100%; max-height: 52svh; }
+  .card__media :global(img) { transition: transform 1.2s var(--ease), filter 0.8s; filter: saturate(0.92); }
+  .card__link:hover .card__media :global(img) { filter: saturate(1.05); }
+  .card__thick { position: absolute; top: 1rem; left: 1rem; padding: 0.35rem 0.6rem; background: rgba(18,16,13,.72); color: var(--copper); font-size: var(--fs-xs); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  .card__title { font-size: var(--fs-lg); line-height: 1.2; }
+  .card__text { color: var(--muted-dark); max-width: 30ch; font-size: var(--fs-sm); }
+  .apps__end { flex: 0 0 min(26rem, 80vw); display: grid; gap: 1.25rem; justify-items: start; padding-right: var(--gutter); }
+  .apps__end-t { font-size: var(--fs-xl); line-height: 1.15; }
+
+  @media (max-width: 900px) {
+    .apps__viewport { height: auto; min-height: 0; display: block; padding-block: 5rem; }
+    .apps__track { display: block; padding: 0; }
+    .apps__intro { padding: 0 var(--gutter) 2.5rem; flex: none; }
+    .apps__progress, .apps__hint { display: none; }
+    .apps__list { overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 var(--gutter) 1rem; scrollbar-width: none; overscroll-behavior-x: contain; }
+    .apps__list::-webkit-scrollbar { display: none; }
+    .card { flex-basis: 78vw; scroll-snap-align: start; scroll-margin-left: var(--gutter); }
+    .card__media { height: auto; width: 100%; }
+    .apps__end { padding: 2.5rem var(--gutter) 0; }
+  }
+  @media all {
+    :global(html[data-motion='off']) .apps__viewport { height: auto; min-height: 0; display: block; padding-block: 5rem; }
+    :global(html[data-motion='off']) .apps__track { display: block; padding: 0; }
+    :global(html[data-motion='off']) .apps__intro { padding: 0 var(--gutter) 2.5rem; flex: none; }
+    :global(html[data-motion='off']) .apps__progress, :global(html[data-motion='off']) .apps__hint { display: none; }
+    :global(html[data-motion='off']) .apps__list { overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 var(--gutter) 1rem; scrollbar-width: none; overscroll-behavior-x: contain; }
+    :global(html[data-motion='off']) .apps__list::-webkit-scrollbar { display: none; }
+    :global(html[data-motion='off']) .card { flex-basis: 78vw; scroll-snap-align: start; scroll-margin-left: var(--gutter); }
+    :global(html[data-motion='off']) .card__media { height: auto; width: 100%; }
+    :global(html[data-motion='off']) .apps__end { padding: 2.5rem var(--gutter) 0; }
+  }
+</style>

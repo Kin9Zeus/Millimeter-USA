@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import Arrow from '../Arrow.astro';
+import { MISC } from '../../data/media';
+import { t, ROUTES, CONTACT, type Lang } from '../../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const d = all.cta;
+---
+<section class="cta on-ochre cv" aria-labelledby="cta-title">
+  <div class="wrap cta__grid">
+    <div class="cta__copy">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 id="cta-title" class="display cta__title" data-split>{d.title[0]}<br />{d.title[1]}</h2>
+      <p class="cta__body">{d.body}</p>
+      <div class="cta__actions">
+        <a class="btn" href={ROUTES.contact[lang]} data-magnetic>{all.common.talk}<Arrow /></a>
+        <a class="btn btn--ghost" href={CONTACT.whatsappLink(all.common.whatsappText)} target="_blank" rel="noopener">WhatsApp<Arrow dir="up-right" /></a>
+      </div>
+      <a class="cta__mail display" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+    </div>
+    <div class="cta__media media">
+      <Image src={MISC.cta} alt={{ en: 'Floating curved vanity in Cream Travertine with stone-clad drawers', es: 'Vanity curvo flotante en Cream Travertine con cajones revestidos en piedra', fr: 'Meuble vasque cintré suspendu en Cream Travertine aux tiroirs habillés de pierre' }[lang]} widths={[480, 720, 960, 1280, 1600]} sizes="(max-width: 900px) 100vw, 40vw" quality={80} data-parallax="0.05" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { padding-block: clamp(5rem, 3rem + 7vw, 9rem); overflow: hidden; }
+  .cta__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: center; }
+  .cta__copy { display: grid; gap: 1.5rem; justify-items: start; }
+  .cta__title { font-size: var(--fs-3xl); line-height: 0.95; }
+  .cta__body { max-width: 44ch; font-size: var(--fs-lg); }
+  .cta__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .cta .btn--ghost { --bg: transparent; --fg: var(--ink); color: var(--ink); box-shadow: inset 0 0 0 1px rgba(18,16,13,.55); }
+  .cta .btn--ghost::after { background: var(--ink); }
+  .cta .btn--ghost:hover, .cta .btn--ghost:focus-visible { --fg: var(--bone); color: var(--bone); }
+  .cta__mail { font-size: clamp(1.35rem, 0.9rem + 1.8vw, 2.5rem); border-bottom: 1px solid rgba(18,16,13,.35); padding-bottom: 0.25rem; overflow-wrap: anywhere; transition: border-color 0.3s; }
+  .cta__mail:hover { border-color: var(--ink); }
+  .cta__media { aspect-ratio: 4 / 5; background: #3b2a1a; }
+  .cta__media :global(img) { position: absolute; inset: -5% 0; width: 100%; height: 110%; object-fit: cover; object-position: 45% 50%; }
+  @media (max-width: 900px) { .cta__grid { grid-template-columns: 1fr; } .cta__media { aspect-ratio: 16 / 10; } }
+</style>

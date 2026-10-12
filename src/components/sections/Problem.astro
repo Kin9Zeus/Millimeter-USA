@@ -1,0 +1,86 @@
+---
+import { t, type Lang } from '../../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang).problem;
+// Section drawing: thicknesses to scale (20 mm : 5 mm : 1 mm).
+const slabs = [
+  { label: { en: 'Traditional slab', es: 'Placa tradicional', fr: 'Plaque traditionnelle' }[lang], mm: 20, imp: '≈ 3/4 in', cls: 'trad' },
+  { label: 'MILLIMETER', mm: 5, imp: '≈ 1/5 in', cls: 'five' },
+  { label: 'MILLIMETER', mm: 1, imp: '≈ 1/25 in', cls: 'one' },
+];
+---
+<section class="problem on-light section" id="problem" aria-labelledby="problem-title">
+  <div class="wrap">
+    <div class="problem__head">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 id="problem-title" class="display h-1" data-split>{d.title}</h2>
+    </div>
+
+    <p class="problem__statement display" data-ink>{d.statement}</p>
+
+    <div class="problem__grid">
+      <figure class="drawing" aria-label={{ en: 'Thickness to scale: 20 mm, 5 mm and 1 mm', es: 'Espesores a escala: 20 mm, 5 mm y 1 mm', fr: 'Épaisseurs à l’échelle : 20 mm, 5 mm et 1 mm' }[lang]}>
+        {slabs.map((s) => (
+          <div class={`drawing__row drawing__row--${s.cls}`} data-reveal>
+            <div class="drawing__meta">
+              <span>{s.label}</span>
+              <span class="mono">{s.mm} mm <span class="muted">· {s.imp}</span></span>
+            </div>
+            <div class="drawing__slab" style={`--h: ${s.mm * 0.32}rem`}>
+              <span class="drawing__dim mono" aria-hidden="true">{s.mm}</span>
+            </div>
+          </div>
+        ))}
+        <figcaption class="muted">{{ en: 'Section drawing at relative scale.', es: 'Sección a escala relativa.', fr: 'Coupe à l’échelle relative.' }[lang]}</figcaption>
+      </figure>
+
+      <div class="problem__swap">
+        <p class="problem__turn">{d.turn}</p>
+        <table class="swap">
+          <caption class="sr-only">{d.before} → {d.after}</caption>
+          <thead>
+            <tr><th scope="col">{d.before}</th><th scope="col">{d.after}</th></tr>
+          </thead>
+          <tbody>
+            {d.rows.map((r, i) => (
+              <tr data-reveal style={`--d:${i * 0.08}s`}>
+                <td>{r.from}</td>
+                <td class="swap__to">{r.to}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .problem__head { display: grid; gap: 1.5rem; max-width: 60rem; }
+  .problem__statement { margin-top: clamp(3rem, 6vw, 6rem); font-size: clamp(1.75rem, 1.2rem + 2.2vw, 3.25rem); line-height: 1.18; max-width: 28ch; }
+  .problem__grid { margin-top: clamp(4rem, 8vw, 7rem); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2.5rem, 6vw, 7rem); align-items: start; }
+
+  .drawing { display: grid; gap: 2rem; }
+  .drawing__row { display: grid; gap: 0.75rem; }
+  .drawing__meta { display: flex; justify-content: space-between; gap: 1rem; font-size: var(--fs-sm); }
+  .drawing__slab { position: relative; height: var(--h); min-height: 1px; background: var(--sand-2); }
+  .drawing__row--five .drawing__slab, .drawing__row--one .drawing__slab { background: var(--copper-deep); }
+  .drawing__row--trad .drawing__slab { background: repeating-linear-gradient(-45deg, var(--sand-2) 0 6px, #cfc4b2 6px 7px); }
+  .drawing__dim { position: absolute; right: -0.25rem; top: 50%; transform: translate(100%, -50%); font-size: 0.6875rem; color: var(--muted); padding-left: 0.5rem; }
+  .drawing figcaption { font-size: var(--fs-xs); letter-spacing: 0.08em; }
+
+  .problem__turn { font-size: var(--fs-lg); line-height: 1.6; max-width: 40ch; }
+  .swap { margin-top: 2.5rem; width: 100%; border-collapse: collapse; font-size: var(--fs-base); }
+  .swap th { text-align: left; font-size: var(--fs-xs); font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding-bottom: 1rem; }
+  .swap th:last-child { color: var(--copper-deep); }
+  .swap td { padding: 1.1rem 0; border-top: 1px solid var(--line); vertical-align: top; }
+  .swap__to::before { content: '→'; display: inline-block; width: 1.75rem; color: var(--copper-deep); font-weight: 400; }
+  .swap th:last-child { padding-left: 1.75rem; }
+  .swap__to { font-weight: 600; color: var(--copper-deep); }
+
+  @media (max-width: 900px) {
+    .problem__grid { grid-template-columns: 1fr; }
+    .drawing__dim { display: none; }
+  }
+</style>

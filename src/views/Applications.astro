@@ -1,0 +1,76 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import MediaHero from '../components/MediaHero.astro';
+
+import Cta from '../components/sections/Cta.astro';
+import Arrow from '../components/Arrow.astro';
+import { APP_IMG, HERO } from '../data/media';
+import { itemList } from '../lib/schema';
+import { t, ROUTES, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const d = all.applications;
+const site = new URL(Astro.site!).origin; // ROUTES already include the base path
+const schema = itemList(d.title, d.items.map((it) => ({ name: it.title, url: `${site}${ROUTES.applications[lang]}#${it.id}`, description: it.long })));
+---
+<Base lang={lang} page="applications" crumb={all.nav.applications} schema={[schema]}>
+  <MediaHero image={HERO.applications} seq="applications" eyebrow={d.eyebrow} title={[d.title]} intro={d.intro} measure="8 × 1–5 mm" pos="30% 50%">
+    <nav class="toc" aria-label={d.eyebrow}>
+      {d.items.map((it) => <a href={`#${it.id}`} class="toc__a"><span class="mono">{it.thick}</span>{it.title}</a>)}
+    </nav>
+  </MediaHero>
+
+  <div class="apps-list">
+    {d.items.map((it, i) => (
+      <section class={`app ${i % 2 ? 'on-light' : 'on-dark'}`} id={it.id} aria-labelledby={`${it.id}-t`}>
+        <div class={`wrap app__grid ${i % 2 ? 'app__grid--rev' : ''}`}>
+          <div class="app__media media" data-reveal="clip">
+            <Image src={APP_IMG[it.img]} alt={`${it.title}: ${it.short}`} widths={[640, 960, 1280, 1600, 2000]} sizes="(max-width: 900px) 100vw, 58vw" quality={74} data-parallax="0.06" />
+          </div>
+          <div class="app__copy">
+            <p class="app__thick mono">{it.thick}</p>
+            <h2 id={`${it.id}-t`} class="display h-2">{it.title}</h2>
+            <p class="app__short">{it.short}</p>
+            <p class="app__long">{it.long}</p>
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <section class="nl on-dark section--tight">
+    <div class="wrap nl__grid">
+      <h2 class="display h-2">{d.notListedTitle}</h2>
+      <div class="nl__copy">
+        <p class="lede">{d.notListedBody}</p>
+        <div class="nl__ctas">
+          <a class="btn" href={ROUTES.contact[lang]}>{all.common.talk}<Arrow /></a>
+          <a class="btn btn--ghost" href={ROUTES.materials[lang]}>{all.nav.materials}<Arrow /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <Cta lang={lang} />
+</Base>
+
+<style>
+  .toc { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .toc__a { display: inline-flex; gap: 0.6rem; align-items: center; padding: 0.55rem 0.9rem; border: 1px solid var(--line-dark); font-size: var(--fs-sm); transition: border-color 0.3s, color 0.3s; }
+  .toc__a span { color: var(--copper); font-size: var(--fs-xs); }
+  .toc__a:hover { border-color: var(--copper); }
+  .app { padding-block: clamp(4rem, 8vw, 8rem); }
+  .app__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+  .app__grid--rev .app__media { order: 2; }
+  .app__media { aspect-ratio: 4 / 3; }
+  .app__media :global(img) { height: 112%; margin-top: -6%; }
+  .app__copy { display: grid; gap: 1.1rem; }
+  .app__thick { color: var(--accent); font-size: var(--fs-sm); }
+  .app__short { font-size: var(--fs-lg); font-weight: 500; }
+  .app__long { color: var(--muted); max-width: 46ch; }
+  .nl__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); }
+  .nl__copy { display: grid; gap: 1.5rem; }
+  .nl__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  @media (max-width: 900px) { .app__grid, .nl__grid { grid-template-columns: 1fr; } .app__grid--rev .app__media { order: 0; } }
+</style>

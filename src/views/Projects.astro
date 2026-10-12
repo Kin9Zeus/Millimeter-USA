@@ -1,0 +1,120 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import MediaHero from '../components/MediaHero.astro';
+
+import Cta from '../components/sections/Cta.astro';
+import Arrow from '../components/Arrow.astro';
+import { PROJECT_IMG, MISC, HERO } from '../data/media';
+import { itemList } from '../lib/schema';
+import { t, ROUTES, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const d = all.projects;
+const site = new URL(Astro.site!).origin; // ROUTES already include the base path
+const schema = itemList(d.title, d.items.map((p) => ({ name: `${p.name} — ${p.piece}`, url: `${site}${ROUTES.projects[lang]}#${p.id}`, description: `${p.material}, ${p.thickness}, ${p.location}` })));
+const concepts = [
+  { img: MISC.console, en: 'Console · 5 mm', es: 'Consola · 5 mm', fr: 'Console · 5 mm' },
+  { img: MISC.fireplace, en: 'Fireplace wall · 1 & 5 mm', es: 'Muro chimenea · 1 y 5 mm', fr: 'Mur de cheminée · 1 et 5 mm' },
+  { img: MISC.kitchenIsland, en: 'Kitchen island · 1 mm + 2 cm', es: 'Isla de cocina · 1 mm + 2 cm', fr: 'Îlot de cuisine · 1 mm + 2 cm' },
+  { img: MISC.kitchen, en: 'Curved kitchen · 1 mm + 2 cm', es: 'Cocina curva · 1 mm + 2 cm', fr: 'Cuisine courbe · 1 mm + 2 cm' },
+  { img: MISC.bed, en: 'Bed wall · Cream Travertine 1 mm', es: 'Cabecero · Cream Travertine 1 mm', fr: 'Tête de lit · Cream Travertine 1 mm' },
+  { img: MISC.vanityGranite, en: 'Vanity · Delicatus granite', es: 'Vanity · granito Delicatus', fr: 'Meuble vasque · granit Delicatus' },
+];
+---
+<Base lang={lang} page="projects" crumb={all.nav.projects} schema={[schema]}>
+  <MediaHero image={HERO.projects} seq="projects" eyebrow={d.eyebrow} title={d.title.split('. ').map((s, i, a) => (i < a.length - 1 ? s + '.' : s))} intro={d.intro} measure="Austin · Houston · San Diego" pos="55% 45%" />
+
+  {d.items.map((p, i) => {
+    const img = PROJECT_IMG[p.id as keyof typeof PROJECT_IMG];
+    return (
+      <article class={`case ${i % 2 ? 'on-light' : 'on-dark'}`} id={p.id} aria-labelledby={`${p.id}-t`}>
+        <div class="wrap case__grid">
+          <div class="case__hero media" data-reveal="clip">
+            <Image src={img.hero} alt={`${p.name}: ${p.piece} in ${p.material}, ${p.location}`} widths={[640, 960, 1280, 1600]} sizes="(max-width: 900px) 100vw, 55vw" quality={78} data-parallax="0.05" />
+          </div>
+          <div class="case__copy">
+            <p class="case__loc mono">{p.location} · USA</p>
+            <h2 id={`${p.id}-t`} class="display h-1">{p.name}</h2>
+            <p class="case__piece display">{p.piece}</p>
+            <dl class="case__spec">
+              <div><dt>{all.common.material}</dt><dd>{p.material}</dd></div>
+              <div><dt>{all.common.thickness}</dt><dd class="mono">{p.thickness}</dd></div>
+              <div><dt>{all.common.finish}</dt><dd>{p.finish}</dd></div>
+              <div><dt>{all.common.location}</dt><dd>{p.location}</dd></div>
+            </dl>
+            <div class="case__pieces">
+              <p class="case__ph">{all.common.pieces}</p>
+              <ul role="list">{p.pieces.map((x) => <li>{x}</li>)}</ul>
+            </div>
+          </div>
+          <ul class="case__gallery" role="list">
+            {img.gallery.map((g, k) => (
+              <li class="media" data-reveal style={`--d:${k * 0.08}s`}>
+                <Image src={g} alt={`${p.name} — ${{ en: 'detail', es: 'detalle', fr: 'détail' }[lang]} ${k + 1}`} widths={[360, 540, 720, 960]} sizes="(max-width: 900px) 50vw, 25vw" quality={74} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </article>
+    );
+  })}
+
+  <section class="concepts on-dark section" aria-labelledby="concepts-title">
+    <div class="wrap">
+      <div class="concepts__head">
+        <p class="eyebrow">{d.drawingsTitle}</p>
+        <h2 id="concepts-title" class="display h-2">{d.nextTitle}</h2>
+        <p class="lede">{d.drawingsBody} {d.nextBody}</p>
+      </div>
+      <ul class="concepts__grid" role="list">
+        {concepts.map((c, i) => (
+          <li data-reveal style={`--d:${(i % 3) * 0.08}s`}>
+            <figure>
+              <div class="media"><Image src={c.img} alt={c[lang]} widths={[400, 600, 800]} sizes="(max-width: 620px) 100vw, (max-width: 900px) 50vw, 33vw" quality={72} /></div>
+              <figcaption><span class="mono">{{ en: 'Concept', es: 'Concepto', fr: 'Concept' }[lang]}</span> {c[lang]}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+      <div class="concepts__cta">
+        <a class="btn" href={ROUTES.contact[lang]}>{all.common.talk}<Arrow /></a>
+      </div>
+    </div>
+  </section>
+  <Cta lang={lang} />
+</Base>
+
+<style>
+  .case { padding-block: clamp(4rem, 8vw, 8rem); }
+  .case__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+  .case__hero { aspect-ratio: 4 / 5; max-height: 85svh; }
+  .case__hero :global(img) { height: 110%; margin-top: -5%; }
+  .case__copy { display: grid; gap: 1rem; align-self: center; }
+  .case__loc { color: var(--accent); font-size: var(--fs-xs); }
+  .case__piece { font-size: var(--fs-xl); font-style: italic; color: var(--muted); }
+  .case__spec { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem var(--gutter); margin-top: 1rem; }
+  .case__spec div { border-top: 1px solid var(--line); padding-top: 0.75rem; }
+  .case__spec dt { font-size: 0.6875rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .case__spec dd { margin-top: 0.25rem; font-weight: 500; }
+  .case__pieces { margin-top: 1rem; }
+  .case__ph { font-size: 0.6875rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+  .case__pieces ul { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .case__pieces li { font-size: var(--fs-sm); padding: 0.35rem 0.7rem; border: 1px solid var(--line); }
+  .case__gallery { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
+  .case__gallery li { aspect-ratio: 4 / 3; }
+  .concepts__head { display: grid; gap: 1.25rem; max-width: 48rem; }
+  .concepts__grid { margin-top: 3rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem var(--gutter); }
+  .concepts__grid figure { display: grid; gap: 0.75rem; }
+  .concepts__grid .media { aspect-ratio: 4 / 5; }
+  .concepts__grid figcaption { font-size: var(--fs-sm); color: var(--muted-dark); }
+  .concepts__grid figcaption .mono { color: var(--copper); font-size: var(--fs-xs); margin-right: 0.4rem; }
+  .concepts__cta { margin-top: 3rem; }
+  @media (max-width: 900px) {
+    .case__grid { grid-template-columns: 1fr; }
+    .case__gallery { grid-template-columns: 1fr 1fr; }
+    .concepts__grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 620px) { .concepts__grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets';
+import Arrow from '../Arrow.astro';
+import { FEATURED } from '../../data/materials';
+import { t, ROUTES, type Lang } from '../../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const d = all.materials;
+const kind = (k: string) => all.common[k as 'marble' | 'quartzite' | 'travertine'];
+---
+<section class="lib on-dark section cv" data-library aria-labelledby="lib-title">
+  <div class="wrap lib__grid">
+    <header class="lib__head">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 id="lib-title" class="display h-1" data-split>{d.title}</h2>
+      <p class="lede">{d.intro}</p>
+      <a class="btn btn--ghost" href={ROUTES.materials[lang]}>{d.cta}<Arrow /></a>
+    </header>
+
+    <div class="lib__list">
+      <p class="lib__label">{d.featured}</p>
+      <ul role="list">
+        {FEATURED.map((m) => (
+          <li>
+            <a class="row" href={`${ROUTES.materials[lang]}#${m.id}`} data-swatch={m.id}>
+              <span class="row__name display">{m.name}</span>
+              <span class="row__kind">{kind(m.kind)}</span>
+              <span class="row__thumb media"><Image src={m.image} alt="" widths={[96, 192]} sizes="96px" quality={60} loading="lazy" /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="preview" data-preview aria-hidden="true">
+    {FEATURED.map((m) => (
+      <div class="preview__img" data-pimg={m.id}>
+        <Image src={m.image} alt="" widths={[420, 640]} sizes="320px" quality={70} loading="lazy" />
+        <span class="mono">{m.name} · 1–5 mm</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .lib { position: relative; overflow: hidden; isolation: isolate; }
+  .lib__bg { position: absolute; inset: 0; z-index: -1; opacity: 0.32; }
+  .lib__bg video { width: 100%; height: 100%; object-fit: cover; }
+  .lib__bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--ink) 15%, rgba(18,16,13,.6) 60%, var(--ink)), linear-gradient(0deg, var(--ink), transparent 30%, transparent 70%, var(--ink)); }
+  .lib__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2.5rem, 6vw, 7rem); align-items: start; }
+  .lib__head { display: grid; gap: 1.5rem; justify-items: start; position: sticky; top: calc(var(--header-h) + 2rem); }
+  .lib__label { font-size: var(--fs-xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--copper); padding-bottom: 1rem; border-bottom: 1px solid var(--line-dark); }
+  .row { display: grid; grid-template-columns: 1fr auto 3.5rem; align-items: center; gap: 1.5rem; padding-block: 1.15rem; border-bottom: 1px solid var(--line-dark); position: relative; }
+  .row::before { content: ''; position: absolute; left: 0; bottom: -1px; height: 1px; width: 100%; background: var(--copper); transform: scaleX(0); transform-origin: left; transition: transform 0.7s var(--ease); }
+  .row:hover::before, .row:focus-visible::before { transform: scaleX(1); }
+  .row__name { font-size: clamp(1.75rem, 1.2rem + 2.2vw, 3.25rem); line-height: 1; transition: transform 0.6s var(--ease), color 0.4s; }
+  .row:hover .row__name, .row:focus-visible .row__name { transform: translateX(0.75rem); color: var(--copper); font-style: italic; }
+  .row__kind { font-size: var(--fs-xs); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted-dark); }
+  .row__thumb { width: 3.5rem; aspect-ratio: 1; }
+
+  .preview { position: absolute; left: 0; top: 0; z-index: 3; width: 20rem; pointer-events: none; opacity: 0; margin-left: -10rem; margin-top: -12rem; transition: opacity 0.35s; }
+  :global(.preview.is-on) { opacity: 1; }
+  .preview__img { position: absolute; inset: 0 auto auto 0; width: 20rem; opacity: 0; clip-path: inset(0 0 100% 0); transition: opacity 0.3s, clip-path 0.7s var(--ease); }
+  .preview__img:global(.is-on) { opacity: 1; clip-path: inset(0 0 0 0); }
+  .preview__img :global(img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+  .preview__img span { display: block; margin-top: 0.5rem; font-size: var(--fs-xs); color: var(--copper); }
+
+  @media (hover: hover) and (pointer: fine) { .row__thumb { opacity: 0; } }
+  @media (max-width: 900px) {
+    .lib__grid { grid-template-columns: 1fr; }
+    .lib__head { position: static; }
+    .preview { display: none; }
+    .row { grid-template-columns: 1fr 3.5rem; }
+    .row__kind { grid-column: 1; grid-row: 2; margin-top: -0.75rem; }
+    .row__thumb { grid-column: 2; grid-row: 1 / span 2; opacity: 1; }
+  }
+</style>

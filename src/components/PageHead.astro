@@ -1,0 +1,32 @@
+---
+// Inner-page masthead: eyebrow + two-line display title + intro, with a dimension mark under the title.
+interface Props { eyebrow: string; title: string[]; intro?: string; aside?: string }
+const { eyebrow, title, intro, aside } = Astro.props;
+---
+<header class="ph on-dark">
+  <div class="wrap ph__grid">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1 class="display h-hero ph__title" data-split>
+      {title.map((l, i) => (i === title.length - 1 && title.length > 1 ? <em>{l}</em> : <span>{l}</span>))}
+    </h1>
+    <div class="ph__dim" aria-hidden="true" data-reveal="line"></div>
+    {intro && <p class="ph__intro">{intro}</p>}
+    {aside && <p class="ph__aside mono">{aside}</p>}
+    <slot />
+  </div>
+</header>
+
+<style>
+  .ph { padding-top: calc(var(--header-h) + clamp(4rem, 10vw, 9rem)); padding-bottom: clamp(3rem, 6vw, 5rem); }
+  .ph__grid { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: 1.5rem var(--gutter); align-items: end; }
+  .ph .eyebrow, .ph__title, .ph__dim { grid-column: 1 / -1; }
+  .ph__title { display: grid; }
+  .ph__title em { color: var(--copper); }
+  .ph__dim { height: 9px; margin-top: 1rem; background:
+    linear-gradient(var(--copper), var(--copper)) left center / 100% 1px no-repeat,
+    linear-gradient(var(--copper), var(--copper)) left center / 1px 100% no-repeat,
+    linear-gradient(var(--copper), var(--copper)) right center / 1px 100% no-repeat; opacity: 0.7; }
+  .ph__intro { font-size: var(--fs-lg); max-width: 46ch; color: color-mix(in srgb, var(--text-dark) 84%, transparent); }
+  .ph__aside { justify-self: end; color: var(--copper); font-size: var(--fs-sm); }
+  @media (max-width: 900px) { .ph__grid { grid-template-columns: 1fr; } .ph__aside { justify-self: start; } }
+</style>

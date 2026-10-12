@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import CookiesFr from '../components/legal/CookiesFr.astro';
+import { t, CONTACT, ROUTES, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const UPDATED = '2026-10-10';
+const en = lang === 'en';
+const fr = lang === 'fr';
+---
+<Base lang={lang} page="cookies" crumb={all.footer.cookies}>
+  <PageHead eyebrow="Legal" title={en ? ['Cookie', 'policy.'] : fr ? ['Politique de', 'cookies.'] : ['Política de', 'cookies.']} aside={(en ? 'Updated ' : fr ? 'Mise à jour le ' : 'Actualizada el ') + UPDATED} />
+  <article class="legal on-light section">
+    <div class="wrap legal__body">
+      {fr ? <CookiesFr /> : en ? (
+        <>
+          <p class="legal__lead">This site uses no cookies. It only stores, in your browser, your response to the cookie notice and, if you use the footer switch, your animation preference.</p>
+          <h2>What is stored</h2>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th scope="col">Name</th><th scope="col">Type</th><th scope="col">Purpose</th><th scope="col">Lifetime</th></tr></thead>
+            <tbody><tr><td><code>mm.cookies.ack</code></td><td>localStorage</td><td>Remember you have seen the notice, so it is not shown on every page</td><td>Until you clear site data</td></tr><tr><td><code>mm-motion</code></td><td>localStorage</td><td>Your choice to turn animations on or off (only if you use the footer switch)</td><td>Until you clear site data</td></tr></tbody>
+          </table></div>
+          <p>This is local storage, not a cookie: it is never sent to the server, identifies nobody and is shared with no one.</p>
+          <h2>What is not here</h2>
+          <ul>
+            <li>No analytics cookies. No Google Analytics or equivalent.</li>
+            <li>No advertising cookies or tracking pixels (Meta, LinkedIn, TikTok, Google Ads — none).</li>
+            <li>No third-party fonts: they are hosted on this domain, so no external provider sees your IP address.</li>
+            <li>No embedded third-party video or maps. Our videos are served from this domain.</li>
+            <li>No profiling, no browser fingerprinting, no cross-site cookies.</li>
+          </ul>
+          <h2>Why the notice has no “manage” controls</h2>
+          <p>Because there is nothing to manage. A consent panel with switches that control nothing is theater. If any measurement tool is ever added, the notice will become a real opt-in that blocks those scripts until you accept, and this page will list them before they are switched on.</p>
+          <h2>How to clear it</h2>
+          <p>In any browser: settings → privacy → clear browsing data → site data. Or browse in a private window, where nothing is kept.</p>
+          <h2>Server logs</h2>
+          <p>Independently of your browser, the server hosting this site logs the requests it receives, including your IP address. That is not a cookie, but it is personal data: it is covered in the <a href={ROUTES.privacy[lang]}>privacy policy</a>.</p>
+          <p>Questions? <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></p>
+        </>
+      ) : (
+        <>
+          <p class="legal__lead">Este sitio no usa cookies. Solo guarda en tu navegador tu respuesta al aviso de cookies y, si usas el interruptor del pie, tu preferencia de animaciones.</p>
+          <h2>Lo que se guarda</h2>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th scope="col">Nombre</th><th scope="col">Tipo</th><th scope="col">Para qué</th><th scope="col">Duración</th></tr></thead>
+            <tbody><tr><td><code>mm.cookies.ack</code></td><td>localStorage</td><td>Recordar que ya viste el aviso, para no mostrarlo en cada página</td><td>Hasta que borres los datos del sitio</td></tr><tr><td><code>mm-motion</code></td><td>localStorage</td><td>Tu elección de activar o desactivar las animaciones (solo si usas el interruptor del pie)</td><td>Hasta que borres los datos del sitio</td></tr></tbody>
+          </table></div>
+          <p>Es almacenamiento local, no una cookie: nunca se envía al servidor, no identifica a nadie y no se comparte.</p>
+          <h2>Lo que NO hay</h2>
+          <ul>
+            <li>Sin cookies analíticas. No hay Google Analytics ni equivalentes.</li>
+            <li>Sin cookies publicitarias ni píxeles de seguimiento (Meta, LinkedIn, TikTok, Google Ads: ninguno).</li>
+            <li>Sin fuentes de terceros: se alojan en este dominio, así que ningún proveedor externo ve tu IP.</li>
+            <li>Sin videos ni mapas incrustados de terceros. Nuestros videos se sirven desde este dominio.</li>
+            <li>Sin perfilado, sin huella digital del navegador, sin cookies entre sitios.</li>
+          </ul>
+          <h2>Por qué el aviso no tiene botones de «gestionar»</h2>
+          <p>Porque no hay nada que gestionar. Un panel con interruptores que no controlan nada es teatro. Si algún día se añade una herramienta de medición, el aviso pasará a ser un consentimiento real que bloquee esos scripts hasta que los aceptes, y esta página los listará antes de activarlos.</p>
+          <h2>Cómo borrarlo</h2>
+          <p>En cualquier navegador: ajustes → privacidad → borrar datos de navegación → datos de sitios. O navega en una ventana privada, donde no se guarda nada.</p>
+          <h2>Registros del servidor</h2>
+          <p>Independientemente del navegador, el servidor que aloja este sitio registra las peticiones que recibe, incluida tu IP. No es una cookie, pero sí un dato personal: está explicado en la <a href={ROUTES.privacy[lang]}>política de privacidad</a>.</p>
+          <p>¿Dudas? <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></p>
+        </>
+      )}
+    </div>
+  </article>
+</Base>

@@ -1,0 +1,148 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import PrivacyFr from '../components/legal/PrivacyFr.astro';
+import { t, CONTACT, ROUTES, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const UPDATED = '2026-10-10';
+const en = lang === 'en';
+const fr = lang === 'fr';
+const mail = CONTACT.email;
+---
+<Base lang={lang} page="privacy" crumb={all.footer.privacy}>
+  <PageHead eyebrow={en ? 'Legal' : 'Legal'} title={en ? ['Privacy', 'policy.'] : fr ? ['Politique de', 'confidentialité.'] : ['Política de', 'privacidad.']} aside={(en ? 'Updated ' : fr ? 'Mise à jour le ' : 'Actualizada el ') + UPDATED} />
+  <article class="legal on-light section">
+    <div class="wrap legal__body">
+      {fr ? <PrivacyFr /> : en ? (
+        <>
+          <p class="legal__lead">This document describes exactly what this site does with your data. It is written against the site's actual code, not a template: if a processing activity is not listed here, it does not happen.</p>
+          <h2>1. Who is responsible</h2>
+          <p><strong>{CONTACT.company}</strong>, a company incorporated in Texas, United States, headquartered in Houston (“MILLIMETER”, “we”). Contact for anything about your data, including exercising your rights: <a href={`mailto:${mail}`}>{mail}</a>.</p>
+          <h2>2. What we collect</h2>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th scope="col">Data</th><th scope="col">When</th><th scope="col">Required</th></tr></thead>
+            <tbody>
+              <tr><td>Name and email</td><td>Contact and careers forms</td><td>Yes</td></tr>
+              <tr><td>Phone, studio or company, project location, role</td><td>Contact form</td><td>No</td></tr>
+              <tr><td>Message content</td><td>Contact form</td><td>Yes</td></tr>
+              <tr><td>City/state, area of interest, introduction</td><td>Careers form</td><td>No</td></tr>
+              <tr><td>Résumé (PDF file, with everything it contains)</td><td>Careers form</td><td>Yes</td></tr>
+              <tr><td>IP address</td><td>Every visit, in server logs; and to rate-limit forms</td><td>Automatic</td></tr>
+            </tbody>
+          </table></div>
+          <p>We use <strong>no third-party analytics, no advertising pixels, no profiling and no automated decision-making</strong>. There is no Google Analytics, no Meta Pixel, no heatmaps and no session recording.</p>
+          <h2>3. Why we use it</h2>
+          <ul>
+            <li>To answer your enquiry and continue the commercial conversation you started.</li>
+            <li>To assess your application, if you send one, and to contact you about the selection process.</li>
+            <li>Site security: the IP address is used to rate-limit form submissions and stop automated abuse.</li>
+          </ul>
+          <h2>4. Who processes it</h2>
+          <p>Only the providers strictly required for the site to work:</p>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th scope="col">Provider</th><th scope="col">Function</th><th scope="col">Location</th></tr></thead>
+            <tbody>
+              <tr><td>Railway</td><td>Website hosting and server logs</td><td>United States</td></tr>
+              <tr><td>Resend</td><td>Email delivery of the contact and careers forms, including the attached résumé</td><td>United States</td></tr>
+              <tr><td>GoDaddy</td><td>Domain registration and DNS</td><td>United States</td></tr>
+              <tr><td>WhatsApp (Meta)</td><td>Only if you press a WhatsApp button: the chat opens in their app</td><td>United States and others</td></tr>
+            </tbody>
+          </table></div>
+          <p>The WhatsApp and Instagram buttons are plain links: this site loads nothing from Meta while you browse. Fonts, images and videos are served from this domain.</p>
+          <h2>5. Your rights under US state privacy laws</h2>
+          <p>Residents of states with consumer privacy laws (for example California under the CCPA/CPRA, Texas under the TDPSA, and others) have the right to know and access the personal information we hold, to correct it, to delete it, to obtain a portable copy, and to opt out of its sale, sharing for cross-context behavioral advertising, or profiling.</p>
+          <ul>
+            <li><strong>We do not sell personal information and do not share it for targeted advertising.</strong> There is therefore nothing to opt out of; we also honor Global Privacy Control (GPC) signals by default because no tracking exists.</li>
+            <li>We do not collect sensitive personal information on purpose. Please do not include it in your message or résumé.</li>
+            <li>To exercise any right, write to <a href={`mailto:${mail}`}>{mail}</a> from the address you used with us. We respond within 45 days, free of charge, and we will not discriminate against you for exercising your rights. You may use an authorized agent. If we deny a request you may appeal by replying to our answer.</li>
+          </ul>
+          <h2>6. How long we keep it</h2>
+          <ul>
+            <li>Form enquiries: for the duration of the commercial conversation and up to 24 months after the last contact.</li>
+            <li>Applications and résumés: up to 12 months from receipt, unless you ask us to delete them sooner.</li>
+            <li>Server logs: retained by Railway under its own retention policy.</li>
+            <li>Cookie-notice preference: in your browser until you clear site data.</li>
+          </ul>
+          <h2>7. Security</h2>
+          <ul>
+            <li>All traffic is encrypted over HTTPS (HSTS).</li>
+            <li>Every form field is validated and length-limited on the server, not just in the browser; submissions are rate-limited per IP.</li>
+            <li>The site sends strict security headers, including a restrictive Content Security Policy.</li>
+            <li>We store nothing in a database of our own: enquiries and applications travel by email to the company inbox.</li>
+            <li>Résumés are never stored on the website: they are processed in memory, checked (PDF signature, size, no encryption, no embedded scripts or attachments), renamed and sent by email.</li>
+          </ul>
+          <h2>8. Children</h2>
+          <p>This site is aimed at architecture, design and construction professionals. It is not directed to children under 13 and we do not knowingly collect their data.</p>
+          <h2>9. Changes</h2>
+          <p>If anything material changes — for example if analytics are ever added — this page and its date are updated before the change takes effect. See also the <a href={ROUTES.cookies[lang]}>cookie policy</a>.</p>
+        </>
+      ) : (
+        <>
+          <p class="legal__lead">Este documento describe exactamente qué hace este sitio con tus datos. Está redactado a partir del código real del sitio, no de una plantilla: si un tratamiento no aparece aquí, no ocurre.</p>
+          <h2>1. Responsable</h2>
+          <p><strong>{CONTACT.company}</strong>, sociedad constituida en Texas, Estados Unidos, con sede en Houston («MILLIMETER», «nosotros»). Contacto para cualquier asunto sobre tus datos, incluido el ejercicio de derechos: <a href={`mailto:${mail}`}>{mail}</a>.</p>
+          <h2>2. Qué recogemos</h2>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th scope="col">Dato</th><th scope="col">Cuándo</th><th scope="col">Obligatorio</th></tr></thead>
+            <tbody>
+              <tr><td>Nombre y email</td><td>Formularios de contacto y empleo</td><td>Sí</td></tr>
+              <tr><td>Teléfono, estudio o empresa, ubicación del proyecto, perfil</td><td>Formulario de contacto</td><td>No</td></tr>
+              <tr><td>Contenido del mensaje</td><td>Formulario de contacto</td><td>Sí</td></tr>
+              <tr><td>Ciudad/estado, área de interés, presentación</td><td>Formulario de empleo</td><td>No</td></tr>
+              <tr><td>CV (archivo PDF, con todo lo que contenga)</td><td>Formulario de empleo</td><td>Sí</td></tr>
+              <tr><td>Dirección IP</td><td>Cada visita, en registros del servidor; y para limitar envíos</td><td>Automático</td></tr>
+            </tbody>
+          </table></div>
+          <p><strong>No usamos analítica de terceros, píxeles publicitarios, perfilado ni decisiones automatizadas.</strong> No hay Google Analytics, Meta Pixel, mapas de calor ni grabación de sesiones.</p>
+          <h2>3. Para qué</h2>
+          <ul>
+            <li>Responder a tu consulta y continuar la conversación comercial que iniciaste.</li>
+            <li>Valorar tu candidatura, si la envías, y contactarte sobre el proceso de selección.</li>
+            <li>Seguridad del sitio: la IP se usa para limitar envíos de formularios y frenar abusos automatizados.</li>
+          </ul>
+          <h2>4. Quién los trata</h2>
+          <p>Solo los proveedores estrictamente necesarios para que el sitio funcione:</p>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th scope="col">Proveedor</th><th scope="col">Función</th><th scope="col">Ubicación</th></tr></thead>
+            <tbody>
+              <tr><td>Railway</td><td>Alojamiento web y registros del servidor</td><td>Estados Unidos</td></tr>
+              <tr><td>Resend</td><td>Envío por email de los formularios, incluido el CV adjunto</td><td>Estados Unidos</td></tr>
+              <tr><td>GoDaddy</td><td>Registro de dominio y DNS</td><td>Estados Unidos</td></tr>
+              <tr><td>WhatsApp (Meta)</td><td>Solo si pulsas un botón de WhatsApp: el chat se abre en su app</td><td>Estados Unidos y otros</td></tr>
+            </tbody>
+          </table></div>
+          <p>Los botones de WhatsApp e Instagram son enlaces simples: este sitio no carga nada de Meta mientras navegas. Fuentes, imágenes y videos se sirven desde este dominio.</p>
+          <h2>5. Tus derechos según las leyes estatales de EE. UU.</h2>
+          <p>Los residentes de estados con leyes de privacidad (por ejemplo California con la CCPA/CPRA, Texas con la TDPSA, entre otros) tienen derecho a conocer y acceder a sus datos, corregirlos, eliminarlos, obtener una copia portable y oponerse a su venta, a su uso para publicidad dirigida o a la elaboración de perfiles.</p>
+          <ul>
+            <li><strong>No vendemos datos personales ni los compartimos para publicidad dirigida.</strong> No hay nada de lo que excluirse; además respetamos por defecto las señales Global Privacy Control (GPC) porque no existe rastreo.</li>
+            <li>No recogemos datos sensibles a propósito. Por favor, no los incluyas en tu mensaje ni en tu CV.</li>
+            <li>Para ejercer cualquier derecho escribe a <a href={`mailto:${mail}`}>{mail}</a> desde la dirección que usaste con nosotros. Respondemos en un máximo de 45 días, sin coste y sin trato discriminatorio. Puedes actuar mediante un agente autorizado y apelar respondiendo a nuestra respuesta.</li>
+          </ul>
+          <h2>6. Cuánto tiempo los conservamos</h2>
+          <ul>
+            <li>Consultas: mientras dure la conversación comercial y hasta 24 meses después del último contacto.</li>
+            <li>Candidaturas y CV: hasta 12 meses desde su recepción, salvo que pidas borrarlos antes.</li>
+            <li>Registros del servidor: según la política de retención de Railway.</li>
+            <li>Preferencia del aviso de cookies: en tu navegador hasta que borres los datos del sitio.</li>
+          </ul>
+          <h2>7. Seguridad</h2>
+          <ul>
+            <li>Todo el tráfico va cifrado por HTTPS (HSTS).</li>
+            <li>Cada campo se valida y limita en el servidor, no solo en el navegador; los envíos están limitados por IP.</li>
+            <li>El sitio envía cabeceras de seguridad estrictas, incluida una Content Security Policy restrictiva.</li>
+            <li>No guardamos nada en una base de datos propia: consultas y candidaturas viajan por email al buzón de la empresa.</li>
+            <li>El CV nunca se guarda en la web: se procesa en memoria, se verifica (firma PDF, tamaño, sin cifrado, sin scripts ni adjuntos incrustados), se renombra y se envía por email.</li>
+          </ul>
+          <h2>8. Menores</h2>
+          <p>Este sitio se dirige a profesionales de arquitectura, diseño y construcción. No está dirigido a menores de 13 años y no recogemos sus datos a sabiendas.</p>
+          <h2>9. Cambios</h2>
+          <p>Si algo relevante cambia —por ejemplo, si algún día se añade analítica— esta página y su fecha se actualizan antes de que el cambio entre en vigor. Consulta también la <a href={ROUTES.cookies[lang]}>política de cookies</a>.</p>
+        </>
+      )}
+      <p class="legal__updated mono">{en ? 'Last updated' : fr ? 'Dernière mise à jour' : 'Última actualización'}: {UPDATED}</p>
+    </div>
+  </article>
+</Base>

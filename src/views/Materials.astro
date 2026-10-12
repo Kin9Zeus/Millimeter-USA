@@ -1,0 +1,103 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import MediaHero from '../components/MediaHero.astro';
+import { HERO } from '../data/media';
+import Cta from '../components/sections/Cta.astro';
+import Arrow from '../components/Arrow.astro';
+import { MATERIALS } from '../data/materials';
+import { itemList } from '../lib/schema';
+import { t, ROUTES, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const d = all.materials;
+const kinds = ['all', 'marble', 'quartzite', 'travertine'] as const;
+const label = (k: (typeof kinds)[number]) => all.common[k];
+const site = new URL(Astro.site!).origin; // ROUTES already include the base path
+const schema = itemList(d.title, MATERIALS.map((m) => ({ name: `${m.name} — ${label(m.kind)}`, url: `${site}${ROUTES.materials[lang]}#${m.id}`, description: m.tone[lang] })));
+---
+<Base lang={lang} page="materials" crumb={all.nav.materials} schema={[schema]}>
+  <MediaHero image={HERO.materials} seq="materials" eyebrow={d.eyebrow} title={d.title.split('. ').map((s, i, a) => (i < a.length - 1 ? s + '.' : s))} intro={d.intro} measure={`${MATERIALS.length} · 1–5 mm`} pos="50% 40%" />
+
+  <section class="mat on-dark section--tight" aria-label={d.eyebrow}>
+    <div class="wrap">
+      <div class="mat__bar">
+        <div class="filters" role="group" aria-label={{ en: 'Filter by stone type', es: 'Filtrar por tipo de piedra', fr: 'Filtrer par type de pierre' }[lang]} data-filters>
+          {kinds.map((k) => <button type="button" data-filter={k} aria-pressed={k === 'all' ? 'true' : 'false'}>{label(k)}</button>)}
+        </div>
+        <p class="mono mat__count" aria-live="polite"><span data-filter-live>{MATERIALS.length}</span> / {MATERIALS.length}</p>
+      </div>
+
+      <ul class="mat__grid" role="list">
+        {MATERIALS.map((m, i) => (
+          <li class="stone" id={m.id} data-kind={m.kind}>
+            <figure>
+              <div class="stone__media media">
+                <Image src={m.image} alt={`${m.name} ${label(m.kind).toLowerCase()}: ${m.tone[lang]}`} widths={[360, 540, 720]} sizes="(max-width: 520px) 50vw, (max-width: 900px) 33vw, 22vw" quality={72} loading={i < 4 ? 'eager' : 'lazy'} />
+                {m.featured && <span class="stone__flag mono">USA</span>}
+                <span class="stone__mm mono" aria-hidden="true">1–5 mm</span>
+              </div>
+              <figcaption>
+                <span class="stone__name">{m.name}</span>
+                <span class="stone__kind">{label(m.kind)}</span>
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+      <p class="mat__note muted">{d.samplesNote} {d.catalogNote}</p>
+    </div>
+  </section>
+
+  <section class="choose on-light section" aria-labelledby="choose-title">
+    <div class="wrap choose__grid">
+      <div class="choose__copy">
+        <p class="eyebrow">{d.chooseEyebrow}</p>
+        <h2 id="choose-title" class="display h-1" data-split>{d.chooseTitle}</h2>
+        {d.chooseBody.map((p) => <p class="body-lg">{p}</p>)}
+        <a class="btn" href={ROUTES.contact[lang]}>{d.requestSamples}<Arrow /></a>
+      </div>
+      <dl class="choose__list">
+        {d.choose.map((c, i) => (
+          <div data-reveal style={`--d:${i * 0.1}s`}>
+            <dt class="display">{c.k}</dt>
+            <dd>{c.v}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+  <Cta lang={lang} />
+</Base>
+
+<style>
+  .mat__bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .filters button { padding: 0.6rem 1rem; border: 1px solid var(--line-dark); font-size: var(--fs-sm); letter-spacing: 0.04em; transition: all 0.3s var(--ease); min-height: 2.75rem; }
+  .filters button:hover { border-color: var(--copper); }
+  .filters button[aria-pressed='true'] { background: var(--copper); border-color: var(--copper); color: var(--ink); }
+  .mat__count { color: var(--muted-dark); font-size: var(--fs-sm); }
+  .mat__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.5rem var(--gutter); }
+  .stone[hidden] { display: none; }
+  .stone figure { display: grid; gap: 0.85rem; }
+  .stone__media { aspect-ratio: 1; }
+  .stone__media :global(img) { transition: transform 1.2s var(--ease); }
+  .stone:hover .stone__media :global(img) { transform: scale(1.08); }
+  .stone__flag { position: absolute; top: 0.75rem; left: 0.75rem; font-size: 0.625rem; padding: 0.25rem 0.45rem; background: var(--copper); color: var(--ink); letter-spacing: 0.1em; }
+  .stone__mm { position: absolute; right: 0.75rem; bottom: 0.75rem; font-size: var(--fs-xs); color: var(--text-dark); background: rgba(18,16,13,.7); padding: 0.25rem 0.5rem; opacity: 0; transform: translateY(6px); transition: all 0.4s var(--ease); }
+  .stone:hover .stone__mm { opacity: 1; transform: none; }
+  .stone figcaption { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; border-top: 1px solid var(--line-dark); padding-top: 0.75rem; }
+  .stone__name { font-family: var(--f-display); font-size: var(--fs-lg); line-height: 1.1; }
+  .stone__kind { font-size: 0.6875rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted-dark); }
+  .mat__note { margin-top: 3rem; font-size: var(--fs-sm); max-width: 70ch; }
+  .choose__grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: start; }
+  .choose__copy { display: grid; gap: 1.25rem; justify-items: start; }
+  .choose__list { display: grid; gap: 1.5rem; }
+  .choose__list div { border-top: 1px solid var(--copper-deep); padding-top: 1.1rem; }
+  .choose__list dt { font-size: var(--fs-xl); line-height: 1.15; }
+  .choose__list dd { color: var(--muted); margin-top: 0.4rem; }
+  @media (max-width: 1100px) { .mat__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 900px) { .choose__grid { grid-template-columns: 1fr; } }
+  @media (max-width: 620px) { .mat__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem 0.85rem; } .stone figcaption { flex-direction: column; gap: 0.2rem; } }
+</style>

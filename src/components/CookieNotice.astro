@@ -1,0 +1,41 @@
+---
+// Informational notice only: the site sets no cookies and loads no trackers, so there is nothing to consent to.
+// If analytics are ever added, this must become a real opt-in that blocks those scripts.
+import { t, ROUTES, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+---
+<div class="ck" role="region" aria-label="Cookies" data-cookie hidden>
+  <p>{d.cookieNotice.text} <a class="text-link" href={ROUTES.cookies[lang]}>{d.cookieNotice.more}</a></p>
+  <button type="button" class="ck__ok" data-cookie-ok>{d.cookieNotice.ok}</button>
+</div>
+
+<style>
+  .ck {
+    position: fixed; z-index: 90; right: var(--gutter); bottom: var(--gutter); max-width: 24rem;
+    display: grid; gap: 1rem; padding: 1.25rem 1.25rem 1.1rem;
+    background: var(--ink-2); color: var(--text-dark); border: 1px solid var(--line-dark);
+    font-size: var(--fs-sm); line-height: 1.5; --accent: var(--copper);
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    animation: ck-in 0.8s var(--ease) both 1.2s;
+  }
+  .ck__ok { justify-self: start; padding: 0.55rem 1rem; border: 1px solid var(--copper); color: var(--copper); font-size: var(--fs-xs); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; }
+  .ck__ok:hover { background: var(--copper); color: var(--ink); }
+  @keyframes ck-in { from { opacity: 0; transform: translateY(16px); } }
+  @media (max-width: 520px) { .ck { left: var(--gutter); max-width: none; } }
+</style>
+
+<script>
+  const KEY = 'mm.cookies.ack';
+  const el = document.querySelector<HTMLElement>('[data-cookie]');
+  let seen = false;
+  try { seen = localStorage.getItem(KEY) === '1'; } catch {}
+  if (el && !seen) {
+    el.hidden = false;
+    el.querySelector('[data-cookie-ok]')?.addEventListener('click', () => {
+      try { localStorage.setItem(KEY, '1'); } catch {}
+      el.hidden = true;
+    });
+  }
+</script>

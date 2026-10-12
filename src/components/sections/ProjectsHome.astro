@@ -1,0 +1,101 @@
+---
+import { Image } from 'astro:assets';
+import Arrow from '../Arrow.astro';
+import { PROJECT_IMG } from '../../data/media';
+import { t, ROUTES, type Lang } from '../../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const d = all.projects;
+// Graticule plot (survey-drawing style): longitude 125°W–90°W, latitude 26°N–36°N.
+const COORDS: Record<string, [number, number]> = { wittman: [30.2672, -97.7431], arch: [32.7157, -117.1611], altuve: [29.7604, -95.3698] };
+const W = 700, H = 240;
+const px = (lon: number) => ((lon + 125) / 35) * W;
+const py = (lat: number) => H - ((lat - 26) / 10) * H;
+---
+<section class="proj on-dark section cv" aria-labelledby="proj-title">
+  <div class="wrap">
+    <div class="proj__head">
+      <div>
+        <p class="eyebrow">{d.eyebrow}</p>
+        <h2 id="proj-title" class="display h-1" data-split>{d.title}</h2>
+      </div>
+      <p class="lede">{d.intro}</p>
+    </div>
+
+    <figure class="plot" data-reveal>
+      <svg viewBox={`-10 -10 ${W + 20} ${H + 40}`} role="img" aria-labelledby="plot-t">
+        <title id="plot-t">{d.mapTitle}: Austin, TX · Houston, TX · San Diego, CA</title>
+        <g class="plot__grid">
+          {Array.from({ length: 8 }, (_, i) => <line x1={px(-125 + i * 5)} y1="0" x2={px(-125 + i * 5)} y2={H} />)}
+          {Array.from({ length: 3 }, (_, i) => <line x1="0" y1={py(26 + i * 5)} x2={W} y2={py(26 + i * 5)} />)}
+          {Array.from({ length: 8 }, (_, i) => <text x={px(-125 + i * 5)} y={H + 22} text-anchor="middle">{125 - i * 5}°W</text>)}
+        </g>
+        <path class="plot__route" d={`M${px(-117.1611)} ${py(32.7157)} Q ${px(-106)} ${py(36)} ${px(-97.7431)} ${py(30.2672)} T ${px(-95.3698)} ${py(29.7604)}`} />
+        {d.items.map((p) => {
+          const [lat, lon] = COORDS[p.id];
+          return (
+            <g class="plot__pt" transform={`translate(${px(lon)} ${py(lat)})`}>
+              <circle r="14" class="plot__halo" />
+              <circle r="4" />
+              <text x="12" y={p.id === 'altuve' ? 22 : -12}>{p.city}</text>
+            </g>
+          );
+        })}
+      </svg>
+      <figcaption>{d.mapTitle}</figcaption>
+    </figure>
+
+    <ul class="proj__list" role="list">
+      {d.items.map((p, i) => (
+        <li class="pcard" data-reveal style={`--d:${i * 0.1}s`}>
+          <a href={`${ROUTES.projects[lang]}#${p.id}`} data-cursor={all.common.view}>
+            <div class="pcard__media media">
+              <Image src={PROJECT_IMG[p.id as keyof typeof PROJECT_IMG].hero} alt={`${p.name} — ${p.piece}, ${p.material}, ${p.location}`} widths={[480, 720, 960, 1200]} sizes="(max-width: 900px) 100vw, 33vw" quality={74} />
+            </div>
+            <p class="pcard__loc mono">{p.location}</p>
+            <h3 class="display pcard__name">{p.name}</h3>
+            <p class="pcard__piece">{p.piece}</p>
+            <dl class="pcard__spec">
+              <div><dt>{all.common.material}</dt><dd>{p.material}</dd></div>
+              <div><dt>{all.common.thickness}</dt><dd class="mono">{p.thickness}</dd></div>
+            </dl>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="proj__more"><a class="btn btn--ghost" href={ROUTES.projects[lang]}>{d.cta}<Arrow /></a></div>
+  </div>
+</section>
+
+<style>
+  .proj__head { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--gutter); align-items: end; }
+  .plot { margin-block: clamp(3rem, 6vw, 5rem); }
+  .plot svg { width: 100%; height: auto; overflow: visible; }
+  .plot__grid line { stroke: var(--line-dark); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .plot__grid text { fill: var(--muted-dark); font-family: var(--f-mono); font-size: 10px; }
+  .plot__route { fill: none; stroke: var(--copper); stroke-width: 1; stroke-dasharray: 4 6; vector-effect: non-scaling-stroke; }
+  .plot__pt circle { fill: var(--copper); }
+  .plot__pt .plot__halo { fill: rgba(200,145,90,.18); animation: pulse 2.8s var(--ease) infinite; transform-origin: center; transform-box: fill-box; }
+  .plot__pt text { fill: var(--text-dark); font-family: var(--f-body); font-size: 15px; }
+  @keyframes pulse { 0% { transform: scale(0.4); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
+  .plot figcaption { margin-top: 1rem; font-size: var(--fs-xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--copper); }
+  .proj__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
+  .pcard a { display: grid; gap: 0.75rem; }
+  .pcard__media { aspect-ratio: 4 / 5; }
+  .pcard__media :global(img) { transition: transform 1.4s var(--ease); }
+  .pcard a:hover .pcard__media :global(img) { transform: scale(1.05); }
+  .pcard__loc { margin-top: 0.5rem; font-size: var(--fs-xs); color: var(--copper); }
+  .pcard__name { font-size: var(--fs-xl); }
+  .pcard__piece { color: var(--muted-dark); font-size: var(--fs-sm); }
+  .pcard__spec { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--line-dark); font-size: var(--fs-sm); }
+  .pcard__spec dt { font-size: 0.6875rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted-dark); }
+  .proj__more { margin-top: 3rem; }
+  @media (max-width: 900px) {
+    .proj__head, .proj__list { grid-template-columns: 1fr; }
+    .proj__list { gap: 3rem; }
+    .plot__grid text { font-size: 16px; }
+    .plot__pt text { font-size: 22px; }
+  }
+</style>

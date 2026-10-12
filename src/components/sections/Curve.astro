@@ -1,0 +1,62 @@
+---
+import { Image } from 'astro:assets';
+import { MISC } from '../../data/media';
+import { t, type Lang } from '../../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang).curve;
+---
+<section class="curve on-light" data-curve aria-labelledby="curve-title">
+  <div class="curve__inner wrap">
+    <div class="curve__media media">
+      <Image class="curve__img" src={MISC.curveA} alt="" widths={[480, 800, 1280, 1600]} sizes="(max-width: 900px) 100vw, 60vw" quality={72} />
+      <Image class="curve__img curve__img--after" data-curve-after src={MISC.curveB} alt={{ en: 'A column clad in one continuous sheet of New Capanelli marble, no joints', es: 'Columna revestida con una sola lámina continua de mármol New Capanelli, sin juntas', fr: 'Colonne habillée d’une seule feuille continue de marbre New Capanelli, sans joints' }[lang]} widths={[480, 800, 1280, 1600]} sizes="(max-width: 900px) 100vw, 60vw" quality={72} />
+      <span class="curve__tag mono" aria-hidden="true">1 mm · New Capanelli</span>
+    </div>
+    <div class="curve__copy">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 id="curve-title" class="display h-2">{d.title}</h2>
+      <ol class="curve__steps" role="list">
+        {d.steps.map((s, i) => <li class="curve__step" data-step={i}>{s}</li>)}
+      </ol>
+      <div class="curve__meter" data-curve-meter aria-hidden="true"><span></span></div>
+      <dl class="curve__spec">
+        <div><dt class="mono">1 mm</dt><dd>{d.oneMm.replace(/^1 mm — /, '')}</dd></div>
+        <div><dt class="mono">5 mm</dt><dd>{d.fiveMm.replace(/^5 mm — /, '')}</dd></div>
+      </dl>
+      <p class="curve__note muted">{d.note}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .curve { position: relative; }
+  .curve__inner { min-height: 100svh; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; padding-top: calc(var(--header-h) + 1.5rem); padding-bottom: 2rem; }
+  .curve__media { aspect-ratio: 16 / 9; width: 100%; background: var(--sand) center / cover; }
+  .curve__media :global(.curve__img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+  :global(html[data-motion='on']) .curve__media :global(.curve__img--after) { clip-path: inset(100% 0 0 0); }
+  .curve__tag { position: absolute; left: 1rem; bottom: 1rem; font-size: var(--fs-xs); background: rgba(241,236,228,.82); color: var(--ink); padding: 0.3rem 0.55rem; }
+  .curve__copy { display: grid; gap: 1.25rem; }
+  .curve__steps { display: grid; padding: 0; list-style: none; }
+  .curve__step { font-family: var(--f-display); font-size: var(--fs-xl); line-height: 1.25; transition: opacity 0.6s var(--ease), transform 0.8s var(--ease); }
+  .curve__step { grid-area: 1 / 1; }
+  :global(.js) .curve__step { opacity: 0; transform: translateY(16px); }
+  :global(.js) .curve__step:global(.is-on) { opacity: 1; transform: none; }
+  .curve__meter { height: 1px; background: var(--line); position: relative; --p: 0; }
+  .curve__meter span { position: absolute; inset: 0; background: var(--copper-deep); transform-origin: left; transform: scaleX(var(--p)); }
+  .curve__spec { display: grid; gap: 0.75rem; font-size: var(--fs-sm); }
+  .curve__spec div { display: grid; grid-template-columns: 3.5rem 1fr; gap: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--line); }
+  .curve__spec dt { color: var(--copper-deep); }
+  .curve__note { font-size: var(--fs-xs); line-height: 1.5; }
+
+  @media (max-width: 900px) {
+    .curve__inner { grid-template-columns: 1fr; align-content: center; gap: 1.5rem; }
+    .curve__media { aspect-ratio: 4 / 5; max-height: 52svh; }
+    .curve__step { font-size: 1.35rem; }
+    .curve__spec, .curve__note { display: none; }
+  }
+  @media all {
+    :global(html[data-motion='off']) .curve__steps { gap: 1rem; }
+    :global(html[data-motion='off']) .curve__step { grid-area: auto; opacity: 1 !important; transform: none !important; }
+  }
+</style>

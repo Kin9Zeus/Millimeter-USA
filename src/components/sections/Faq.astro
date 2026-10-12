@@ -1,0 +1,39 @@
+---
+import { t, type Lang } from '../../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang).faq;
+---
+<section class="faq on-light section cv" aria-labelledby="faq-title">
+  <div class="wrap faq__grid">
+    <div class="faq__head">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 id="faq-title" class="display h-2">{d.title}</h2>
+    </div>
+    <div class="faq__list">
+      {d.items.map((it, i) => (
+        <details class="qa" open={i === 0}>
+          <summary><h3>{it.q}</h3><span class="qa__icon" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>{it.a}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq__grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(2rem, 6vw, 7rem); }
+  .faq__head { display: grid; gap: 1.25rem; align-content: start; position: sticky; top: calc(var(--header-h) + 2rem); }
+  .qa { border-top: 1px solid var(--line); }
+  .qa:last-child { border-bottom: 1px solid var(--line); }
+  .qa summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; padding-block: 1.4rem; cursor: pointer; }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa h3 { font-family: var(--f-display); font-weight: 500; font-size: var(--fs-xl); line-height: 1.15; }
+  .qa__icon { position: relative; width: 1rem; height: 1rem; flex: none; }
+  .qa__icon::before, .qa__icon::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--copper-deep); transition: transform 0.5s var(--ease); }
+  .qa__icon::after { transform: rotate(90deg); }
+  .qa[open] .qa__icon::after { transform: rotate(0deg); }
+  .qa__a { padding-bottom: 1.5rem; max-width: 62ch; color: #3a332b; }
+  .qa summary:hover h3 { color: var(--copper-deep); }
+  @media (max-width: 900px) { .faq__grid { grid-template-columns: 1fr; } .faq__head { position: static; } }
+</style>

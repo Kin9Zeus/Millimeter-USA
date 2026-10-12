@@ -1,0 +1,111 @@
+---
+/**
+ * Page hero with a background that moves with the scroll (same idea as the South America site):
+ * the hero is taller than the viewport and its content is `position: sticky`; while it scrolls,
+ * the image (or frame sequence / ambient video) pushes in and the headline steps aside.
+ *
+ * Motion OFF (<html data-motion="off">): one screen tall, still image, no scrub.
+ *
+ *   <MediaHero image={img} eyebrow="…" title={['Line 1', 'line 2']} intro="…" />
+ *   Optional: seq="home" → frames in /media/seq/home/{d,m}. Video is ALWAYS played by the scroll, never looped (client rule).
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  image: ImageMetadata;
+  alt?: string;
+  eyebrow: string;
+  title: string[];
+  intro?: string;
+  measure?: string;
+  /** Extra scroll distance while the hero stays (desktop / portrait). */
+  run?: string;
+  runPortrait?: string;
+  /** CSS object-position for the image (useful for portrait crops). */
+  pos?: string;
+  seq?: string;
+  /** Home hero is bigger and loads with high priority. */
+  home?: boolean;
+  h1?: boolean;
+}
+const { image, alt = '', eyebrow, title, intro, measure, run = '70svh', runPortrait = '55svh', pos = '50% 50%', seq, home = false, h1 = true } = Astro.props;
+const widths = [640, 960, 1280, 1600, 2048, 2560].filter((w) => w <= image.width);
+const [avif, webp] = await Promise.all([
+  getImage({ src: image, widths, format: 'avif', quality: 58 }),
+  getImage({ src: image, widths, format: 'webp', quality: 70 }),
+]);
+const H = h1 ? 'h1' : 'h2';
+// A scroll-scrubbed frame sequence is used automatically once its frames exist in public/media/seq/<seq>/{d,m}.
+const countFrames = (v: 'd' | 'm') => {
+  try { return fs.readdirSync(path.join(process.cwd(), 'public', 'media', 'seq', seq!, v)).filter((f) => f.endsWith('.webp')).length; } catch { return 0; }
+};
+const seqD = seq ? countFrames('d') : 0;
+const seqM = seq ? countFrames('m') : 0;
+const hasSeq = seqD + seqM > 0;
+---
+<section class:list={['mh on-dark', { 'mh--home': home }]} data-mh style={`--run-d:${run}; --run-p:${runPortrait}; --pos:${pos}`}>
+  <div class="mh__sticky">
+    <div class="mh__media" data-mh-media>
+      <picture>
+        <source type="image/avif" srcset={avif.srcSet.attribute} sizes="100vw" />
+        <source type="image/webp" srcset={webp.srcSet.attribute} sizes="100vw" />
+        <img src={webp.src} alt={alt} width={image.width} height={image.height} fetchpriority={home ? 'high' : 'auto'} loading={home ? 'eager' : 'eager'} decoding="async" data-mh-img />
+      </picture>
+      {hasSeq && <canvas class="mh__canvas" data-mh-seq={seq} data-count-d={seqD} data-count-m={seqM} aria-hidden="true"></canvas>}
+    </div>
+    <div class="mh__scrim" aria-hidden="true"></div>
+    <div class="mh__side" data-mh-side aria-hidden="true"></div>
+
+    <div class="mh__content wrap" data-mh-content>
+      <p class="eyebrow mh__eyebrow">{eyebrow}</p>
+      <H class="display mh__title">
+        {title.map((l, i) => (i === title.length - 1 && title.length > 1 ? <em>{l}</em> : <span>{l}</span>))}
+      </H>
+      {measure && <p class="mh__measure mono">{measure}</p>}
+      {intro && <p class="mh__intro">{intro}</p>}
+      <slot />
+    </div>
+    <div class="mh__cue" aria-hidden="true"><i></i></div>
+  </div>
+</section>
+
+<style>
+  .mh { position: relative; --run: var(--run-d); }
+  @media (orientation: portrait) { .mh { --run: var(--run-p); } }
+  :global(html[data-motion='on']) .mh { height: calc(100svh + var(--run)); }
+
+  .mh__sticky { position: relative; top: 0; min-height: 100svh; display: grid; align-items: end; overflow: hidden; clip-path: inset(0); }
+  :global(html[data-motion='on']) .mh__sticky { position: sticky; }
+  .mh:not(.mh--home) .mh__sticky { min-height: min(100svh, 56rem); }
+
+  .mh__media { position: absolute; inset: 0; z-index: 0; background: #1b1713; }
+  .mh__media img, .mh__video, .mh__canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: var(--pos); }
+  .mh__media img { transform-origin: 50% 60%; will-change: transform; }
+  .mh__canvas { opacity: 0; transition: opacity 0.6s; }
+  :global(.mh.has-seq) .mh__canvas { opacity: 1; }
+
+  .mh__scrim { position: absolute; inset: 0; pointer-events: none; background:
+    linear-gradient(to bottom, rgba(18,16,13,.72) 0%, rgba(18,16,13,0) 22%),
+    linear-gradient(to top, var(--ink) 0%, rgba(18,16,13,.35) 42%, rgba(18,16,13,0) 72%); }
+  .mh__side { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to right, rgba(18,16,13,.7), rgba(18,16,13,0) 62%); }
+
+  .mh__content { position: relative; z-index: 1; padding-top: calc(var(--header-h) + 2rem); padding-bottom: clamp(2.5rem, 8vh, 5.5rem); display: grid; gap: 1.25rem; justify-items: start; }
+  .mh__title { display: grid; font-size: var(--fs-h1); line-height: 0.95; letter-spacing: -0.015em; max-width: 16ch; text-shadow: 0 0 2.5rem rgba(10,10,11,.5); }
+  .mh--home .mh__title { font-size: var(--fs-hero); }
+  .mh__title em { color: var(--copper); }
+  .mh__measure { font-size: var(--fs-xs); letter-spacing: 0.2em; color: var(--copper); padding-top: 0.9rem; border-top: 1px solid rgba(200,145,90,.45); }
+  .mh__intro { font-size: var(--fs-lg); line-height: 1.5; max-width: 46ch; color: color-mix(in srgb, var(--text-dark) 86%, transparent); }
+
+  .mh__cue { position: absolute; right: var(--gutter); bottom: 1.5rem; z-index: 1; }
+  .mh__cue i { display: block; width: 1px; height: 3rem; background: linear-gradient(var(--copper), transparent); animation: mhcue 2.2s var(--ease) infinite; transform-origin: top; }
+  @keyframes mhcue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+  :global(html[data-motion='off']) .mh__cue { display: none; }
+
+  @media (max-width: 700px) {
+    /* Portrait crops put bright stone directly behind the stacked text: darken the whole lower two thirds. */
+    .mh__side { background: linear-gradient(to top, rgba(18,16,13,.85) 0%, rgba(18,16,13,.6) 45%, rgba(18,16,13,.3) 75%, rgba(18,16,13,.15) 100%); }
+  }
+</style>

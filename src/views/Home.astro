@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import MediaHero from '../components/MediaHero.astro';
+import Arrow from '../components/Arrow.astro';
+import { HERO } from '../data/media';
+import Problem from '../components/sections/Problem.astro';
+import Weight from '../components/sections/Weight.astro';
+import AppsRail from '../components/sections/AppsRail.astro';
+import Curve from '../components/sections/Curve.astro';
+import Library from '../components/sections/Library.astro';
+import Health from '../components/sections/Health.astro';
+import Carbon from '../components/sections/Carbon.astro';
+import ProjectsHome from '../components/sections/ProjectsHome.astro';
+import Legacy from '../components/sections/Legacy.astro';
+import Jesus from '../components/sections/Jesus.astro';
+import Process from '../components/sections/Process.astro';
+import Faq from '../components/sections/Faq.astro';
+import Cta from '../components/sections/Cta.astro';
+import { faqSchema } from '../lib/schema';
+import { t, ROUTES, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+---
+<Base lang={lang} page="home" schema={[faqSchema(d.faq.items)]}>
+  <MediaHero home image={HERO.home} seq="home" alt={{ en: 'Living room with a full-height feature wall in large-format book-matched Calacatta marble', es: 'Salón con un muro de mármol Calacatta en placas de gran formato a altura completa', fr: 'Salon avec un mur en marbre Calacatta en grands formats sur toute la hauteur' }[lang]} eyebrow={d.hero.eyebrow} title={d.hero.title} intro={d.hero.lede} measure="20 mm → 1 mm · 13 lb/ft² → < 1 lb/ft²" run="90svh" runPortrait="60svh" pos="62% 50%">
+    <div class="home-ctas">
+      <a class="btn" href={ROUTES.contact[lang]} data-magnetic>{d.hero.cta}<Arrow /></a>
+      <a class="btn btn--ghost" href="#problem">{d.hero.secondary}<Arrow dir="down" /></a>
+    </div>
+  </MediaHero>
+  <Problem lang={lang} />
+  <Weight lang={lang} />
+  <AppsRail lang={lang} />
+  <Curve lang={lang} />
+  <Library lang={lang} />
+  <Health lang={lang} />
+  <Carbon lang={lang} />
+  <ProjectsHome lang={lang} />
+  <Legacy lang={lang} />
+  <Jesus lang={lang} />
+  <Process lang={lang} />
+  <Faq lang={lang} />
+  <Cta lang={lang} />
+</Base>
+
+<style>
+  .home-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+</style>

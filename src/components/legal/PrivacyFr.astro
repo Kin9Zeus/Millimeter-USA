@@ -1,0 +1,63 @@
+---
+import { CONTACT, ROUTES } from '../../i18n';
+const mail = CONTACT.email;
+---
+<p class="legal__lead">Ce document décrit exactement ce que ce site fait de vos données. Il est rédigé à partir du code réel du site, pas d’un modèle : si un traitement n’y figure pas, il n’a pas lieu.</p>
+<h2>1. Responsable</h2>
+<p><strong>{CONTACT.company}</strong>, société constituée au Texas, États-Unis, dont le siège est à Houston (« MILLIMETER », « nous »). Contact pour toute question relative à vos données : <a href={`mailto:${mail}`}>{mail}</a>.</p>
+<h2>2. Données collectées</h2>
+<div class="tbl-wrap"><table>
+  <thead><tr><th scope="col">Donnée</th><th scope="col">Quand</th><th scope="col">Obligatoire</th></tr></thead>
+  <tbody>
+    <tr><td>Nom et e-mail</td><td>Formulaires de contact et de candidature</td><td>Oui</td></tr>
+    <tr><td>Téléphone, agence ou entreprise, lieu du projet, profil</td><td>Formulaire de contact</td><td>Non</td></tr>
+    <tr><td>Contenu du message</td><td>Formulaire de contact</td><td>Oui</td></tr>
+    <tr><td>Ville/État, domaine d’intérêt, présentation</td><td>Formulaire de candidature</td><td>Non</td></tr>
+    <tr><td>CV (fichier PDF, avec tout son contenu)</td><td>Formulaire de candidature</td><td>Oui</td></tr>
+    <tr><td>Adresse IP</td><td>À chaque visite (journaux du serveur) et pour limiter les envois</td><td>Automatique</td></tr>
+  </tbody>
+</table></div>
+<p><strong>Aucune mesure d’audience tierce, aucun pixel publicitaire, aucun profilage, aucune décision automatisée.</strong> Pas de Google Analytics, de Meta Pixel, de cartes de chaleur ni d’enregistrement de sessions.</p>
+<h2>3. Finalités</h2>
+<ul>
+  <li>Répondre à votre demande et poursuivre l’échange commercial que vous avez engagé.</li>
+  <li>Évaluer votre candidature, le cas échéant, et vous contacter au sujet du recrutement.</li>
+  <li>Sécurité du site : l’adresse IP sert à limiter les envois et à bloquer les abus automatisés.</li>
+</ul>
+<h2>4. Sous-traitants</h2>
+<div class="tbl-wrap"><table>
+  <thead><tr><th scope="col">Prestataire</th><th scope="col">Fonction</th><th scope="col">Lieu</th></tr></thead>
+  <tbody>
+    <tr><td>Railway</td><td>Hébergement du site et journaux du serveur</td><td>États-Unis</td></tr>
+    <tr><td>Resend</td><td>Envoi par e-mail des formulaires, y compris le CV joint</td><td>États-Unis</td></tr>
+    <tr><td>GoDaddy</td><td>Nom de domaine et DNS</td><td>États-Unis</td></tr>
+    <tr><td>WhatsApp (Meta)</td><td>Uniquement si vous cliquez sur un bouton WhatsApp</td><td>États-Unis et autres</td></tr>
+  </tbody>
+</table></div>
+<p>Les boutons WhatsApp et Instagram sont de simples liens : ce site ne charge rien de Meta pendant votre navigation. Polices, images et vidéos sont servies depuis ce domaine.</p>
+<h2>5. Vos droits</h2>
+<p>Les résidents d’États dotés de lois sur la vie privée (Californie — CCPA/CPRA, Texas — TDPSA, etc.) et, le cas échéant, d’autres juridictions (RGPD) peuvent accéder à leurs données, les rectifier, les effacer, en obtenir une copie portable et s’opposer à leur vente, à leur partage publicitaire ou au profilage.</p>
+<ul>
+  <li><strong>Nous ne vendons pas de données personnelles et ne les partageons pas à des fins publicitaires.</strong> Nous respectons par défaut les signaux Global Privacy Control (GPC), puisqu’il n’existe aucun suivi.</li>
+  <li>Nous ne collectons pas volontairement de données sensibles : merci de ne pas en inclure dans votre message ou votre CV.</li>
+  <li>Pour exercer un droit, écrivez à <a href={`mailto:${mail}`}>{mail}</a> depuis l’adresse utilisée avec nous. Réponse sous 45 jours maximum, gratuitement et sans discrimination.</li>
+</ul>
+<h2>6. Durée de conservation</h2>
+<ul>
+  <li>Demandes : pendant l’échange commercial et jusqu’à 24 mois après le dernier contact.</li>
+  <li>Candidatures et CV : 12 mois maximum, sauf demande de suppression anticipée.</li>
+  <li>Journaux du serveur : selon la politique de conservation de Railway.</li>
+  <li>Préférences (avis cookies, animations) : dans votre navigateur jusqu’à l’effacement des données du site.</li>
+</ul>
+<h2>7. Sécurité</h2>
+<ul>
+  <li>Tout le trafic est chiffré en HTTPS (HSTS).</li>
+  <li>Chaque champ est validé et limité côté serveur ; les envois sont limités par IP.</li>
+  <li>Le site envoie des en-têtes de sécurité stricts, dont une Content Security Policy restrictive.</li>
+  <li>Aucune base de données propre : demandes et candidatures transitent par e-mail.</li>
+  <li>Les CV ne sont jamais stockés sur le site : traités en mémoire, vérifiés, renommés puis envoyés par e-mail.</li>
+</ul>
+<h2>8. Mineurs</h2>
+<p>Ce site s’adresse aux professionnels de l’architecture, du design et de la construction. Il ne vise pas les enfants de moins de 13 ans.</p>
+<h2>9. Modifications</h2>
+<p>Tout changement important — par exemple l’ajout d’une mesure d’audience — sera publié ici avant d’entrer en vigueur. Voir aussi la <a href={ROUTES.cookies.fr}>politique de cookies</a>.</p>

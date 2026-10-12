@@ -1,0 +1,182 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieNotice from '../components/CookieNotice.astro';
+import fontDisplay from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-normal.woff2?url';
+import fontBody from '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2?url';
+import { t, ROUTES, LOCALE, OG_LOCALE, CONTACT, LANGS, asset, type Lang, type PageId } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  page: PageId | 'notFound';
+  /** Extra JSON-LD nodes for this page (merged into the @graph). */
+  schema?: Record<string, unknown>[];
+  noindex?: boolean;
+  /** Breadcrumb label for non-home pages. */
+  crumb?: string;
+  bodyClass?: string;
+}
+const { lang, page, schema = [], noindex = false, crumb, bodyClass = '' } = Astro.props;
+const d = t(lang);
+const meta = d.meta[page];
+// `site` includes the deploy base path; ROUTES already carry it, so page URLs are built on the bare origin.
+const site = Astro.site!.toString().replace(/\/$/, '');
+const origin = new URL(site).origin;
+const path = page === 'notFound' ? null : ROUTES[page][lang];
+const canonical = path ? origin + path : null;
+// Pre-launch preview (GitHub Pages): never indexed.
+const preview = import.meta.env.PUBLIC_PREVIEW === '1';
+const ogImage = `${site}/og/millimeter-usa.jpg`;
+const orgId = `${site}/#organization`;
+
+const graph: Record<string, unknown>[] = [
+  {
+    '@type': ['Organization', 'HomeAndConstructionBusiness'],
+    '@id': orgId,
+    name: 'MILLIMETER by Casanova',
+    legalName: CONTACT.company,
+    alternateName: ['MILLIMETER', 'Millimeter Global LLC', 'Casanova'],
+    url: `${site}/`,
+    logo: { '@type': 'ImageObject', url: `${site}/logo-organization.png` },
+    image: ogImage,
+    description: d.meta.home.description,
+    email: CONTACT.email,
+    telephone: CONTACT.whatsappE164,
+    address: { '@type': 'PostalAddress', addressLocality: CONTACT.city, addressRegion: CONTACT.region, addressCountry: CONTACT.country },
+    areaServed: { '@type': 'Country', name: 'United States' },
+    founder: { '@id': `${site}/casanova#jesus-casanova` },
+    knowsAbout: ['Thin natural stone', 'Ultra-thin marble veneer', 'Curved stone cladding', 'Marble', 'Quartzite', 'Travertine', 'Granite', 'Architectural stone'],
+    sameAs: [CONTACT.instagram, CONTACT.corporate, CONTACT.southAmerica],
+    contactPoint: [{ '@type': 'ContactPoint', contactType: 'sales', email: CONTACT.email, telephone: CONTACT.whatsappE164, availableLanguage: ['English', 'Spanish', 'French'], areaServed: 'US' }],
+  },
+  {
+    '@type': 'Person',
+    '@id': `${site}/casanova#jesus-casanova`,
+    name: 'Jesús Casanova',
+    jobTitle: d.jesus.role,
+    worksFor: { '@id': orgId },
+    knowsAbout: ['Natural stone', 'Marble', 'Quartzite', 'Travertine', 'Stone fabrication'],
+    url: `${origin}${ROUTES.casanova[lang]}`,
+  },
+  {
+    '@type': 'WebSite',
+    '@id': `${site}/#website`,
+    url: `${site}/`,
+    name: 'MILLIMETER by Casanova — USA',
+    inLanguage: ['en-US', 'es-US', 'fr-US'],
+    publisher: { '@id': orgId },
+  },
+];
+if (canonical) {
+  graph.push({
+    '@type': 'WebPage',
+    '@id': `${canonical}#webpage`,
+    url: canonical,
+    name: meta.title,
+    description: meta.description,
+    inLanguage: LOCALE[lang],
+    isPartOf: { '@id': `${site}/#website` },
+    about: { '@id': orgId },
+    primaryImageOfPage: ogImage,
+  });
+  if (page !== 'home' && crumb) {
+    graph.push({
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: d.nav.home, item: origin + ROUTES.home[lang] },
+        { '@type': 'ListItem', position: 2, name: crumb, item: canonical },
+      ],
+    });
+  }
+}
+graph.push(...schema);
+const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
+---
+<!doctype html>
+<html lang={LOCALE[lang]} dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- Motion mode (on/off) decided before first paint; external file because the CSP is script-src 'self'. -->
+    <script is:inline src={asset('/motion-mode.js')}></script>
+    <link rel="preload" href={fontDisplay} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fontBody} as="font" type="font/woff2" crossorigin />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {noindex || preview ? <meta name="robots" content="noindex, follow" /> : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
+    {path && page !== 'notFound' && (
+      <>
+        {LANGS.map((l) => <link rel="alternate" hreflang={LOCALE[l]} href={origin + ROUTES[page as PageId][l]} />)}
+        <link rel="alternate" hreflang="x-default" href={origin + ROUTES[page as PageId].en} />
+      </>
+    )}
+    <meta name="theme-color" content="#12100d" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="author" content="MILLIMETER by Casanova" />
+    <meta name="geo.region" content="US-TX" />
+    <meta name="geo.placename" content="Houston" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MILLIMETER by Casanova" />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="MILLIMETER by Casanova — living room with a full-height wall in large-format Calacatta marble" />
+    <meta property="og:locale" content={OG_LOCALE[lang]} />
+    {LANGS.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={OG_LOCALE[l]} />)}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href={asset('/favicon.ico')} sizes="32x32" />
+    <link rel="icon" href={asset('/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={asset('/apple-touch-icon.png')} />
+    <link rel="manifest" href={asset('/site.webmanifest')} />
+    <link rel="sitemap" type="application/xml" href={asset('/sitemap.xml')} />
+
+    <script type="application/ld+json" set:html={jsonld} />
+    <slot name="head" />
+  </head>
+  <body class={`on-dark ${bodyClass}`} data-page={page}>
+    <a class="skip-link" href="#main">{d.nav.skip}</a>
+    <Header lang={lang} page={page} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <CookieNotice lang={lang} />
+    <div class="cursor" aria-hidden="true"><span class="cursor__label"></span></div>
+    <script>
+      // The motion layer (GSAP + Lenis) loads after first paint so it never delays the LCP,
+      // or immediately on the first interaction, whichever comes first.
+      let started = false;
+      const go = () => { if (started) return; started = true; import('../scripts/main'); };
+      for (const ev of ['scroll', 'wheel', 'touchstart', 'pointerdown', 'keydown']) addEventListener(ev, go, { once: true, passive: true });
+      const idle = () => ('requestIdleCallback' in window ? requestIdleCallback(go, { timeout: 1200 }) : setTimeout(go, 300));
+      if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .cursor {
+    position: fixed; left: 0; top: 0; z-index: 150; pointer-events: none;
+    width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--copper);
+    transform: translate3d(-100px, -100px, 0); opacity: 0;
+    display: grid; place-items: center; mix-blend-mode: normal;
+    transition: width 0.45s var(--ease), height 0.45s var(--ease), opacity 0.3s, background 0.3s;
+  }
+  .cursor.is-on { opacity: 1; }
+  .cursor.is-big { width: 5.5rem; height: 5.5rem; background: rgba(200, 145, 90, 0.92); }
+  .cursor__label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); opacity: 0; transition: opacity 0.2s; }
+  .cursor.is-big .cursor__label { opacity: 1; }
+  @media (hover: none), (pointer: coarse) { .cursor { display: none; } }
+  html[data-motion='off'] .cursor { display: none; }
+</style>
