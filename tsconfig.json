@@ -1,0 +1,6 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "compilerOptions": { "types": ["node"] },
+  "exclude": ["dist", "node_modules", "media-src"]
+}

@@ -1,0 +1,26 @@
+# dependencies & build output
+node_modules/
+dist/
+.astro/
+
+# environment — real values live only in the hosting provider
+.env
+.env.*
+!.env.example
+
+# raw client material and video masters (processed copies live in src/assets and public/media)
+/aplicaciones/
+/equipo/
+/fotos_y_recursos_mixtos/
+/logo/
+/materiales/
+/media-src/
+*.pdf
+
+# OS / editors / logs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+__pycache__/
+*.log
