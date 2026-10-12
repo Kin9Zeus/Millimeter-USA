@@ -1,0 +1,46 @@
+# Pre-launch preview on GitHub Pages: static build under /Millimeter-USA, noindex, forms in preview mode.
+name: Preview (GitHub Pages)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - id: pages
+        uses: actions/configure-pages@v6
+      - run: npm run build:pages
+        env:
+          PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
+          PUBLIC_PREVIEW: '1'
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist/client
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
