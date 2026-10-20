@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Arrow from '../Arrow.astro';
+import Icon from '../Icon.astro';
 import { MISC } from '../../data/media';
 import { t, ROUTES, CONTACT, type Lang } from '../../i18n';
 interface Props { lang: Lang; showcase?: boolean }
@@ -16,7 +17,7 @@ const d = all.jesus;
       </div>
       {showcase && (
         <div class="jesus__second media" data-reveal="clip" style="--d:.2s">
-          <Image src={MISC.jesusShowroom} alt={{ en: 'Jesús Casanova among MILLIMETER stone samples', es: 'Jesús Casanova entre muestras de piedra MILLIMETER', fr: 'Jesús Casanova parmi des échantillons de pierre MILLIMETER' }[lang]} widths={[300, 500, 700]} sizes="(max-width: 900px) 45vw, 18vw" quality={74} />
+          <Image src={MISC.jesusShowroom} alt={{ en: 'Jesús Casanova among MILLIMETER stone samples', es: 'Jesús Casanova entre muestras de piedra MILLIMETER', ar: 'خيسوس كاسانوفا بين عينات أحجار MILLIMETER' }[lang]} widths={[300, 500, 700]} sizes="(max-width: 900px) 45vw, 18vw" quality={74} />
         </div>
       )}
       <figcaption class="mono">MILLIMETER · Houston, TX</figcaption>
@@ -29,8 +30,8 @@ const d = all.jesus;
       <blockquote class="jesus__quote display"><p>“{d.quote}”</p></blockquote>
       <div class="jesus__bio">{d.p.map((p) => <p>{p}</p>)}</div>
       <div class="jesus__ctas">
-        <a class="btn" href={CONTACT.whatsappLink(all.common.whatsappText)} target="_blank" rel="noopener" data-magnetic>
-          WhatsApp · {CONTACT.whatsappDisplay}<Arrow dir="up-right" />
+        <a class="btn btn--wa" href={CONTACT.whatsappLink(all.common.whatsappText)} target="_blank" rel="noopener" data-magnetic>
+          <Icon name="whatsapp" />{all.common.whatsapp} · <bdi dir="ltr">{CONTACT.whatsappDisplay}</bdi><span class="sr-only"> ({all.common.newTab})</span>
         </a>
         <a class="btn btn--ghost" href={ROUTES.contact[lang]}>{all.common.talk}<Arrow /></a>
       </div>

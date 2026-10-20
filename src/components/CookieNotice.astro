@@ -13,7 +13,7 @@ const d = t(lang);
 
 <style>
   .ck {
-    position: fixed; z-index: 90; right: var(--gutter); bottom: var(--gutter); max-width: 24rem;
+    position: fixed; z-index: 90; inset-inline-end: var(--gutter); bottom: calc(var(--gutter) + env(safe-area-inset-bottom, 0px)); max-width: 24rem;
     display: grid; gap: 1rem; padding: 1.25rem 1.25rem 1.1rem;
     background: var(--ink-2); color: var(--text-dark); border: 1px solid var(--line-dark);
     font-size: var(--fs-sm); line-height: 1.5; --accent: var(--copper);
@@ -23,7 +23,7 @@ const d = t(lang);
   .ck__ok { justify-self: start; padding: 0.55rem 1rem; border: 1px solid var(--copper); color: var(--copper); font-size: var(--fs-xs); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; }
   .ck__ok:hover { background: var(--copper); color: var(--ink); }
   @keyframes ck-in { from { opacity: 0; transform: translateY(16px); } }
-  @media (max-width: 520px) { .ck { left: var(--gutter); max-width: none; } }
+  @media (max-width: 520px) { .ck { inset-inline-start: var(--gutter); max-width: none; } }
 </style>
 
 <script>
@@ -33,9 +33,15 @@ const d = t(lang);
   try { seen = localStorage.getItem(KEY) === '1'; } catch {}
   if (el && !seen) {
     el.hidden = false;
+    // The floating WhatsApp button sits above the notice while it is open (--ck-offset).
+    const root = document.documentElement;
+    const ro = new ResizeObserver(() => root.style.setProperty('--ck-offset', el.hidden ? '0px' : `${el.offsetHeight + 12}px`));
+    ro.observe(el);
     el.querySelector('[data-cookie-ok]')?.addEventListener('click', () => {
       try { localStorage.setItem(KEY, '1'); } catch {}
       el.hidden = true;
+      ro.disconnect();
+      root.style.setProperty('--ck-offset', '0px');
     });
   }
 </script>

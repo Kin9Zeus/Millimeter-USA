@@ -1,0 +1,87 @@
+---
+// Floating WhatsApp button (client correction #4): visible on every page while scrolling, desktop and mobile.
+// It opens the commercial number with a pre-filled message. It never covers content: it rises above the cookie
+// notice, steps aside while a form field has focus (mobile keyboard) or the menu is open, and whenever text or a
+// control lies underneath it, it tucks into the page margin as a slim tab (still visible and clickable).
+import Icon from './Icon.astro';
+import { t, CONTACT, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang).common;
+---
+<a class="wa-float" href={CONTACT.whatsappLink(d.whatsappText)} target="_blank" rel="noopener" data-wa-float
+  aria-label={`${d.whatsappChat} (${d.newTab})`}>
+  <span class="wa-float__icon"><Icon name="whatsapp" size={26} /></span>
+  <span class="wa-float__label" aria-hidden="true">{d.whatsappChat}</span>
+</a>
+
+<style>
+  .wa-float {
+    --size: 3.5rem;
+    position: fixed; z-index: 95; inset-inline-end: var(--gutter);
+    bottom: calc(var(--gutter) + var(--ck-offset, 0px) + env(safe-area-inset-bottom, 0px));
+    display: flex; align-items: center; height: var(--size); min-width: var(--size);
+    border-radius: calc(var(--size) / 2); background: var(--wa); color: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32), 0 0 0 0 rgba(37, 211, 102, 0.45);
+    transition: bottom 0.5s var(--ease), opacity 0.35s, transform 0.35s var(--ease), background-color 0.3s;
+    animation: wa-in 0.7s var(--ease) both 1.4s;
+  }
+  .wa-float:hover, .wa-float:focus-visible { background: var(--wa-deep); }
+  .wa-float:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  .wa-float__icon { width: var(--size); height: var(--size); display: grid; place-items: center; flex: none; }
+  /* Desktop: the pill opens to name the action. */
+  .wa-float__label {
+    max-width: 0; overflow: hidden; white-space: nowrap; font-size: var(--fs-sm); font-weight: 600;
+    transition: max-width 0.5s var(--ease), padding 0.5s var(--ease); padding-inline-end: 0;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .wa-float:hover .wa-float__label, .wa-float:focus-visible .wa-float__label { max-width: 18rem; padding-inline-end: 1.25rem; }
+  }
+  .wa-float:global(.is-away) { opacity: 0; transform: translateY(1rem) scale(0.9); pointer-events: none; }
+  /* Tucked: two thirds slide into the gutter; hover or keyboard focus brings it back. */
+  .wa-float:global(.is-tucked):not(:hover):not(:focus-visible) { transform: translateX(calc(var(--size) * 0.55 + var(--gutter))); }
+  :global([dir='rtl']) .wa-float:global(.is-tucked):not(:hover):not(:focus-visible) { transform: translateX(calc(var(--size) * -0.55 - var(--gutter))); }
+  @keyframes wa-in { from { opacity: 0; transform: translateY(1.25rem) scale(0.85); } }
+  :global(html[data-motion='off']) .wa-float { animation: none; }
+  @media print { .wa-float { display: none; } }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLElement>('[data-wa-float]');
+  if (btn) {
+    const away = new Set<string>();
+    const sync = () => btn.classList.toggle('is-away', away.size > 0);
+    const set = (k: string, on: boolean) => { on ? away.add(k) : away.delete(k); sync(); };
+    // A focused field usually means an open keyboard on mobile: give the screen back.
+    const isField = (el: EventTarget | null) => el instanceof HTMLElement && el.matches('input, textarea, select');
+    document.addEventListener('focusin', (e) => set('field', isField(e.target)));
+    document.addEventListener('focusout', () => set('field', false));
+    addEventListener('mm:lock', () => set('menu', true));
+    addEventListener('mm:unlock', () => set('menu', false));
+
+    // Tuck when readable content or a control is under the button (sampled at its centre and edges, after scrolling settles).
+    // Wide screens: tuck over any readable content (there is margin to tuck into). Phones: text runs edge to edge,
+    // so only controls and form fields make it tuck; over plain text it stays whole, as a floating button should.
+    const CONTROLS = 'a, button, input, textarea, select, label, summary';
+    const TEXT = 'p, li, h1, h2, h3, h4, td, th, figcaption, dd, dt, blockquote';
+    const narrow = matchMedia('(max-width: 700px)');
+    let t = 0;
+    const check = () => {
+      if (btn.classList.contains('is-away')) return;
+      const r = btn.getBoundingClientRect();
+      const ys = [r.top + 6, r.top + r.height / 2, r.bottom - 6];
+      // Sample where the button RESTS, not where a tuck currently moves it (avoids tuck/untuck oscillation).
+      const shift = new DOMMatrix(getComputedStyle(btn).transform === 'none' ? undefined : getComputedStyle(btn).transform).m41;
+      const x = r.left + r.width / 2 - shift;
+      btn.style.pointerEvents = 'none';
+      const sel = narrow.matches ? CONTROLS : `${CONTROLS}, ${TEXT}`;
+      const hit = ys.some((y) => document.elementsFromPoint(x, y).some((el) => el !== btn && !btn.contains(el) && el.matches(sel) && !el.closest('.ck')));
+      btn.style.pointerEvents = '';
+      btn.classList.toggle('is-tucked', hit);
+    };
+    const queue = () => { clearTimeout(t); t = window.setTimeout(check, 120); };
+    addEventListener('scroll', queue, { passive: true });
+    addEventListener('resize', queue, { passive: true });
+    setTimeout(check, 2200);
+  }
+</script>

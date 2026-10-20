@@ -21,11 +21,12 @@ const d = all.contactPage;
       <aside class="contact__side">
         <div class="side-block">
           <h3 class="side-h">{d.directTitle}</h3>
-          <a class="side-big display" href={CONTACT.whatsappLink(all.common.whatsappText)} target="_blank" rel="noopener">WhatsApp<Arrow dir="up-right" /></a>
+          <a class="side-big display link-wa" href={CONTACT.whatsappLink(all.common.whatsappText)} target="_blank" rel="noopener">{all.common.whatsapp}<Arrow dir="up-right" /><span class="sr-only"> ({all.common.newTab})</span></a>
           <p class="mono">{CONTACT.whatsappDisplay}</p>
           <a class="text-link" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
           <a class="text-link" href={CONTACT.instagram} target="_blank" rel="noopener">Instagram {CONTACT.instagramHandle}</a>
           <p class="muted">{d.hq}</p>
+          <p class="muted">{d.presence}</p>
         </div>
         <div class="side-block">
           <h3 class="side-h">{d.helpsTitle}</h3>
@@ -49,6 +50,7 @@ const d = all.contactPage;
   .side-big { display: inline-flex; align-items: center; gap: 0.75rem; font-size: var(--fs-2xl); line-height: 1; }
   .side-big svg { width: 1.25rem; }
   .side-big:hover { color: var(--copper-deep); }
+  .side-big.link-wa:hover { color: #08481f; }
   .side-list { display: grid; gap: 0.5rem; }
   .side-list li::before { content: '— '; color: var(--copper-deep); }
   @media (max-width: 900px) { .contact__grid { grid-template-columns: 1fr; } }

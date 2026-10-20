@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Arrow from '../Arrow.astro';
+import Icon from '../Icon.astro';
 import { MISC } from '../../data/media';
 import { t, ROUTES, CONTACT, type Lang } from '../../i18n';
 interface Props { lang: Lang }
@@ -16,12 +17,12 @@ const d = all.cta;
       <p class="cta__body">{d.body}</p>
       <div class="cta__actions">
         <a class="btn" href={ROUTES.contact[lang]} data-magnetic>{all.common.talk}<Arrow /></a>
-        <a class="btn btn--ghost" href={CONTACT.whatsappLink(all.common.whatsappText)} target="_blank" rel="noopener">WhatsApp<Arrow dir="up-right" /></a>
+        <a class="btn btn--wa" href={CONTACT.whatsappLink(all.common.whatsappText)} target="_blank" rel="noopener"><Icon name="whatsapp" />{all.common.whatsapp}<span class="sr-only"> ({all.common.newTab})</span></a>
       </div>
       <a class="cta__mail display" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
     </div>
     <div class="cta__media media">
-      <Image src={MISC.cta} alt={{ en: 'Floating curved vanity in Cream Travertine with stone-clad drawers', es: 'Vanity curvo flotante en Cream Travertine con cajones revestidos en piedra', fr: 'Meuble vasque cintré suspendu en Cream Travertine aux tiroirs habillés de pierre' }[lang]} widths={[480, 720, 960, 1280, 1600]} sizes="(max-width: 900px) 100vw, 40vw" quality={80} data-parallax="0.05" />
+      <Image src={MISC.cta} alt={d.imageAlt} widths={[480, 720, 941]} sizes="(max-width: 900px) 100vw, 40vw" quality={80} data-parallax="0.05" />
     </div>
   </div>
 </section>
@@ -39,6 +40,6 @@ const d = all.cta;
   .cta__mail { font-size: clamp(1.35rem, 0.9rem + 1.8vw, 2.5rem); border-bottom: 1px solid rgba(18,16,13,.35); padding-bottom: 0.25rem; overflow-wrap: anywhere; transition: border-color 0.3s; }
   .cta__mail:hover { border-color: var(--ink); }
   .cta__media { aspect-ratio: 4 / 5; background: #3b2a1a; }
-  .cta__media :global(img) { position: absolute; inset: -5% 0; width: 100%; height: 110%; object-fit: cover; object-position: 45% 50%; }
+  .cta__media :global(img) { position: absolute; inset: -5% 0; width: 100%; height: 110%; object-fit: cover; object-position: 50% 62%; }
   @media (max-width: 900px) { .cta__grid { grid-template-columns: 1fr; } .cta__media { aspect-ratio: 16 / 10; } }
 </style>

@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
-import { t, ROUTES, CONTACT, LANGS, LOCALE, LANG_NAME, type Lang, type NavId } from '../i18n';
+import Icon from './Icon.astro';
+import { t, ROUTES, CONTACT, LANGS, LOCALE, LANG_NAME, DIR, type Lang, type NavId } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const d = t(lang);
@@ -32,12 +33,14 @@ const year = new Date().getFullYear();
       <div class="ftr__col">
         <h3 class="ftr__h">{d.footer.contact}</h3>
         <ul role="list">
-          <li><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>
-          <li><a href={CONTACT.whatsappLink(d.common.whatsappText)} target="_blank" rel="noopener">WhatsApp {CONTACT.whatsappDisplay} <span aria-hidden="true">↗</span></a></li>
-          <li><a href={CONTACT.instagram} target="_blank" rel="me noopener">Instagram {CONTACT.instagramHandle} <span aria-hidden="true">↗</span></a></li>
-          <li><a href={CONTACT.corporate} target="_blank" rel="noopener">millimeterbycasanova.com <span aria-hidden="true">↗</span></a></li>
+          <li><a class="ftr__soc" href={`mailto:${CONTACT.email}`}><Icon name="mail" /><bdi>{CONTACT.email}</bdi></a></li>
+          <li><a class="ftr__soc ftr__soc--wa" href={CONTACT.whatsappLink(d.common.whatsappText)} target="_blank" rel="noopener"><Icon name="whatsapp" /><span>{d.common.whatsapp} <bdi dir="ltr">{CONTACT.whatsappDisplay}</bdi></span><span class="sr-only"> ({d.common.newTab})</span></a></li>
+          <li><a class="ftr__soc" href={CONTACT.instagram} target="_blank" rel="me noopener"><Icon name="instagram" /><span>Instagram <bdi dir="ltr">{CONTACT.instagramHandle}</bdi></span><span class="sr-only"> ({d.common.newTab})</span></a></li>
+          {CONTACT.pinterest && <li><a class="ftr__soc" href={CONTACT.pinterest} target="_blank" rel="me noopener"><Icon name="pinterest" /><span>{d.footer.pinterest}</span><span class="sr-only"> ({d.common.newTab})</span></a></li>}
+          <li><a class="ftr__soc" href={CONTACT.corporate} target="_blank" rel="noopener"><Icon name="web" /><bdi dir="ltr">millimeterbycasanova.com</bdi><span class="sr-only"> ({d.common.newTab})</span></a></li>
         </ul>
         <p class="ftr__note">{d.footer.hq}</p>
+        <p class="ftr__note">{d.footer.presence}</p>
       </div>
 
       <div class="ftr__col">
@@ -53,9 +56,9 @@ const year = new Date().getFullYear();
     <div class="ftr__bottom">
       <p>© {year} {CONTACT.company} · {d.footer.rights}</p>
       <p class="ftr__langs" role="group" aria-label={d.nav.language}>
-        {LANGS.map((l) => <a href={ROUTES.home[l]} hreflang={LOCALE[l]} lang={l} aria-current={l === lang ? 'true' : undefined}>{LANG_NAME[l]}</a>)}
+        {LANGS.map((l) => <a href={ROUTES.home[l]} hreflang={LOCALE[l]} lang={l} dir={DIR[l]} aria-current={l === lang ? 'true' : undefined}>{LANG_NAME[l]}</a>)}
       </p>
-      <button type="button" class="ftr__motion" data-motion-toggle data-on={d.footer.motionOn} data-off={d.footer.motionOff} aria-label={d.footer.motionHint} hidden>
+      <button type="button" class="ftr__motion" data-motion-toggle data-on={d.footer.motionOn} data-off={d.footer.motionOff} title={d.footer.motionHint} hidden>
         {d.footer.motion}: <span data-motion-state></span>
       </button>
     </div>
@@ -70,11 +73,19 @@ const year = new Date().getFullYear();
   .ftr__cta { display: inline-flex; align-items: center; gap: 0.9rem; margin-top: 1.5rem; font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--copper); }
   .ftr__cta svg { transition: transform 0.4s var(--ease); }
   .ftr__cta:hover svg { transform: translateX(5px); }
+  :global([dir='rtl']) .ftr__cta svg { scale: -1 1; }
+  :global([dir='rtl']) .ftr__cta:hover svg { transform: translateX(-5px); }
   .ftr__h { font-family: var(--f-mono); font-size: 0.6875rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--copper); font-weight: 400; margin-bottom: 1.1rem; }
   .ftr__col ul { display: grid; gap: 0.55rem; font-size: var(--fs-sm); }
   .ftr__col a { color: color-mix(in srgb, var(--text-dark) 78%, transparent); transition: color 0.3s; overflow-wrap: anywhere; }
   .ftr__col a:hover { color: var(--text-dark); }
   .ftr__note { margin-top: 1rem; font-size: var(--fs-xs); color: var(--muted-dark); }
+  .ftr__note + .ftr__note { margin-top: 0.35rem; }
+  .ftr__soc { display: inline-flex; align-items: center; gap: 0.6rem; }
+  .ftr__soc :global(.icon) { color: var(--copper); transition: color 0.3s, transform 0.4s var(--ease); }
+  .ftr__soc:hover :global(.icon) { transform: translateY(-2px); }
+  .ftr__col .ftr__soc--wa, .ftr__soc--wa :global(.icon) { color: var(--wa); }
+  .ftr__col .ftr__soc--wa:hover { color: #5fe08f; }
   .ftr__bottom { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line-dark); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem 2rem; font-size: var(--fs-xs); color: var(--muted-dark); letter-spacing: 0.04em; }
   .ftr__langs { display: flex; gap: 1.1rem; }
   .ftr__langs a:hover, .ftr__langs a[aria-current='true'] { color: var(--copper); }
@@ -83,6 +94,8 @@ const year = new Date().getFullYear();
   .ftr__motion span { color: var(--text-dark); }
   @media (max-width: 1000px) { .ftr__top { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { .ftr__top { grid-template-columns: 1fr; } }
+  /* Room for the floating WhatsApp button, so it never sits on the last line of the page. */
+  .ftr { padding-bottom: calc(2rem + 4.5rem); }
 </style>
 
 <script>
