@@ -1,17 +1,18 @@
-// Spanish copy (US Spanish-speaking market). Same shape as en.ts.
+// Spanish copy (global brand). Same shape as en.ts. Metric units only (client correction, Oct 2026).
 import type { Dict } from './en';
 
 const es: Dict = {
   lang: 'es',
+  units: 'metric',
   siteName: 'MILLIMETER by Casanova',
   meta: {
     home: {
-      title: 'MILLIMETER by Casanova — piedra natural de 1 a 5 mm en Estados Unidos',
-      description: 'Mármol, cuarcita y travertino reales de 1 a 5 mm: hasta un 90 % más ligeros, curvables de verdad y con menos de 0,5 % de sílice. Desde Houston, Texas.',
+      title: 'MILLIMETER by Casanova — piedra natural real de 1 y 5 mm',
+      description: 'Mármol, cuarcita, granito y travertino reales de 1 y 5 mm: hasta un 90 % más ligeros y curvables de verdad, para muros, mobiliario y arquitectura. Dirigida por Jesús Casanova.',
     },
     technology: {
       title: 'Tecnología — cómo funciona la piedra natural de 1 a 5 mm | MILLIMETER',
-      description: 'Espesor de 1 a 5 mm, 80–90 % menos peso, curvas continuas reales, menos de 0,5 % de sílice y menor huella de carbono. El sistema MILLIMETER explicado.',
+      description: 'Espesor de 1 a 5 mm, 80–90 % menos peso, curvas continuas reales, sílice según el tipo de piedra y menor huella de carbono. El sistema MILLIMETER explicado.',
     },
     applications: {
       title: 'Aplicaciones — dónde va la piedra natural fina | MILLIMETER',
@@ -19,11 +20,11 @@ const es: Dict = {
     },
     materials: {
       title: 'Materiales — mármol, cuarcita y travertino de 1 a 5 mm | MILLIMETER',
-      description: 'Azure, New Capanelli, Patagonia, Taj Mahal, Sahara Noir, Earl White, Cappuccino, Cream Travertine y más, disponibles de 1 a 5 milímetros.',
+      description: 'Azure White, New Capanelli, Patagonia, Taj Mahal, Sahara Noir, Earl White, Cappuccino, Cream Travertine y más, disponibles de 1 a 5 milímetros.',
     },
     projects: {
-      title: 'Proyectos — obra construida en Texas y California | MILLIMETER',
-      description: 'Wittman Residence en Austin, un arco de mármol continuo en San Diego y la Altuve Residence en Houston: piezas reales con su material, espesor y acabado.',
+      title: 'Proyectos — obra construida y alcance internacional | MILLIMETER',
+      description: 'Wittman Residence en Austin, un arco de mármol continuo en San Diego y la Altuve Residence en Houston: piezas reales con su material, espesor y acabado, con piedra de canteras de todo el mundo.',
     },
     casanova: {
       title: 'Casanova — un legado forjado en piedra | MILLIMETER',
@@ -35,11 +36,11 @@ const es: Dict = {
     },
     careers: {
       title: 'Empleo — trabaja con MILLIMETER by Casanova',
-      description: 'Únete a MILLIMETER en Estados Unidos. Envía tu perfil y tu CV en PDF: se revisa, no se guarda en la web y solo lo lee nuestro equipo.',
+      description: 'Únete a MILLIMETER by Casanova. Envía tu perfil y tu CV en PDF: se revisa, no se guarda en la web y solo lo lee nuestro equipo.',
     },
     privacy: {
       title: 'Política de privacidad | MILLIMETER by Casanova',
-      description: 'Qué datos recoge este sitio, para qué, quién los trata y cómo ejercer tus derechos, también bajo las leyes estatales de privacidad de EE. UU.',
+      description: 'Qué datos recoge este sitio, para qué, quién los trata y cómo ejercer tus derechos según las leyes de privacidad que te apliquen.',
     },
     cookies: {
       title: 'Política de cookies | MILLIMETER by Casanova',
@@ -63,8 +64,6 @@ const es: Dict = {
     close: 'Cerrar',
     skip: 'Saltar al contenido',
     home: 'Inicio',
-    switchTo: 'English',
-    switchLabel: 'View this page in English',
     primary: 'Principal',
     language: 'Idioma',
   },
@@ -73,7 +72,10 @@ const es: Dict = {
     talk: 'Hablemos de tu proyecto',
     talkShort: 'Empezar un proyecto',
     whatsapp: 'WhatsApp',
-    whatsappText: 'Hola, quiero información sobre MILLIMETER.',
+    whatsappText: 'Hola, estoy visitando la web de MILLIMETER y me gustaría recibir más información.',
+    whatsappChat: 'Escríbenos por WhatsApp',
+    newTab: 'se abre en una pestaña nueva',
+    featured: 'Destacado',
     email: 'Escríbenos',
     reply: 'Respuesta en menos de un día hábil',
     seeAll: 'Ver todo',
@@ -95,9 +97,11 @@ const es: Dict = {
   },
 
   hero: {
-    eyebrow: 'MILLIMETER by Casanova · Estados Unidos',
+    eyebrow: 'MILLIMETER by Casanova · Piedra natural',
     title: ['Redefiniendo', 'la piedra natural.'],
-    lede: 'Mármol, cuarcita y travertino reducidos a 1–5 milímetros. Hasta un 90 % más ligeros, con curvas que antes eran imposibles, y exactamente la misma piedra.',
+    lede: 'Mármol, cuarcita y travertino reales en 1 y 5 milímetros: hasta un 90 % más ligeros, capaces de curvarse y de convertirse en mobiliario y arquitectura, y exactamente la misma piedra.',
+    measure: 'De 20 mm a 1 mm de espesor · De aproximadamente 63,5 kg/m² a 4,9 kg/m² de peso',
+    alt: 'Cocina con una isla escultórica y un frente a altura completa en piedra natural gris verdosa con vetas blancas, y mobiliario de nogal',
     readThickness: 'Espesor',
     readWeight: 'Peso',
     final: 'Un milímetro.',
@@ -109,7 +113,8 @@ const es: Dict = {
   tech: {
     eyebrow: 'Tecnología',
     title: ['Lo que cambia', 'es el espesor.'],
-    intro: 'MILLIMETER no es un compuesto ni una imitación. Es mármol, cuarcita y travertino reales, procesados con un sistema propietario hasta un espesor de entre uno y cinco milímetros.',
+    intro: 'MILLIMETER no es un compuesto ni una superficie que imita la piedra. Es mármol, cuarcita y travertino reales, procesados con un sistema propietario hasta 1 y 5 milímetros.',
+    alt: 'Cocina con isla curva, campana y frente revestidos en piedra natural crema cálida, mobiliario de roble y suelo en espiga',
     aside: '1 mm ← → 5 mm',
     specEyebrow: 'Ficha',
     specTitle: 'Especificaciones técnicas.',
@@ -130,8 +135,13 @@ const es: Dict = {
     title: 'Durante siglos, la piedra impuso sus condiciones.',
     statement: 'Pesaba demasiado para la mayoría de las estructuras. Su instalación era lenta y cara. No se podía curvar. Y cada pieza que llegaba a obra podía romperse antes de colocarse.',
     turn: 'MILLIMETER no sustituye la piedra: le quita el espesor que sobraba. De 1 a 5 milímetros, la piedra deja de ser una limitación estructural y pasa a ser una decisión de diseño.',
-    before: 'Piedra tradicional · 2–3 cm (3/4 in)',
+    before: 'Piedra tradicional · 2–3 cm',
     after: 'MILLIMETER · 1–5 mm',
+    drawingTitle: 'Sección a escala relativa real',
+    drawingAlt: 'Tres piezas de piedra dibujadas en sección a la misma escala: una placa tradicional de 20 mm, una lámina MILLIMETER de 5 mm y una de 1 mm.',
+    trad: 'Placa tradicional',
+    photoCaption: 'Una lámina MILLIMETER real, sostenida con una mano.',
+    photoAlt: 'Una mano sostiene una lámina fina de mármol marrón oscuro con vetas claras, mostrando su canto.',
     rows: [
       { from: 'Peso excesivo', to: '80–90 % menos peso' },
       { from: 'Instalación lenta y costosa', to: 'Instalación más rápida y segura' },
@@ -145,7 +155,7 @@ const es: Dict = {
     title: 'La estructura deja de ser el límite.',
     body: 'Un metro cuadrado de mármol de 2 cm pesa lo que un adulto pequeño. El mismo metro cuadrado en MILLIMETER de 1 mm pesa menos que un portátil.',
     bars: [
-      { label: 'Piedra tradicional · 2 cm (3/4 in)', imperial: '13–15 lb/ft²', metric: '63–73 kg/m²', ratio: 1 },
+      { label: 'Piedra tradicional · 2 cm', imperial: '13–15 lb/ft²', metric: '63–73 kg/m²', ratio: 1 },
       { label: 'MILLIMETER · 5 mm', imperial: '3–4 lb/ft²', metric: '15–20 kg/m²', ratio: 0.27 },
       { label: 'MILLIMETER · 1 mm', imperial: '< 1 lb/ft²', metric: '< 5 kg/m²', ratio: 0.07 },
     ],
@@ -159,20 +169,22 @@ const es: Dict = {
     intro: 'Cada una existe por una razón concreta: el peso, la curvatura o la ausencia de juntas. No son ideas de catálogo, son consecuencias del material.',
     cta: 'Ver las aplicaciones en detalle',
     items: [
-      { id: 'walls', img: 'muros', thick: '5 mm', title: 'Muros decorativos', short: 'Paños de gran formato con pocas juntas y sin anclajes pesados.', long: 'Cada lámina mide hasta 3 metros, lo que permite cubrir paños de gran formato con pocas juntas. Con piedra tradicional habría que anclarlas a estructura propia; a 5 mm, el grosor que recomendamos para muros, se adhieren sobre el tabique que ya existe.' },
-      { id: 'fireplaces', img: 'chimeneas', thick: '1 y 5 mm', title: 'Chimeneas', short: 'Piedra fina sobre la estructura que ya existe.', long: 'La chimenea suele estar construida y revestida. MILLIMETER, en 1 y 5 mm, va encima de lo que hay, sin demoler, sin recalcular cargas y sin perder centímetros de hueco.' },
-      { id: 'architectural', img: 'arquitectonicos', thick: '1 mm', title: 'Elementos arquitectónicos', short: 'Arcos y columnas revestidos en curva continua.', long: 'Arcos, bóvedas y columnas revestidos con una sola pieza que sigue la geometría. La veta recorre la curva en vez de cortarse en cada junta.' },
-      { id: 'showers', img: 'duchas', thick: '5 mm', title: 'Grandes duchas', short: 'Menos juntas: menos filtración y menos silicona.', long: 'Menos juntas es menos silicona, menos filtración y menos mantenimiento. En una ducha de obra es la diferencia entre diez años y dos.' },
-      { id: 'furniture', img: 'mobiliario', thick: '1 y 5 mm', title: 'Mobiliario a medida', short: 'Frentes de piedra que abren y cierran de verdad.', long: 'Frentes, puertas y cajones de piedra, en 1 y 5 mm, que abren y cierran con herraje convencional, porque pesan lo que pesaría un tablero chapado.' },
-      { id: 'doors', img: 'puertas', thick: '5 mm', title: 'Puertas y paneles', short: 'Peso compatible con herrajes estándar.', long: 'Una hoja de puerta revestida en mármol de 5 mm entra dentro del rango de carga de una bisagra estándar. Con 2 cm de piedra, no.' },
-      { id: 'curves', img: 'curvas', thick: '1 mm', title: 'Superficies curvas', short: 'Curva real, no un despiece que la simula.', long: 'La aplicación que define el producto. Curva continua real: ningún otro material natural la resuelve hoy sin despiece.' },
-      { id: 'ceilings', img: 'techos', thick: '5 mm', title: 'Techos', short: 'Solo viable a 15–20 kg/m², no a 63–73.', long: 'Piedra sobre la cabeza. En 5 mm el metro cuadrado pesa entre 15 y 20 kg (3–4 lb/ft²), frente a los 63–73 kg de la piedra tradicional de 2 cm: esa diferencia es la que hace posible el techo.' },
+      { id: 'walls', img: 'muros', alt: 'Muro de mármol oscuro bookmatched con lavabo integrado y grifo de bronce', thick: '5 mm', title: 'Muros decorativos', short: 'Paños de gran formato con pocas juntas y sin anclajes pesados.', long: 'Cada lámina mide hasta 3 metros, lo que permite cubrir paños de gran formato con pocas juntas. Con piedra tradicional habría que anclarlas a estructura propia; a 5 mm, el grosor que recomendamos para muros, se adhieren sobre el tabique que ya existe.' },
+      { id: 'fireplaces', img: 'chimeneas', alt: 'Chimenea revestida en piedra natural', thick: '1 y 5 mm', title: 'Chimeneas', short: 'Piedra fina sobre la estructura que ya existe.', long: 'La chimenea suele estar construida y revestida. MILLIMETER, en 1 y 5 mm, va encima de lo que hay, sin demoler, sin recalcular cargas y sin perder centímetros de hueco.' },
+      { id: 'architectural', img: 'arquitectonicos', alt: 'Arco revestido con una lámina continua de mármol', thick: '1 mm', title: 'Elementos arquitectónicos', short: 'Arcos y columnas revestidos en curva continua.', long: 'Arcos, bóvedas y columnas revestidos con una sola pieza que sigue la geometría. La veta recorre la curva en vez de cortarse en cada junta.' },
+      { id: 'showers', img: 'duchas', alt: 'Baño con bañera exenta revestida en mármol gris de veta fina', thick: '5 mm', title: 'Grandes duchas', short: 'Menos juntas: menos filtración y menos silicona.', long: 'Menos juntas es menos silicona, menos filtración y menos mantenimiento. En una ducha de obra es la diferencia entre diez años y dos.' },
+      { id: 'furniture', img: 'mobiliario', alt: 'Mesita de noche en travertino y latón cepillado con un cajón de piedra abierto', thick: '1 y 5 mm', title: 'Mobiliario a medida', short: 'Frentes de piedra que abren y cierran de verdad.', long: 'Frentes, puertas y cajones de piedra, en 1 y 5 mm, que abren y cierran con herraje convencional, porque pesan lo que pesaría un tablero chapado.' },
+      { id: 'doors', img: 'puertas', alt: 'Puerta pivotante de altura completa revestida en travertino en la entrada de una casa', thick: '5 mm', title: 'Puertas y paneles', short: 'Peso compatible con herrajes estándar.', long: 'Una hoja de puerta revestida en mármol de 5 mm entra dentro del rango de carga de una bisagra estándar. Con 2 cm de piedra, no.' },
+      { id: 'curves', img: 'curvas', alt: 'Superficie curva revestida con una sola lámina de piedra natural', thick: '1 mm', title: 'Superficies curvas', short: 'Curva real, no un despiece que la simula.', long: 'La aplicación que define el producto. Curva continua real: ningún otro material natural la resuelve hoy sin despiece.' },
+      { id: 'ceilings', img: 'techos', alt: 'Techo de un salón revestido con paneles de mármol de 5 mm', thick: '5 mm', title: 'Techos', short: 'Solo viable a 15–20 kg/m², no a 63–73.', long: 'Piedra sobre la cabeza. En 5 mm el metro cuadrado pesa entre 15 y 20 kg, frente a los 63–73 kg de la piedra tradicional de 2 cm: esa diferencia es la que hace posible el techo.' },
     ],
     notListedTitle: '¿Tu aplicación no está en la lista?',
     notListedBody: 'Probablemente también se pueda. El límite lo marca el detalle constructivo, y ese lo revisamos contigo antes de que exista presupuesto.',
   },
 
   curve: {
+    tag: '1 mm · New Brown Capaneli Marble',
+    alt: 'Columna revestida con una sola lámina continua de mármol New Brown Capaneli, sin juntas',
     eyebrow: 'Curvatura',
     title: 'Curva real, no despiece.',
     steps: [
@@ -189,7 +201,8 @@ const es: Dict = {
     eyebrow: 'Biblioteca de piedra',
     title: 'La misma piedra. Sin el espesor.',
     intro: 'Mármoles, cuarcitas y travertinos con su veta íntegra. Lo que cambia es el espesor, no el material.',
-    featured: 'Destacados en Estados Unidos',
+    featured: 'Selección destacada',
+    heroAlt: 'Isla de cocina y frente en mármol negro Nero Marquina con vetas blancas, bajo lámparas de latón',
     cta: 'Ver todos los materiales',
     catalogNote: 'Si la piedra que buscas no está aquí, pregúntanos: el catálogo no acaba en esta página.',
     samplesNote: 'Las muestras son representativas. La piedra natural es irrepetible: cada placa tiene su propia veta y se selecciona pieza a pieza para cada proyecto.',
@@ -201,33 +214,35 @@ const es: Dict = {
       { k: 'Mármoles de veta gruesa y dramática', v: 'Máximo impacto en paño plano de gran formato' },
       { k: 'Cuarcitas', v: 'Más duras; curvas amplias y superficies de uso intenso' },
     ],
-    requestSamples: 'Pedir muestras',
   },
 
   health: {
     eyebrow: 'Salud y seguridad',
-    title: 'Un futuro más sano para la piedra.',
-    body: 'El sector se está alejando del cuarzo compacto por su relación con la silicosis en quienes lo cortan e instalan. Los fabricantes han reducido de forma significativa su contenido de sílice, pero sigue siendo insuficiente. MILLIMETER es piedra natural: la sílice es marginal.',
-    quartzLabel: 'Cuarzo compacto',
-    quartzValue: '10–40 %',
-    quartzNote: 'de sílice. Mucho menos que antes, pero aún insuficiente para quienes fabrican e instalan.',
-    mmLabel: 'MILLIMETER · piedra natural',
-    mmValue: '< 0,5 %',
-    mmNote: 'de sílice. Más seguro para diseñadores, fabricantes e instaladores.',
-    points: ['Piedra 100 % natural', 'Menor exposición a la sílice', 'Menos resinas artificiales', 'Manipulación más segura'],
-    note: 'Cifras de MILLIMETER Global LLC. El contenido exacto de sílice del cuarzo compacto varía según fabricante y referencia.',
-    table: {
-      caption: 'Composición: cuarzo compacto frente a MILLIMETER',
-      rows: [
-        ['Contenido de sílice', '10–40 %', '< 0,5 %'],
-        ['Composición', 'Compuesto con resinas', '100 % piedra natural'],
-        ['Riesgo para el instalador', 'Reducido, aún presente', 'Bajo'],
-        ['Resinas artificiales', 'Alto contenido', 'Reducidas'],
-      ],
-    },
+    title: 'La sílice depende de la piedra. Elígela con criterio.',
+    body: 'La sílice cristalina es la razón por la que el cuarzo compacto se asocia a la silicosis en quienes lo cortan e instalan. La piedra natural no está libre de sílice por definición: el contenido depende de la roca. El mármol y el travertino tienen poca o ninguna; el granito y la cuarcita, mucha más. Especificamos cada piedra teniéndolo en cuenta.',
+    chartTitle: 'Contenido típico de sílice cristalina, por tipo de piedra',
+    axis: 'Sílice cristalina',
+    inMm: 'Piedra natural disponible en MILLIMETER',
+    other: 'Piedra artificial',
+    rows: [
+      { k: 'Mármol y travertino', v: '< 5 %', min: 0, max: 5, mm: true },
+      { k: 'Granito', v: '10–50 %', min: 10, max: 50, mm: true },
+      { k: 'Cuarcita', v: '≥ 95 %', min: 95, max: 100, mm: true },
+      { k: 'Piedra artificial (cuarzo compacto)', v: '< 0,2–95 %', min: 0.2, max: 95, mm: false },
+    ],
+    points: [
+      { t: 'Piedras con poca sílice', d: 'El mármol y el travertino tienen poca o ninguna sílice cristalina: menos del 5 %.' },
+      { t: 'Menos material por corte', d: 'Un corte en 1 mm arranca la vigésima parte del material que en una placa de 2 cm; en 5 mm, la cuarta parte.' },
+      { t: 'Menos trabajo en obra', d: 'Las piezas se preparan según los planos del proyecto para reducir al mínimo los cortes en obra.' },
+      { t: 'Las medidas siguen siendo necesarias', d: 'Con cualquier piedra, el corte en húmedo, la extracción de polvo y la protección respiratoria son imprescindibles.' },
+    ],
+    note: 'Valores típicos: cada variedad es distinta y se confirma con su ficha técnica. Fuente: OSHA–NIOSH Hazard Alert, “Worker Exposure to Silica during Countertop Manufacturing, Finishing, and Installation” (2026).',
+    sourceUrl: 'https://www.osha.gov/Publications/OSHA3768.pdf',
+    sourceLabel: 'Fuente (PDF, en inglés)',
   },
 
   carbon: {
+    imageAlt: 'Placas de piedra natural de gran formato almacenadas en vertical en caballetes, en una nave cubierta, listas para enviar',
     eyebrow: 'Huella de carbono',
     title: 'Menos espesor, menos huella.',
     body: 'Con 1 a 5 milímetros en lugar de 2 o 3 centímetros, cada metro cuadrado pesa hasta un 90 % menos. Somos conscientes de nuestra huella de carbono, y empieza por el espesor.',
@@ -243,7 +258,12 @@ const es: Dict = {
     eyebrow: 'Proyectos',
     title: 'Obra real. Precisión real.',
     intro: 'Colaboramos con arquitectos, diseñadores y clientes privados con soluciones a medida para proyectos residenciales y comerciales de alto nivel. Estas son piezas construidas, con su ficha completa.',
-    mapTitle: 'Construido en Texas y California',
+    mapTitle: 'De la cantera al proyecto',
+    mapIntro: 'Piedra seleccionada en su origen, fabricada en nuestros talleres y entregada allí donde construyen nuestros clientes.',
+    legend: { quarry: 'Canteras · origen de la piedra', fab: 'Fabricación', presence: 'Presencia comercial' },
+    countries: { US: 'Estados Unidos', ES: 'España', AE: 'Emiratos Árabes Unidos', CO: 'Colombia', IT: 'Italia', PT: 'Portugal', BR: 'Brasil', TR: 'Turquía', IR: 'Irán', TN: 'Túnez' },
+    hqLabel: 'Houston · sede',
+    mapNote: 'Las canteras señalan los países de origen de las piedras de nuestro catálogo.',
     cta: 'Ver todos los proyectos',
     items: [
       {
@@ -261,6 +281,7 @@ const es: Dict = {
     ],
     drawingsTitle: 'Del plano a la pieza',
     drawingsBody: 'Cada proyecto empieza con planos de taller: el espesor, el soporte y cada junta se deciden en papel antes de cortar la piedra.',
+    drawingsAlt: ['Ficha técnica de un lavabo exento en mármol Sahara Noir con exterior de 1 mm', 'Sección constructiva y despiece de un mueble en mármol Nero Marquina de 1 mm', 'Plano técnico de una mesita de noche en travertino y latón cepillado', 'Planta y alzados de una consola en Sahara Noir de 5 mm', 'Ficha técnica de una isla de vestidor con esquinas curvas en piedra natural de 5 mm'],
     nextTitle: 'El siguiente puede ser el tuyo.',
     nextBody: 'Si estás proyectando algo que la piedra convencional no resuelve, es buen momento para hablar.',
   },
@@ -308,6 +329,8 @@ const es: Dict = {
       { t: 'Producción e instalación', d: 'Fabricación a medida y acompañamiento en obra hasta que la pieza está puesta.' },
     ],
     honest: 'Si MILLIMETER no es el material adecuado para tu proyecto, te lo vamos a decir. Es más barato para todos descubrirlo en el plano que en la obra.',
+    imageAlt: 'Isla de vestidor terminada en mármol Calacatta Viola con esquinas redondeadas, cajones de roble y tapa de vidrio',
+    imageCaption: 'Pieza terminada · isla de vestidor, mármol Calacatta Viola',
   },
 
   faq: {
@@ -315,16 +338,19 @@ const es: Dict = {
     title: 'Lo primero que preguntan los arquitectos.',
     items: [
       { q: '¿Qué es MILLIMETER?', a: 'Piedra natural real —mármol, cuarcita, travertino y granito— procesada con un sistema propietario hasta un espesor de 1 a 5 milímetros. No es un compuesto, una impresión ni una imitación: es la misma piedra, sin el espesor.' },
-      { q: '¿Cuánto pesa la piedra natural fina?', a: 'MILLIMETER de 1 mm pesa menos de 5 kg/m² (menos de 1 lb/ft²) y de 5 mm entre 15 y 20 kg/m² (3–4 lb/ft²). La piedra tradicional de 2 cm pesa 63–73 kg/m² (13–15 lb/ft²): entre un 73 % y un 93 % más de carga sobre la estructura.' },
+      { q: '¿Cuánto pesa la piedra natural fina?', a: 'MILLIMETER de 1 mm pesa menos de 5 kg/m² y de 5 mm entre 15 y 20 kg/m². La piedra tradicional de 2 cm pesa 63–73 kg/m²: entre un 73 % y un 93 % más de carga sobre la estructura.' },
       { q: '¿De verdad se puede curvar la piedra natural?', a: 'Sí. A 1 mm la piedra sigue una superficie curva en una sola pieza, así que la veta recorre la curva sin juntas. Los travertinos y mármoles de veta fina admiten radios más cerrados que las cuarcitas; el radio mínimo exacto se confirma en el estudio del proyecto.' },
       { q: '¿Qué espesor especifico: 1 mm o 5 mm?', a: '1 mm para curvas cerradas, columnas, arcos y frentes de mueble. 5 mm para superficies planas exigentes como muros, duchas, puertas, techos, encimeras y lavabos integrados. Muchos proyectos combinan ambos.' },
-      { q: '¿Es más seguro que el cuarzo compacto?', a: 'MILLIMETER contiene menos de 0,5 % de sílice, frente al 10–40 % del cuarzo compacto, y usa menos resinas artificiales. Eso significa menos exposición a la sílice para quienes lo fabrican e instalan.' },
-      { q: '¿Dónde están y dónde trabajan?', a: 'MILLIMETER Global LLC tiene su sede en Houston, Texas. Entre su obra construida están la Wittman Residence en Austin, la Altuve Residence en Houston y un arco de mármol en San Diego. Colaboramos con arquitectos, diseñadores y clientes privados en todo Estados Unidos y fuera de él.' },
+      { q: '¿Es más seguro que el cuarzo compacto?', a: 'Depende de la piedra que elijas, y no vamos a generalizar. Según OSHA y NIOSH, el mármol y las calizas como el travertino contienen normalmente menos del 5 % de sílice cristalina, el granito entre el 10 y el 50 %, la cuarcita el 95 % o más, y la piedra artificial desde menos del 0,2 % hasta el 95 %, con el cuarzo compacto convencional en la parte alta de ese rango. Por eso una pieza MILLIMETER en mármol o travertino implica mucha menos sílice que el cuarzo compacto convencional, y en 1 o 5 mm cada corte arranca una fracción del material de una placa de 2–3 cm. Sea cual sea la piedra, el corte en húmedo, la extracción de polvo y el equipo de protección adecuado siguen siendo imprescindibles, y confirmamos la ficha técnica de la piedra concreta en cada proyecto.' },
+      { q: '¿Por qué elegir MILLIMETER y piedra natural frente a otros materiales?', a: 'Porque es la piedra auténtica: vetas y tonalidades que nunca se repiten, la profundidad visual que solo tiene un material natural y acabados trabajados por artesanos: superficies pulidas, apomazadas o cepilladas, cantos perfilados, molduras e ingletes. En lugar de una superficie que imita la piedra, MILLIMETER permite trabajar mármol, cuarcita o travertino reales en 1 y 5 mm, y llevarlos al mobiliario, a las curvas y a la integración arquitectónica cuando el sistema y la piedra elegida lo permiten.' },
+      { q: '¿Cómo se compara con el cuarzo compacto y el porcelánico?', a: 'Cada material tiene su sitio, así que nos ceñimos a diferencias concretas. Las resinas del cuarzo compacto pueden sufrir daño, decoloración o pérdida de brillo ante calor elevado, por lo que conviene usar salvamanteles con recipientes calientes. El porcelánico es duro y estable, pero sus cantos finos requieren cuidado frente a impactos y suelen ingletearse o perfilarse. La piedra natural admite repulido y trabajo de cantos, y cada pieza es única; el mármol, a su vez, es sensible a los ácidos y se sella. Te diremos con honestidad qué material encaja con tu uso, acabado y presupuesto.' },
+      { q: '¿Dónde están y dónde trabajan?', a: 'MILLIMETER Global LLC tiene su sede en Houston, Texas, y presencia comercial en Estados Unidos, España, Emiratos Árabes Unidos y Colombia. Entre su obra construida están la Wittman Residence en Austin, la Altuve Residence en Houston y un arco de mármol en San Diego. Trabajamos con arquitectos, diseñadores y clientes privados de todo el mundo.' },
       { q: '¿Cómo pido un presupuesto?', a: 'Envía planos, referencias o incluso un boceto a mano por el formulario de contacto, por email o por WhatsApp. Respondemos en menos de un día hábil, revisamos contigo el detalle constructivo y solo entonces preparamos un presupuesto cerrado.' },
     ],
   },
 
   cta: {
+    imageAlt: 'Mueble de baño flotante en mármol gris con cajones de roble, perfiles de latón y frente curvo',
     eyebrow: 'Siguiente paso',
     title: ['Cuéntanos qué', 'estás proyectando.'],
     body: 'Planos, referencias o un boceto a mano. Con eso basta para decirte si MILLIMETER es el material y con qué espesor.',
@@ -340,7 +366,8 @@ const es: Dict = {
     nextTitle: 'Qué pasa después',
     nextBody: 'Jesús Casanova lee tu consulta personalmente. Si el material no encaja en tu pieza, te lo decimos en la primera respuesta.',
     directTitle: 'Directo',
-    hq: 'Sede · Houston, Texas, EE. UU.',
+    hq: 'Sede · Houston, Texas',
+    presence: 'Presencia · Estados Unidos · España · Emiratos Árabes Unidos · Colombia',
   },
 
   form: {
@@ -348,7 +375,7 @@ const es: Dict = {
     email: 'Email',
     phone: 'Teléfono',
     company: 'Estudio o empresa',
-    location: 'Ubicación del proyecto (ciudad, estado)',
+    location: 'Ubicación del proyecto (ciudad, país)',
     role: 'Perfil',
     roles: ['Arquitecto / diseñador', 'Constructor / contratista', 'Cliente particular', 'Fabricante / distribuidor', 'Otro'],
     message: 'Tu proyecto',
@@ -377,9 +404,9 @@ const es: Dict = {
   careersPage: {
     eyebrow: 'Empleo',
     title: ['Trabaja', 'con nosotros.'],
-    intro: 'Si trabajas con piedra, arquitectura o proyectos de alto nivel y quieres sumarte a MILLIMETER en Estados Unidos, envíanos tu perfil. Cuéntanos quién eres y adjunta tu CV en PDF.',
+    intro: 'Si trabajas con piedra, arquitectura o proyectos de alto nivel y quieres sumarte a MILLIMETER by Casanova, envíanos tu perfil. Cuéntanos quién eres y adjunta tu CV en PDF.',
     formTitle: 'Candidatura',
-    country: 'Ciudad y estado de residencia',
+    country: 'Ciudad y país de residencia',
     area: 'Área de interés',
     areas: ['Arquitectura y diseño', 'Comercial y proyectos', 'Técnico y producción', 'Instalación', 'Logística y administración', 'Otra'],
     about: 'Cuéntanos brevemente quién eres',
@@ -410,7 +437,9 @@ const es: Dict = {
 
   footer: {
     tagline: 'Redefiniendo la piedra natural.',
-    hq: 'Sede · Houston, Texas, EE. UU.',
+    hq: 'Sede · Houston, Texas',
+    presence: 'Estados Unidos · España · Emiratos Árabes Unidos · Colombia',
+    pinterest: 'Pinterest',
     explore: 'Explorar',
     contact: 'Contacto',
     legal: 'Legal',

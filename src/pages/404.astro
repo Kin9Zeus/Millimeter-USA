@@ -1,5 +1,5 @@
 ---
-// Custom 404 (bilingual: English first, Spanish below). Served with status 404 by the Node adapter.
+// Custom 404 (trilingual: English first, Spanish and Arabic below). Served with status 404 by the Node adapter.
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Arrow from '../components/Arrow.astro';
@@ -7,7 +7,7 @@ import { HERO } from '../data/media';
 import { t, ROUTES, CONTACT, type PageId } from '../i18n';
 const en = t('en');
 const es = t('es');
-const fr = t('fr');
+const ar = t('ar');
 const pages: PageId[] = ['home', 'technology', 'applications', 'materials', 'projects', 'casanova', 'contact', 'careers'];
 const label = (id: PageId, lang: 'en' | 'es') => (id === 'home' ? t(lang).nav.home : t(lang).nav[id as keyof typeof en.nav]);
 ---
@@ -23,16 +23,16 @@ const label = (id: PageId, lang: 'en' | 'es') => (id === 'home' ? t(lang).nav.ho
         <h1 class="display h-hero">{en.notFound.title[0]}<br /><em>{en.notFound.title[1]}</em></h1>
         <p class="lede">{en.notFound.body}</p>
         <p class="nf__es" lang="es">{es.notFound.title.join(' ')} {es.notFound.body}</p>
-        <p class="nf__es" lang="fr">{fr.notFound.title.join(' ')} {fr.notFound.body}</p>
+        <p class="nf__es nf__ar" lang="ar" dir="rtl">{ar.notFound.title.join(' ')} {ar.notFound.body}</p>
         <a class="btn" href={ROUTES.home.en}>{en.nav.home}<Arrow /></a>
       </div>
       <nav class="nf__nav" aria-label={en.notFound.listTitle}>
-        <p class="nf__h">{en.notFound.listTitle} <span lang="es">/ {es.notFound.listTitle}</span> <span lang="fr">/ {fr.notFound.listTitle}</span></p>
+        <p class="nf__h">{en.notFound.listTitle} <span lang="es">/ {es.notFound.listTitle}</span> <span lang="ar">/ {ar.notFound.listTitle}</span></p>
         <ul role="list">
           {pages.map((id) => (
             <li>
               <a href={ROUTES[id].en}>{label(id, 'en')}</a>
-              <span class="nf__alts"><a href={ROUTES[id].es} lang="es" class="nf__alt">ES</a> <a href={ROUTES[id].fr} lang="fr" class="nf__alt">FR</a></span>
+              <span class="nf__alts"><a href={ROUTES[id].es} lang="es" class="nf__alt">ES</a> <a href={ROUTES[id].ar} lang="ar" class="nf__alt" title="العربية">ع</a></span>
             </li>
           ))}
         </ul>
@@ -53,6 +53,7 @@ const label = (id: PageId, lang: 'en' | 'es') => (id === 'home' ? t(lang).nav.ho
   .nf__read { display: flex; gap: 1rem; align-items: baseline; font-size: var(--fs-xl); color: var(--copper); border-bottom: 1px solid var(--copper); padding-bottom: 0.4rem; }
   .nf__read span { font-size: var(--fs-xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted-dark); font-family: var(--f-body); }
   .nf__es { color: var(--muted-dark); font-size: var(--fs-sm); max-width: 50ch; font-style: italic; }
+  .nf__ar { font-style: normal; text-align: right; }
   .nf__nav { display: grid; gap: 1rem; }
   .nf__h { font-size: var(--fs-xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--copper); }
   .nf__nav li { display: flex; justify-content: space-between; gap: 1rem; padding-block: 0.6rem; border-bottom: 1px solid var(--line-dark); }

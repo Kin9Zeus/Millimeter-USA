@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MILLIMETER USA — design system
+   MILLIMETER by Casanova — design system
    Brand source: brochure (Cormorant Garamond + DM Sans, warm ink / bone / copper).
    Signature: the millimeter — 1px copper hairlines, drawing dimension marks, a mm ruler.
    ========================================================================== */
@@ -9,6 +9,11 @@
 @import '@fontsource/cormorant-garamond/latin-400-italic.css';
 @import '@fontsource-variable/dm-sans/index.css';
 @import '@fontsource/dm-mono/latin-400.css';
+/* Arabic: subset files only (unicode-range), so Latin pages never download them. */
+@import '@fontsource/noto-naskh-arabic/arabic-400.css';
+@import '@fontsource/ibm-plex-sans-arabic/arabic-400.css';
+@import '@fontsource/ibm-plex-sans-arabic/arabic-500.css';
+@import '@fontsource/ibm-plex-sans-arabic/arabic-600.css';
 
 :root {
   /* palette */
@@ -50,7 +55,26 @@
   --radius: 2px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in: cubic-bezier(0.64, 0, 0.78, 0);
+
+  /* WhatsApp brand green (client correction #3): every WhatsApp control uses it. */
+  --wa: #25d366;
+  --wa-deep: #128c4b;
 }
+
+/* ---------- Arabic (right-to-left) ---------- */
+/* Naskh for display, Plex Sans Arabic for text; Latin words (brand, stone names) fall back to the Latin fonts. */
+html[lang='ar'] {
+  --f-display: 'Noto Naskh Arabic', 'Cormorant Garamond', Garamond, serif;
+  --f-body: 'IBM Plex Sans Arabic', 'DM Sans Variable', system-ui, sans-serif;
+  --f-mono: 'IBM Plex Sans Arabic', 'DM Mono', ui-monospace, monospace;
+}
+/* Letter-spacing breaks the joining of Arabic letters, and Arabic has no italic or capitals. */
+html[lang='ar'] body *, html[lang='ar'] body *::before, html[lang='ar'] body *::after { letter-spacing: 0 !important; }
+html[lang='ar'] body * { font-style: normal !important; }
+html[lang='ar'] .display { line-height: 1.4; }
+html[lang='ar'] body { line-height: 1.85; }
+/* Horizontal arrows point the other way in RTL; `scale` composes with the inline rotation. */
+[dir='rtl'] .arrow--right, [dir='rtl'] .arrow--up-right { scale: -1 1; }
 
 /* ---------- reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -93,7 +117,7 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 .on-light :focus-visible, .on-light:focus-visible { outline-color: var(--copper-deep); }
 
 .skip-link {
-  position: fixed; left: 1rem; top: -4rem; z-index: 200;
+  position: fixed; inset-inline-start: 1rem; top: -4rem; z-index: 200;
   background: var(--copper); color: var(--ink); padding: 0.75rem 1rem; font-weight: 600;
   transition: top 0.2s var(--ease);
 }
@@ -167,7 +191,8 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 }
 .btn:hover::after, .btn:focus-visible::after { transform: scaleY(1); }
 .btn svg { width: 1rem; height: 1rem; flex: none; transition: transform 0.4s var(--ease); }
-.btn:hover svg { transform: translateX(3px); }
+.btn:hover svg { translate: 3px 0; }
+[dir='rtl'] .btn:hover svg { translate: -3px 0; }
 .btn--ghost { --bg: transparent; --fg: currentColor; box-shadow: inset 0 0 0 1px var(--line); }
 .btn--ghost::after { background: var(--accent); }
 .btn--ghost:hover { --fg: var(--ink); color: var(--ink); }
@@ -182,12 +207,21 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 .on-ochre .btn--ghost::after { background: var(--ink); }
 .on-ochre .btn--ghost:hover { color: var(--bone); }
 
+/* WhatsApp: brand green with ink text (AA ≈ 10:1); hover deepens to a green that keeps white text at AA. */
+.btn--wa, .on-light .btn--wa, .on-ochre .btn--wa { --bg: var(--wa); --fg: #08210f; color: #08210f; box-shadow: none; }
+.btn--wa::after, .on-light .btn--wa::after, .on-ochre .btn--wa::after { background: #0b6a35; }
+.btn--wa:hover, .btn--wa:focus-visible, .on-light .btn--wa:hover, .on-ochre .btn--wa:hover { --fg: #fff; color: #fff; }
+.btn--wa .icon { width: 1.25rem; height: 1.25rem; }
+.link-wa { color: var(--wa); }
+.on-light .link-wa, .on-ochre .link-wa { color: #0b6a35; }
+
 .link-u {
   background: linear-gradient(currentColor, currentColor) left bottom / 0% 1px no-repeat;
   transition: background-size 0.5s var(--ease);
   padding-bottom: 2px;
 }
 .link-u:hover, .link-u:focus-visible { background-size: 100% 1px; }
+[dir='rtl'] .link-u { background-position: right bottom; }
 .text-link { color: var(--accent); background: linear-gradient(currentColor, currentColor) left bottom / 100% 1px no-repeat; padding-bottom: 1px; }
 
 /* ---------- media ---------- */
@@ -204,6 +238,7 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 .js [data-reveal='clip'] { opacity: 1; transform: none; clip-path: inset(100% 0 0 0); }
 .js [data-reveal='clip'].is-in { clip-path: inset(0 0 0 0); transition: clip-path 1.4s var(--ease); transition-delay: var(--d, 0s); }
 .js [data-reveal='line'] { opacity: 1; transform: scaleX(0); transform-origin: left; }
+[dir='rtl'].js [data-reveal='line'] { transform-origin: right; }
 .js [data-reveal='line'].is-in { transform: scaleX(1); transition: transform 1.4s var(--ease); }
 
 .split-line { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
@@ -212,7 +247,7 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 /* ---------- forms ---------- */
 .field { display: grid; gap: 0.5rem; }
 .field label, .field .label { font-size: var(--fs-xs); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; }
-.field .opt { color: var(--muted); letter-spacing: 0.06em; text-transform: none; font-weight: 400; margin-left: 0.4rem; }
+.field .opt { color: var(--muted); letter-spacing: 0.06em; text-transform: none; font-weight: 400; margin-inline-start: 0.4rem; }
 .input {
   width: 100%; min-height: 3.25rem; padding: 0.85rem 0; background: transparent;
   border: 0; border-bottom: 1px solid var(--line); border-radius: 0; color: inherit; font-size: 1rem;
@@ -223,6 +258,7 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 textarea.input { min-height: 8rem; resize: vertical; line-height: 1.5; }
 select.input { appearance: none; background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23a59d90' stroke-width='1.4'/%3E%3C/svg%3E") right 0.25rem center no-repeat; padding-right: 1.5rem; }
 select.input option { color: #12100d; }
+[dir='rtl'] select.input { background-position: left 0.25rem center; padding-right: 0; padding-left: 1.5rem; }
 .input[aria-invalid='true'] { border-bottom-color: #d4574a; }
 .field-error { color: #e2786c; font-size: var(--fs-sm); min-height: 0; }
 .on-light .field-error { color: #a3352a; }
@@ -242,11 +278,16 @@ html[data-motion='off'] *, html[data-motion='off'] *::before, html[data-motion='
 /* ---------- legal pages ---------- */
   .legal__body { max-width: 52rem; display: grid; gap: 1.1rem; }
   .legal__body h2 { font-family: var(--f-display); font-weight: 500; font-size: var(--fs-xl); margin-top: 2rem; }
-  .legal__body ul { padding-left: 1.2rem; display: grid; gap: 0.5rem; }
+  .legal__body ul { padding-inline-start: 1.2rem; display: grid; gap: 0.5rem; }
   .legal__body a { color: var(--copper-deep); text-decoration: underline; text-underline-offset: 3px; }
   .legal__lead { font-size: var(--fs-lg); }
   .legal__body .tbl-wrap { overflow-x: auto; }
   .legal__body table { width: 100%; border-collapse: collapse; min-width: 30rem; font-size: var(--fs-sm); }
-  .legal__body th, .legal__body td { text-align: left; padding: 0.75rem 0.75rem 0.75rem 0; border-top: 1px solid var(--line); vertical-align: top; }
+  .legal__body th, .legal__body td { text-align: start; padding-block: 0.75rem; padding-inline: 0 0.75rem; border-top: 1px solid var(--line); vertical-align: top; }
   .legal__body th { font-size: var(--fs-xs); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
   .legal__updated { margin-top: 2rem; font-size: var(--fs-xs); color: var(--muted); }
+
+/* ---------- drag guard ---------- */
+/* Carousels and rails scroll; their images and links must never lift as a native drag "ghost" (client correction #11). */
+img, a { -webkit-user-drag: none; }
+[data-hscroll], [data-library], .apps__list { -webkit-user-select: none; user-select: none; }

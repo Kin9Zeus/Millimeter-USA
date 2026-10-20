@@ -1,16 +1,18 @@
-// English copy (primary locale, US market). Imperial units first, metric second.
-// Every figure comes from MILLIMETER Global LLC (brochure + South America site). Do not invent claims.
+// English copy (primary locale, global brand). Imperial units first, metric second.
+// Product figures come from MILLIMETER Global LLC; silica figures from the OSHA–NIOSH Hazard Alert (2026). Do not invent claims.
 const en = {
-  lang: 'en' as 'en' | 'es' | 'fr',
+  lang: 'en' as 'en' | 'es' | 'ar',
+  /** Primary unit system for weights: imperial first in English, metric only in Spanish and Arabic. */
+  units: 'imperial' as 'imperial' | 'metric',
   siteName: 'MILLIMETER by Casanova',
   meta: {
     home: {
-      title: 'MILLIMETER by Casanova — 1 to 5 mm natural stone in the United States',
-      description: 'Real marble, quartzite and travertine at 1–5 mm: up to 90% lighter, truly curvable, under 0.5% silica. Based in Houston, Texas. Led by Jesús Casanova.',
+      title: 'MILLIMETER by Casanova — real natural stone at 1 and 5 mm',
+      description: 'Real marble, quartzite, granite and travertine at 1 and 5 mm: up to 90% lighter and truly curvable, for walls, furniture and architecture. Led by Jesús Casanova.',
     },
     technology: {
       title: 'Technology — how 1 to 5 mm natural stone works | MILLIMETER',
-      description: '1–5 mm thickness, 80–90% less weight, real continuous curves, under 0.5% silica and a lower carbon footprint. The MILLIMETER system explained.',
+      description: '1–5 mm thickness, 80–90% less weight, real continuous curves, silica by stone type and a lower carbon footprint. The MILLIMETER system explained.',
     },
     applications: {
       title: 'Applications — where thin natural stone goes | MILLIMETER',
@@ -18,11 +20,11 @@ const en = {
     },
     materials: {
       title: 'Materials — marble, quartzite & travertine at 1–5 mm | MILLIMETER',
-      description: 'Azure, New Capanelli, Patagonia, Taj Mahal, Sahara Noir, Earl White, Cappuccino, Cream Travertine and more, available from 1 to 5 millimeters.',
+      description: 'Azure White, New Capanelli, Patagonia, Taj Mahal, Sahara Noir, Earl White, Cappuccino, Cream Travertine and more, available from 1 to 5 millimeters.',
     },
     projects: {
-      title: 'Projects — built work in Texas and California | MILLIMETER',
-      description: 'Wittman Residence in Austin, a continuous marble arch in San Diego and the Altuve Residence in Houston: real pieces with material, thickness and finish.',
+      title: 'Projects — built work and global reach | MILLIMETER',
+      description: 'Wittman Residence in Austin, a continuous marble arch in San Diego and the Altuve Residence in Houston: real pieces with material, thickness and finish, from quarries worldwide.',
     },
     casanova: {
       title: 'Casanova — a legacy shaped in stone | MILLIMETER',
@@ -34,11 +36,11 @@ const en = {
     },
     careers: {
       title: 'Careers — work with MILLIMETER by Casanova',
-      description: 'Join MILLIMETER in the United States. Send your profile and your résumé as a PDF; it is checked, never stored on the website and read only by our team.',
+      description: 'Join MILLIMETER by Casanova. Send your profile and your résumé as a PDF; it is checked, never stored on the website and read only by our team.',
     },
     privacy: {
       title: 'Privacy policy | MILLIMETER by Casanova',
-      description: 'What data this site collects, why, who processes it and how to exercise your rights, including under US state privacy laws.',
+      description: 'What data this site collects, why, who processes it and how to exercise your rights under the privacy laws that apply to you.',
     },
     cookies: {
       title: 'Cookie policy | MILLIMETER by Casanova',
@@ -62,8 +64,6 @@ const en = {
     close: 'Close',
     skip: 'Skip to content',
     home: 'Home',
-    switchTo: 'Español',
-    switchLabel: 'Ver esta página en español',
     primary: 'Primary',
     language: 'Language',
   },
@@ -72,7 +72,10 @@ const en = {
     talk: 'Tell us about your project',
     talkShort: 'Start a project',
     whatsapp: 'WhatsApp',
-    whatsappText: 'Hi, I would like information about MILLIMETER.',
+    whatsappText: 'Hi, I am visiting the MILLIMETER website and would like more information.',
+    whatsappChat: 'Chat with us on WhatsApp',
+    newTab: 'opens in a new tab',
+    featured: 'Featured',
     email: 'Email us',
     reply: 'Reply within one business day',
     seeAll: 'See all',
@@ -94,9 +97,11 @@ const en = {
   },
 
   hero: {
-    eyebrow: 'MILLIMETER by Casanova · United States',
+    eyebrow: 'MILLIMETER by Casanova · Natural stone',
     title: ['Redefining', 'natural stone.'],
-    lede: 'Marble, quartzite and travertine reduced to 1–5 millimeters. Up to 90% lighter, with curves that were once impossible — and exactly the same stone.',
+    lede: 'Real marble, quartzite and travertine at 1 and 5 millimeters: up to 90% lighter, able to curve and to become furniture and architecture — and exactly the same stone.',
+    measure: '20 mm → 1 mm thick · ≈ 13 lb/ft² → 1 lb/ft²',
+    alt: 'Kitchen with a sculptural island and full-height backsplash in grey-green natural stone with white veining, walnut cabinetry',
     readThickness: 'Thickness',
     readWeight: 'Weight',
     final: 'One millimeter.',
@@ -108,7 +113,8 @@ const en = {
   tech: {
     eyebrow: 'Technology',
     title: ['What changes', 'is the thickness.'],
-    intro: 'MILLIMETER is not a composite or an imitation. It is real marble, quartzite and travertine, processed with a proprietary system down to between one and five millimeters.',
+    intro: 'MILLIMETER is not a composite or a surface that imitates stone. It is real marble, quartzite and travertine, processed with a proprietary system down to 1 and 5 millimeters.',
+    alt: 'Kitchen with a curved island, hood and backsplash clad in warm cream natural stone, oak cabinetry and herringbone floor',
     aside: '1 mm ← → 5 mm',
     specEyebrow: 'Specifications',
     specTitle: 'Technical specifications.',
@@ -131,6 +137,11 @@ const en = {
     turn: 'MILLIMETER does not replace stone — it removes the thickness that was never doing any work. At 1 to 5 millimeters, stone stops being a structural constraint and becomes a design decision.',
     before: 'Traditional stone · 3/4 in (2–3 cm)',
     after: 'MILLIMETER · 1–5 mm',
+    drawingTitle: 'Section at true relative scale',
+    drawingAlt: 'Three stone pieces drawn in section at the same scale: a 20 mm traditional slab, a 5 mm MILLIMETER sheet and a 1 mm MILLIMETER sheet.',
+    trad: 'Traditional slab',
+    photoCaption: 'A real MILLIMETER sheet, held in one hand.',
+    photoAlt: 'A hand holding a thin sheet of dark brown marble with light veining, showing its edge.',
     rows: [
       { from: 'Excessive weight', to: '80–90% lighter' },
       { from: 'Slow, costly installation', to: 'Faster, safer installation' },
@@ -158,20 +169,22 @@ const en = {
     intro: 'Each one exists for a concrete reason: weight, curvature or the absence of joints. They are not catalog ideas — they are consequences of the material.',
     cta: 'See applications in detail',
     items: [
-      { id: 'walls', img: 'muros', thick: '5 mm', title: 'Feature walls', short: 'Large-format planes with few joints and no heavy anchoring.', long: 'Each sheet measures up to 3 meters (about 10 ft), which covers large-format planes with few joints. Traditional stone would need its own structure; at 5 mm, the thickness we recommend for walls, it bonds to the partition already there.' },
-      { id: 'fireplaces', img: 'chimeneas', thick: '1 & 5 mm', title: 'Fireplaces', short: 'Thin stone over the structure already there.', long: 'A fireplace is usually already built and clad. MILLIMETER, in 1 and 5 mm, goes over what exists — no demolition, no recalculated loads, no lost opening.' },
-      { id: 'architectural', img: 'arquitectonicos', thick: '1 mm', title: 'Architectural elements', short: 'Arches and columns clad in one continuous curve.', long: 'Arches, vaults and columns clad in a single piece that follows the geometry. The veining runs through the curve instead of breaking at every joint.' },
-      { id: 'showers', img: 'duchas', thick: '5 mm', title: 'Walk-in showers', short: 'Fewer joints: less seepage, less silicone.', long: 'Fewer joints means less silicone, less seepage and less maintenance. In a built-in shower that is the difference between ten years and two.' },
-      { id: 'furniture', img: 'mobiliario', thick: '1 & 5 mm', title: 'Custom furniture', short: 'Stone fronts that truly open and close.', long: 'Fronts, doors and drawers in stone, in 1 and 5 mm, that open and close on standard hardware, because they weigh what a veneered panel weighs.' },
-      { id: 'doors', img: 'puertas', thick: '5 mm', title: 'Doors & panels', short: 'Weight compatible with standard hardware.', long: 'A door leaf clad in 5 mm marble sits inside the load range of a standard hinge. With 3/4 in of stone, it does not.' },
-      { id: 'curves', img: 'curvas', thick: '1 mm', title: 'Curved surfaces', short: 'A real curve, not segments faking one.', long: 'The application that defines the product. A real, continuous curve: no other natural material solves it today without cutting it into segments.' },
-      { id: 'ceilings', img: 'techos', thick: '5 mm', title: 'Ceilings', short: 'Viable only at 3–4 lb/ft², not 13–15.', long: 'Stone overhead. At 5 mm a square foot weighs 3–4 lb (15–20 kg/m²), against 13–15 lb (63–73 kg/m²) for traditional 3/4 in stone: that difference is what makes a ceiling possible.' },
+      { id: 'walls', img: 'muros', alt: 'Bookmatched dark marble wall with an integrated basin and bronze faucet', thick: '5 mm', title: 'Feature walls', short: 'Large-format planes with few joints and no heavy anchoring.', long: 'Each sheet measures up to 3 meters (about 10 ft), which covers large-format planes with few joints. Traditional stone would need its own structure; at 5 mm, the thickness we recommend for walls, it bonds to the partition already there.' },
+      { id: 'fireplaces', img: 'chimeneas', alt: 'Fireplace surround clad in natural stone', thick: '1 & 5 mm', title: 'Fireplaces', short: 'Thin stone over the structure already there.', long: 'A fireplace is usually already built and clad. MILLIMETER, in 1 and 5 mm, goes over what exists — no demolition, no recalculated loads, no lost opening.' },
+      { id: 'architectural', img: 'arquitectonicos', alt: 'Arch clad in a continuous sheet of marble', thick: '1 mm', title: 'Architectural elements', short: 'Arches and columns clad in one continuous curve.', long: 'Arches, vaults and columns clad in a single piece that follows the geometry. The veining runs through the curve instead of breaking at every joint.' },
+      { id: 'showers', img: 'duchas', alt: 'Bathroom with a freestanding tub clad in grey marble with fine veining', thick: '5 mm', title: 'Walk-in showers', short: 'Fewer joints: less seepage, less silicone.', long: 'Fewer joints means less silicone, less seepage and less maintenance. In a built-in shower that is the difference between ten years and two.' },
+      { id: 'furniture', img: 'mobiliario', alt: 'Bedside table in travertine and brushed brass with an open stone-clad drawer', thick: '1 & 5 mm', title: 'Custom furniture', short: 'Stone fronts that truly open and close.', long: 'Fronts, doors and drawers in stone, in 1 and 5 mm, that open and close on standard hardware, because they weigh what a veneered panel weighs.' },
+      { id: 'doors', img: 'puertas', alt: 'Full-height pivot door clad in travertine at a house entrance', thick: '5 mm', title: 'Doors & panels', short: 'Weight compatible with standard hardware.', long: 'A door leaf clad in 5 mm marble sits inside the load range of a standard hinge. With 3/4 in of stone, it does not.' },
+      { id: 'curves', img: 'curvas', alt: 'Curved surface clad in a single sheet of natural stone', thick: '1 mm', title: 'Curved surfaces', short: 'A real curve, not segments faking one.', long: 'The application that defines the product. A real, continuous curve: no other natural material solves it today without cutting it into segments.' },
+      { id: 'ceilings', img: 'techos', alt: 'Living room ceiling clad in 5 mm marble panels', thick: '5 mm', title: 'Ceilings', short: 'Viable only at 3–4 lb/ft², not 13–15.', long: 'Stone overhead. At 5 mm a square foot weighs 3–4 lb (15–20 kg/m²), against 13–15 lb (63–73 kg/m²) for traditional 3/4 in stone: that difference is what makes a ceiling possible.' },
     ],
     notListedTitle: 'Your application is not on the list?',
     notListedBody: 'It is probably still possible. The limit is set by the construction detail, and we review that with you before there is a quote.',
   },
 
   curve: {
+    tag: '1 mm · New Brown Capaneli Marble',
+    alt: 'A column clad in one continuous sheet of New Brown Capaneli Marble, without joints',
     eyebrow: 'Curvature',
     title: 'A real curve, not a cut.',
     steps: [
@@ -188,7 +201,8 @@ const en = {
     eyebrow: 'Stone library',
     title: 'The same stone. Without the thickness.',
     intro: 'Marbles, quartzites and travertines with their veining intact. What changes is the thickness, not the material.',
-    featured: 'Featured in the United States',
+    featured: 'Featured selection',
+    heroAlt: 'Kitchen island and back wall in black Nero Marquina marble with white veining, under brass pendant lights',
     cta: 'See all materials',
     catalogNote: 'If the stone you want is not here, ask — the catalog does not end on this page.',
     samplesNote: 'Samples are representative. Natural stone is never repeated: every slab has its own veining and is selected piece by piece for each project.',
@@ -200,33 +214,35 @@ const en = {
       { k: 'Bold, heavily veined marbles', v: 'Maximum impact on large flat planes' },
       { k: 'Quartzites', v: 'Harder; wide curves and heavy-use surfaces' },
     ],
-    requestSamples: 'Request samples',
   },
 
   health: {
     eyebrow: 'Health & safety',
-    title: 'A healthier future for stone.',
-    body: 'The industry is moving away from engineered quartz because of its link to silicosis in the people who cut and install it. Manufacturers have reduced its silica content significantly, but it is still not enough. MILLIMETER is natural stone: silica is marginal.',
-    quartzLabel: 'Engineered quartz',
-    quartzValue: '10–40%',
-    quartzNote: 'silica content. Far less than before, but still not enough for those who fabricate and install it.',
-    mmLabel: 'MILLIMETER · natural stone',
-    mmValue: '< 0.5%',
-    mmNote: 'silica content. Safer for designers, fabricators and installers.',
-    points: ['100% natural stone', 'Lower silica exposure', 'Fewer artificial resins', 'Easier, safer handling'],
-    note: 'Figures from MILLIMETER Global LLC. Exact silica content of engineered quartz varies by manufacturer and product line.',
-    table: {
-      caption: 'Composition: engineered quartz vs MILLIMETER',
-      rows: [
-        ['Silica content', '10–40%', '< 0.5%'],
-        ['Composition', 'Resin composite', '100% natural stone'],
-        ['Risk to installers', 'Reduced, still present', 'Low'],
-        ['Artificial resins', 'High content', 'Reduced'],
-      ],
-    },
+    title: 'Silica depends on the stone. Choose it knowingly.',
+    body: 'Crystalline silica is why engineered quartz is linked to silicosis in the people who cut and install it. Natural stone is not automatically silica-free: the content depends on the rock. Marble and travertine contain little or none; granite and quartzite contain much more. We specify each stone with that in mind.',
+    chartTitle: 'Typical crystalline silica content, by stone type',
+    axis: 'Crystalline silica',
+    inMm: 'Natural stone available in MILLIMETER',
+    other: 'Engineered stone',
+    rows: [
+      { k: 'Marble & travertine', v: '< 5%', min: 0, max: 5, mm: true },
+      { k: 'Granite', v: '10–50%', min: 10, max: 50, mm: true },
+      { k: 'Quartzite', v: '≥ 95%', min: 95, max: 100, mm: true },
+      { k: 'Engineered stone (quartz surfaces)', v: '< 0.2–95%', min: 0.2, max: 95, mm: false },
+    ],
+    points: [
+      { t: 'Low-silica stones', d: 'Marble and travertine contain little or no crystalline silica: under 5%.' },
+      { t: 'Less material per cut', d: 'A cut through 1 mm removes one twentieth of the material of a 2 cm slab; through 5 mm, a quarter.' },
+      { t: 'Less work on site', d: 'Pieces are prepared to the project drawings to keep cutting on site to a minimum.' },
+      { t: 'Controls still apply', d: 'With any stone, wet cutting, dust extraction and respiratory protection remain essential.' },
+    ],
+    note: 'Typical values: every variety differs and is confirmed with its technical data. Source: OSHA–NIOSH Hazard Alert, “Worker Exposure to Silica during Countertop Manufacturing, Finishing, and Installation” (2026).',
+    sourceUrl: 'https://www.osha.gov/Publications/OSHA3768.pdf',
+    sourceLabel: 'Source (PDF)',
   },
 
   carbon: {
+    imageAlt: 'Large-format natural stone slabs stored upright on racks in a covered warehouse, ready to ship',
     eyebrow: 'Carbon footprint',
     title: 'Less thickness, less footprint.',
     body: 'With 1 to 5 millimeters instead of 2 or 3 centimeters, every square foot weighs up to 90% less. We are mindful of our carbon footprint — and it starts with thickness.',
@@ -242,7 +258,12 @@ const en = {
     eyebrow: 'Projects',
     title: 'Real projects. Real precision.',
     intro: 'We collaborate with architects, designers and private clients, delivering bespoke solutions for high-end residential and commercial projects. These are built pieces, with their full specification.',
-    mapTitle: 'Built in Texas and California',
+    mapTitle: 'From the quarry to the project',
+    mapIntro: 'Stone selected at its source, fabricated in our workshops and delivered wherever our clients build.',
+    legend: { quarry: 'Quarries · stone origin', fab: 'Fabrication', presence: 'Commercial presence' },
+    countries: { US: 'United States', ES: 'Spain', AE: 'United Arab Emirates', CO: 'Colombia', IT: 'Italy', PT: 'Portugal', BR: 'Brazil', TR: 'Turkey', IR: 'Iran', TN: 'Tunisia' },
+    hqLabel: 'Houston · headquarters',
+    mapNote: 'Quarries mark the countries of origin of the stones in our catalog.',
     cta: 'See all projects',
     items: [
       {
@@ -260,6 +281,7 @@ const en = {
     ],
     drawingsTitle: 'From drawing to piece',
     drawingsBody: 'Every project starts with shop drawings: the thickness, the support and every joint are decided on paper before the stone is cut.',
+    drawingsAlt: ['Technical sheet of a freestanding sink in Sahara Noir marble with a 1 mm exterior', 'Construction section and exploded assembly of a cabinet in 1 mm Nero Marquina marble', 'Technical drawing of a bedside table in travertine and brushed brass', 'Plan and elevations of a console in 5 mm Sahara Noir', 'Technical sheet of a closet island with curved corners in 5 mm natural stone'],
     nextTitle: 'The next one could be yours.',
     nextBody: 'If you are designing something conventional stone cannot solve, this is a good moment to talk.',
   },
@@ -307,6 +329,8 @@ const en = {
       { t: 'Production and installation', d: 'Custom fabrication and on-site support until the piece is in place.' },
     ],
     honest: 'If MILLIMETER is not the right material for your project, we will tell you. It is cheaper for everyone to find out on the drawing than on site.',
+    imageAlt: 'Finished closet island in Calacatta Viola marble with rounded corners, oak drawers and a glass top',
+    imageCaption: 'Finished piece · closet island, Calacatta Viola marble',
   },
 
   faq: {
@@ -317,13 +341,16 @@ const en = {
       { q: 'How much does thin natural stone weigh?', a: 'MILLIMETER at 1 mm weighs under 1 lb/ft² (under 5 kg/m²) and at 5 mm about 3–4 lb/ft² (15–20 kg/m²). Traditional 3/4 in (2 cm) stone weighs 13–15 lb/ft² (63–73 kg/m²): between 73% and 93% more load on the structure.' },
       { q: 'Can natural stone really be curved?', a: 'Yes. At 1 mm the stone follows a curved surface in one continuous piece, so the veining runs through the curve without joints. Travertines and fine-veined marbles take tighter radii than quartzites; the exact minimum radius is confirmed during the project study.' },
       { q: 'Which thickness should I specify: 1 mm or 5 mm?', a: '1 mm for tight curves, columns, arches and cabinet fronts. 5 mm for demanding flat surfaces such as feature walls, showers, doors, ceilings, countertops and integrated sinks. Many projects combine both.' },
-      { q: 'Is it safer than engineered quartz?', a: 'MILLIMETER contains less than 0.5% silica, compared with 10–40% in engineered quartz, and uses fewer artificial resins. That means lower silica exposure for the people who fabricate and install it.' },
-      { q: 'Where are you based and where do you work?', a: 'MILLIMETER Global LLC is headquartered in Houston, Texas. Built projects include the Wittman Residence in Austin, the Altuve Residence in Houston and a marble arch in San Diego. We collaborate with architects, designers and private clients across the United States and beyond.' },
+      { q: 'Is it safer than engineered quartz?', a: 'It depends on the stone you choose, and we will not generalise. According to OSHA and NIOSH, marble and limestones such as travertine typically contain less than 5% crystalline silica, granite 10–50%, quartzite 95% or more, and engineered stone anywhere from under 0.2% to 95%, with conventional quartz surfaces at the top of that range. A MILLIMETER piece in marble or travertine therefore involves far less silica than conventional engineered quartz, and at 1 or 5 mm every cut removes a fraction of the material of a 2–3 cm slab. Whatever the stone, wet cutting, dust extraction and suitable protective equipment remain essential, and we confirm the technical data of the specific stone for each project.' },
+      { q: 'Why choose MILLIMETER and natural stone over other materials?', a: 'Because it is the real stone: veining and tones that never repeat, the visual depth only a natural material has, and finishes worked by craftsmen — polished, honed or brushed surfaces, profiled edges, mouldings and mitred corners. Instead of a surface that imitates stone, MILLIMETER lets you work with authentic marble, quartzite or travertine at 1 and 5 mm, extending it to furniture, curves and architectural integration whenever the system and the chosen stone allow it.' },
+      { q: 'How does it compare with engineered quartz and porcelain?', a: 'Each material has its place, so we stick to concrete differences. The resins in engineered quartz can be damaged, discolour or lose their sheen under high heat, so hot cookware needs a trivet. Porcelain is hard and stable, but its thin edges need care against impacts and are usually mitred or profiled. Natural stone can be repolished and its edges shaped, and every piece is unique; marble, in turn, is sensitive to acids and is sealed. We will tell you honestly which material suits your use, finish and budget.' },
+      { q: 'Where are you based and where do you work?', a: 'MILLIMETER Global LLC is headquartered in Houston, Texas, with commercial presence in the United States, Spain, the United Arab Emirates and Colombia. Built projects include the Wittman Residence in Austin, the Altuve Residence in Houston and a marble arch in San Diego. We work with architects, designers and private clients worldwide.' },
       { q: 'How do I get a quote?', a: 'Send plans, references or even a hand sketch through the contact form, by email or by WhatsApp. We reply within one business day, review the construction detail with you and only then prepare a closed quote.' },
     ],
   },
 
   cta: {
+    imageAlt: 'Floating vanity in grey marble with oak drawers, brass trim and a curved front',
     eyebrow: 'Next step',
     title: ['Tell us what', 'you are designing.'],
     body: 'Plans, references or a hand sketch are enough for us to tell you whether MILLIMETER is the right material — and at what thickness.',
@@ -339,7 +366,8 @@ const en = {
     nextTitle: 'What happens next',
     nextBody: 'Jesús Casanova reads your enquiry personally. If the material does not fit your piece, we say so in the first reply.',
     directTitle: 'Direct',
-    hq: 'Headquarters · Houston, Texas, USA',
+    hq: 'Headquarters · Houston, Texas',
+    presence: 'Presence · United States · Spain · United Arab Emirates · Colombia',
   },
 
   form: {
@@ -347,7 +375,7 @@ const en = {
     email: 'Email',
     phone: 'Phone',
     company: 'Studio or company',
-    location: 'Project location (city, state)',
+    location: 'Project location (city, country)',
     role: 'Role',
     roles: ['Architect / designer', 'Builder / contractor', 'Private client', 'Fabricator / distributor', 'Other'],
     message: 'Your project',
@@ -376,9 +404,9 @@ const en = {
   careersPage: {
     eyebrow: 'Careers',
     title: ['Work', 'with us.'],
-    intro: 'If you work with stone, architecture or high-end projects and want to join MILLIMETER in the United States, send us your profile. Tell us who you are and attach your résumé as a PDF.',
+    intro: 'If you work with stone, architecture or high-end projects and want to join MILLIMETER by Casanova, send us your profile. Tell us who you are and attach your résumé as a PDF.',
     formTitle: 'Application',
-    country: 'City and state of residence',
+    country: 'City and country of residence',
     area: 'Area of interest',
     areas: ['Architecture and design', 'Sales and projects', 'Technical and production', 'Installation', 'Logistics and administration', 'Other'],
     about: 'Tell us briefly who you are',
@@ -409,7 +437,9 @@ const en = {
 
   footer: {
     tagline: 'Redefining natural stone.',
-    hq: 'Headquarters · Houston, Texas, USA',
+    hq: 'Headquarters · Houston, Texas',
+    presence: 'United States · Spain · United Arab Emirates · Colombia',
+    pinterest: 'Pinterest',
     explore: 'Explore',
     contact: 'Contact',
     legal: 'Legal',

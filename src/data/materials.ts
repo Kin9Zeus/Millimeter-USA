@@ -12,41 +12,41 @@ export interface Material {
   kind: Kind;
   image: ImageMetadata;
   featured?: boolean;
-  /** Short tonal description used in alt text (EN / ES). */
-  tone: { en: string; es: string; fr: string };
+  /** Short tonal description used in alt text (EN / ES / AR). */
+  tone: { en: string; es: string; ar: string };
 }
 
-// The eight featured stones come from the client's preference document for the USA site.
+// The eight featured stones come from the client's preference document.
 export const MATERIALS: Material[] = [
-  { id: 'azure', name: 'Azure White', kind: 'marble', image: m('x-azure-white-marble'), featured: true, tone: { en: 'white with grey-blue and honey veining', es: 'blanco con vetas gris azulado y miel', fr: 'blanc veiné de gris-bleu et de miel' } },
-  { id: 'cream-travertine', name: 'Cream Travertine', kind: 'travertine', image: m('cream-travertine'), featured: true, tone: { en: 'warm cream with linear banding', es: 'crema cálido con bandas lineales', fr: 'crème chaud aux bandes linéaires' } },
-  { id: 'new-capanelli', name: 'New Capanelli', kind: 'marble', image: m('x-new-capanelli-marble'), featured: true, tone: { en: 'white with bold aubergine veining', es: 'blanco con vetas berenjena intensas', fr: 'blanc aux veines aubergine intenses' } },
-  { id: 'patagonia', name: 'Patagonia', kind: 'quartzite', image: m('x-patagonia-quartzite'), featured: true, tone: { en: 'cream with dark crystalline inclusions', es: 'crema con inclusiones cristalinas oscuras', fr: 'crème aux inclusions cristallines sombres' } },
-  { id: 'cappuccino', name: 'Cappuccino', kind: 'marble', image: m('cappuccino'), featured: true, tone: { en: 'flowing brown and white waves', es: 'ondas fluidas marrón y blanco', fr: 'ondes fluides brunes et blanches' } },
-  { id: 'sahara-noir', name: 'Sahara Noir', kind: 'marble', image: m('sahara-noir'), featured: true, tone: { en: 'black with gold and white veins', es: 'negro con vetas doradas y blancas', fr: 'noir veiné d’or et de blanc' } },
-  { id: 'taj-mahal', name: 'Taj Mahal', kind: 'quartzite', image: m('x-taj-mahal-quartzite'), featured: true, tone: { en: 'soft ivory with gentle golden movement', es: 'marfil suave con movimiento dorado', fr: 'ivoire doux au mouvement doré' } },
-  { id: 'earl-white', name: 'Earl White', kind: 'marble', image: m('x-earl-white-marble'), featured: true, tone: { en: 'white with grey and blush waves', es: 'blanco con ondas grises y rosadas', fr: 'blanc aux ondes grises et rosées' } },
+  { id: 'azure', name: 'Azure White', kind: 'marble', image: m('x-azure-white-marble'), featured: true, tone: { en: 'white with grey-blue and honey veining', es: 'blanco con vetas gris azulado y miel', ar: 'أبيض بعروق رمادية مزرقة وعسلية' } },
+  { id: 'cream-travertine', name: 'Cream Travertine', kind: 'travertine', image: m('cream-travertine'), featured: true, tone: { en: 'warm cream with linear banding', es: 'crema cálido con bandas lineales', ar: 'كريمي دافئ بخطوط طولية' } },
+  { id: 'new-capanelli', name: 'New Capanelli', kind: 'marble', image: m('x-new-capanelli-marble'), featured: true, tone: { en: 'white with bold aubergine veining', es: 'blanco con vetas berenjena intensas', ar: 'أبيض بعروق باذنجانية جريئة' } },
+  { id: 'patagonia', name: 'Patagonia', kind: 'quartzite', image: m('x-patagonia-quartzite'), featured: true, tone: { en: 'cream with dark crystalline inclusions', es: 'crema con inclusiones cristalinas oscuras', ar: 'كريمي بتضمينات بلورية داكنة' } },
+  { id: 'cappuccino', name: 'Cappuccino', kind: 'marble', image: m('cappuccino'), featured: true, tone: { en: 'flowing brown and white waves', es: 'ondas fluidas marrón y blanco', ar: 'تموجات انسيابية بنية وبيضاء' } },
+  { id: 'sahara-noir', name: 'Sahara Noir', kind: 'marble', image: m('sahara-noir'), featured: true, tone: { en: 'black with gold and white veins', es: 'negro con vetas doradas y blancas', ar: 'أسود بعروق ذهبية وبيضاء' } },
+  { id: 'taj-mahal', name: 'Taj Mahal', kind: 'quartzite', image: m('x-taj-mahal-quartzite'), featured: true, tone: { en: 'soft ivory with gentle golden movement', es: 'marfil suave con movimiento dorado', ar: 'عاجي ناعم بحركة ذهبية هادئة' } },
+  { id: 'earl-white', name: 'Earl White', kind: 'marble', image: m('x-earl-white-marble'), featured: true, tone: { en: 'white with grey and blush waves', es: 'blanco con ondas grises y rosadas', ar: 'أبيض بتموجات رمادية ووردية' } },
 
-  { id: 'bianco-carrara', name: 'Bianco Carrara', kind: 'marble', image: m('bianco-carrara'), tone: { en: 'soft white with fine grey veining', es: 'blanco suave con veta gris fina', fr: 'blanc doux à fine veine grise' } },
-  { id: 'calacatta-venatina', name: 'Calacatta Venatina', kind: 'marble', image: m('calacatta-venatina'), tone: { en: 'bright white with grey veins', es: 'blanco brillante con vetas grises', fr: 'blanc éclatant veiné de gris' } },
-  { id: 'nero-marquina', name: 'Nero Marquina', kind: 'marble', image: m('nero-marquina'), tone: { en: 'deep black with white veins', es: 'negro profundo con vetas blancas', fr: 'noir profond veiné de blanc' } },
-  { id: 'dark-emperador', name: 'Dark Emperador', kind: 'marble', image: m('dark-emperador'), tone: { en: 'chocolate brown with light veining', es: 'marrón chocolate con veta clara', fr: 'brun chocolat à veine claire' } },
-  { id: 'pietra-grey', name: 'Pietra Grey', kind: 'marble', image: m('pietra-grey'), tone: { en: 'charcoal grey with fine white lines', es: 'gris carbón con líneas blancas finas', fr: 'gris anthracite à fines lignes blanches' } },
-  { id: 'verdi-alpi', name: 'Verdi Alpi', kind: 'marble', image: m('verdi-alpi'), tone: { en: 'deep green with white veins', es: 'verde profundo con vetas blancas', fr: 'vert profond veiné de blanc' } },
-  { id: 'dark-rosa-portugues', name: 'Dark Rosa Portugues', kind: 'marble', image: m('dark-rosa-portugues'), tone: { en: 'lilac grey with rose clouds', es: 'gris lila con nubes rosadas', fr: 'gris lilas aux nuages rosés' } },
-  { id: 'rojo-levante', name: 'Rojo Levante', kind: 'marble', image: m('rojo-levante'), tone: { en: 'oxblood red with white veins', es: 'rojo intenso con vetas blancas', fr: 'rouge sang-de-bœuf veiné de blanc' } },
-  { id: 'lilac', name: 'Lilac', kind: 'marble', image: m('x-lilac-marble'), tone: { en: 'white with smoky violet veining', es: 'blanco con veta violeta ahumada', fr: 'blanc à veine violette fumée' } },
-  { id: 'daino-reale', name: 'Daino Reale', kind: 'marble', image: m('x-daino-reale-marble'), tone: { en: 'warm beige with soft veining', es: 'beige cálido con veta suave', fr: 'beige chaud à veine douce' } },
-  { id: 'greyish-pink', name: 'Greyish Pink', kind: 'marble', image: m('x-greyish-pink-marble'), tone: { en: 'grey and blush brecciated pattern', es: 'brecha gris y rosada', fr: 'brèche grise et rosée' } },
-  { id: 'oreo', name: 'Oreo', kind: 'marble', image: m('x-oreo-marble'), tone: { en: 'white with bold black strata', es: 'blanco con estratos negros marcados', fr: 'blanc aux strates noires marquées' } },
-  { id: 'green-patek', name: 'Green Patek', kind: 'marble', image: m('x-green-patek-marble'), tone: { en: 'white with green and black waves', es: 'blanco con ondas verdes y negras', fr: 'blanc aux ondes vertes et noires' } },
-  { id: 'nidali', name: 'Nidali', kind: 'quartzite', image: m('nidali'), tone: { en: 'sweeping green, pink and cream bands', es: 'bandas amplias verdes, rosas y crema', fr: 'larges bandes vertes, roses et crème' } },
-  { id: 'cristallo', name: 'Cristallo', kind: 'quartzite', image: m('x-cristallo-quartzite'), tone: { en: 'translucent white crystalline', es: 'blanco cristalino translúcido', fr: 'blanc cristallin translucide' } },
-  { id: 'cristallo-lagoon', name: 'Cristallo Lagoon', kind: 'quartzite', image: m('x-cristallo-lagoon-quartzite'), tone: { en: 'turquoise and green crystalline', es: 'cristalino turquesa y verde', fr: 'cristallin turquoise et vert' } },
-  { id: 'four-season', name: 'Four Season', kind: 'quartzite', image: m('x-four-season-quartzite'), tone: { en: 'white with rust and charcoal strata', es: 'blanco con estratos óxido y carbón', fr: 'blanc aux strates rouille et anthracite' } },
-  { id: 'cream-roman', name: 'Cream Roman', kind: 'travertine', image: m('x-cream-roman-travertine'), tone: { en: 'honey cream with fine banding', es: 'crema miel con bandas finas', fr: 'crème miel aux bandes fines' } },
-  { id: 'grey-travertine', name: 'Grey Travertine', kind: 'travertine', image: m('x-grey-travertine'), tone: { en: 'taupe grey with linear banding', es: 'gris topo con bandas lineales', fr: 'gris taupe aux bandes linéaires' } },
-  { id: 'rojo-travertino', name: 'Rojo Travertino', kind: 'travertine', image: m('rojo-travertino'), tone: { en: 'rust red with horizontal banding', es: 'rojo óxido con bandas horizontales', fr: 'rouge rouille aux bandes horizontales' } },
+  { id: 'bianco-carrara', name: 'Bianco Carrara', kind: 'marble', image: m('bianco-carrara'), tone: { en: 'soft white with fine grey veining', es: 'blanco suave con veta gris fina', ar: 'أبيض ناعم بعروق رمادية دقيقة' } },
+  { id: 'calacatta-venatina', name: 'Calacatta Venatina', kind: 'marble', image: m('calacatta-venatina'), tone: { en: 'bright white with grey veins', es: 'blanco brillante con vetas grises', ar: 'أبيض ناصع بعروق رمادية' } },
+  { id: 'nero-marquina', name: 'Nero Marquina', kind: 'marble', image: m('nero-marquina'), tone: { en: 'deep black with white veins', es: 'negro profundo con vetas blancas', ar: 'أسود عميق بعروق بيضاء' } },
+  { id: 'dark-emperador', name: 'Dark Emperador', kind: 'marble', image: m('dark-emperador'), tone: { en: 'chocolate brown with light veining', es: 'marrón chocolate con veta clara', ar: 'بني شوكولاتي بعروق فاتحة' } },
+  { id: 'pietra-grey', name: 'Pietra Grey', kind: 'marble', image: m('pietra-grey'), tone: { en: 'charcoal grey with fine white lines', es: 'gris carbón con líneas blancas finas', ar: 'رمادي فحمي بخطوط بيضاء دقيقة' } },
+  { id: 'verde-alpi', name: 'Verde Alpi', kind: 'marble', image: m('verdi-alpi'), tone: { en: 'deep green with white veins', es: 'verde profundo con vetas blancas', ar: 'أخضر عميق بعروق بيضاء' } },
+  { id: 'dark-rosa-portugues', name: 'Dark Rosa Portugués', kind: 'marble', image: m('dark-rosa-portugues'), tone: { en: 'lilac grey with rose clouds', es: 'gris lila con nubes rosadas', ar: 'رمادي ليلكي بغيوم وردية' } },
+  { id: 'rojo-levante', name: 'Rojo Levante', kind: 'marble', image: m('rojo-levante'), tone: { en: 'oxblood red with white veins', es: 'rojo intenso con vetas blancas', ar: 'أحمر داكن بعروق بيضاء' } },
+  { id: 'lilac', name: 'Lilac', kind: 'marble', image: m('x-lilac-marble'), tone: { en: 'white with smoky violet veining', es: 'blanco con veta violeta ahumada', ar: 'أبيض بعروق بنفسجية مدخّنة' } },
+  { id: 'daino-reale', name: 'Daino Reale', kind: 'marble', image: m('x-daino-reale-marble'), tone: { en: 'warm beige with soft veining', es: 'beige cálido con veta suave', ar: 'بيج دافئ بعروق ناعمة' } },
+  { id: 'greyish-pink', name: 'Greyish Pink', kind: 'marble', image: m('x-greyish-pink-marble'), tone: { en: 'grey and blush brecciated pattern', es: 'brecha gris y rosada', ar: 'نقش بريشي رمادي ووردي' } },
+  { id: 'oreo', name: 'Oreo', kind: 'marble', image: m('x-oreo-marble'), tone: { en: 'white with bold black strata', es: 'blanco con estratos negros marcados', ar: 'أبيض بطبقات سوداء واضحة' } },
+  { id: 'green-patek', name: 'Green Patek', kind: 'marble', image: m('x-green-patek-marble'), tone: { en: 'white with green and black waves', es: 'blanco con ondas verdes y negras', ar: 'أبيض بتموجات خضراء وسوداء' } },
+  { id: 'nidali', name: 'Nidali', kind: 'quartzite', image: m('nidali'), tone: { en: 'sweeping green, pink and cream bands', es: 'bandas amplias verdes, rosas y crema', ar: 'أشرطة عريضة خضراء ووردية وكريمية' } },
+  { id: 'cristallo', name: 'Cristallo', kind: 'quartzite', image: m('x-cristallo-quartzite'), tone: { en: 'translucent white crystalline', es: 'blanco cristalino translúcido', ar: 'أبيض بلوري شفاف' } },
+  { id: 'cristallo-lagoon', name: 'Cristallo Lagoon', kind: 'quartzite', image: m('x-cristallo-lagoon-quartzite'), tone: { en: 'turquoise and green crystalline', es: 'cristalino turquesa y verde', ar: 'بلوري فيروزي وأخضر' } },
+  { id: 'four-season', name: 'Four Season', kind: 'quartzite', image: m('x-four-season-quartzite'), tone: { en: 'white with rust and charcoal strata', es: 'blanco con estratos óxido y carbón', ar: 'أبيض بطبقات بلون الصدأ والفحم' } },
+  { id: 'cream-roman', name: 'Cream Roman', kind: 'travertine', image: m('x-cream-roman-travertine'), tone: { en: 'honey cream with fine banding', es: 'crema miel con bandas finas', ar: 'كريمي عسلي بخطوط دقيقة' } },
+  { id: 'grey-travertine', name: 'Grey Travertine', kind: 'travertine', image: m('x-grey-travertine'), tone: { en: 'taupe grey with linear banding', es: 'gris topo con bandas lineales', ar: 'رمادي توبي بخطوط طولية' } },
+  { id: 'rojo-travertino', name: 'Rojo Travertino', kind: 'travertine', image: m('rojo-travertino'), tone: { en: 'rust red with horizontal banding', es: 'rojo óxido con bandas horizontales', ar: 'أحمر صدئي بخطوط أفقية' } },
 ];
 
 export const FEATURED = MATERIALS.filter((x) => x.featured);

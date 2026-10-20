@@ -3,9 +3,12 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieNotice from '../components/CookieNotice.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import fontDisplay from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-normal.woff2?url';
 import fontBody from '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2?url';
-import { t, ROUTES, LOCALE, OG_LOCALE, CONTACT, LANGS, asset, type Lang, type PageId } from '../i18n';
+import fontArDisplay from '@fontsource/noto-naskh-arabic/files/noto-naskh-arabic-arabic-400-normal.woff2?url';
+import fontArBody from '@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-400-normal.woff2?url';
+import { t, ROUTES, LOCALE, OG_LOCALE, DIR, CONTACT, LANGS, asset, type Lang, type PageId } from '../i18n';
 
 interface Props {
   lang: Lang;
@@ -27,7 +30,7 @@ const path = page === 'notFound' ? null : ROUTES[page][lang];
 const canonical = path ? origin + path : null;
 // Pre-launch preview (GitHub Pages): never indexed.
 const preview = import.meta.env.PUBLIC_PREVIEW === '1';
-const ogImage = `${site}/og/millimeter-usa.jpg`;
+const ogImage = `${site}/og/millimeter.jpg`;
 const orgId = `${site}/#organization`;
 
 const graph: Record<string, unknown>[] = [
@@ -44,11 +47,11 @@ const graph: Record<string, unknown>[] = [
     email: CONTACT.email,
     telephone: CONTACT.whatsappE164,
     address: { '@type': 'PostalAddress', addressLocality: CONTACT.city, addressRegion: CONTACT.region, addressCountry: CONTACT.country },
-    areaServed: { '@type': 'Country', name: 'United States' },
+    areaServed: 'Worldwide',
     founder: { '@id': `${site}/casanova#jesus-casanova` },
     knowsAbout: ['Thin natural stone', 'Ultra-thin marble veneer', 'Curved stone cladding', 'Marble', 'Quartzite', 'Travertine', 'Granite', 'Architectural stone'],
-    sameAs: [CONTACT.instagram, CONTACT.corporate, CONTACT.southAmerica],
-    contactPoint: [{ '@type': 'ContactPoint', contactType: 'sales', email: CONTACT.email, telephone: CONTACT.whatsappE164, availableLanguage: ['English', 'Spanish', 'French'], areaServed: 'US' }],
+    sameAs: [CONTACT.instagram, CONTACT.corporate, CONTACT.southAmerica, ...(CONTACT.pinterest ? [CONTACT.pinterest] : [])],
+    contactPoint: [{ '@type': 'ContactPoint', contactType: 'sales', email: CONTACT.email, telephone: CONTACT.whatsappE164, availableLanguage: ['English', 'Spanish', 'Arabic'], areaServed: 'Worldwide' }],
   },
   {
     '@type': 'Person',
@@ -63,8 +66,8 @@ const graph: Record<string, unknown>[] = [
     '@type': 'WebSite',
     '@id': `${site}/#website`,
     url: `${site}/`,
-    name: 'MILLIMETER by Casanova — USA',
-    inLanguage: ['en-US', 'es-US', 'fr-US'],
+    name: 'MILLIMETER by Casanova',
+    inLanguage: LANGS.map((l) => LOCALE[l]),
     publisher: { '@id': orgId },
   },
 ];
@@ -94,14 +97,23 @@ graph.push(...schema);
 const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
 ---
 <!doctype html>
-<html lang={LOCALE[lang]} dir="ltr">
+<html lang={LOCALE[lang]} dir={DIR[lang]}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <!-- Motion mode (on/off) decided before first paint; external file because the CSP is script-src 'self'. -->
     <script is:inline src={asset('/motion-mode.js')}></script>
-    <link rel="preload" href={fontDisplay} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={fontBody} as="font" type="font/woff2" crossorigin />
+    {lang === 'ar' ? (
+      <>
+        <link rel="preload" href={fontArDisplay} as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href={fontArBody} as="font" type="font/woff2" crossorigin />
+      </>
+    ) : (
+      <>
+        <link rel="preload" href={fontDisplay} as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href={fontBody} as="font" type="font/woff2" crossorigin />
+      </>
+    )}
     <title>{meta.title}</title>
     <meta name="description" content={meta.description} />
     {canonical && <link rel="canonical" href={canonical} />}
@@ -116,8 +128,6 @@ const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
     <meta name="color-scheme" content="dark light" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="author" content="MILLIMETER by Casanova" />
-    <meta name="geo.region" content="US-TX" />
-    <meta name="geo.placename" content="Houston" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="MILLIMETER by Casanova" />
@@ -127,7 +137,7 @@ const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="MILLIMETER by Casanova — living room with a full-height wall in large-format Calacatta marble" />
+    <meta property="og:image:alt" content={d.hero.alt} />
     <meta property="og:locale" content={OG_LOCALE[lang]} />
     {LANGS.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={OG_LOCALE[l]} />)}
     <meta name="twitter:card" content="summary_large_image" />
@@ -151,11 +161,14 @@ const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
       <slot />
     </main>
     <Footer lang={lang} />
+    <WhatsAppFloat lang={lang} />
     <CookieNotice lang={lang} />
     <div class="cursor" aria-hidden="true"><span class="cursor__label"></span></div>
     <script>
       // The motion layer (GSAP + Lenis) loads after first paint so it never delays the LCP,
       // or immediately on the first interaction, whichever comes first.
+      // No drag-and-drop on this site: images and links never lift as a native drag ghost (carousels, rails, cards).
+      addEventListener('dragstart', (e) => { if ((e.target as Element | null)?.closest?.('img, a, picture')) e.preventDefault(); });
       let started = false;
       const go = () => { if (started) return; started = true; import('../scripts/main'); };
       for (const ev of ['scroll', 'wheel', 'touchstart', 'pointerdown', 'keydown']) addEventListener(ev, go, { once: true, passive: true });

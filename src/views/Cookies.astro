@@ -1,20 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
-import CookiesFr from '../components/legal/CookiesFr.astro';
+import CookiesAr from '../components/legal/CookiesAr.astro';
 import { t, CONTACT, ROUTES, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const all = t(lang);
-const UPDATED = '2026-10-10';
+const UPDATED = '2026-10-20';
 const en = lang === 'en';
-const fr = lang === 'fr';
+const ar = lang === 'ar';
 ---
 <Base lang={lang} page="cookies" crumb={all.footer.cookies}>
-  <PageHead eyebrow="Legal" title={en ? ['Cookie', 'policy.'] : fr ? ['Politique de', 'cookies.'] : ['Política de', 'cookies.']} aside={(en ? 'Updated ' : fr ? 'Mise à jour le ' : 'Actualizada el ') + UPDATED} />
+  <PageHead eyebrow={ar ? 'قانوني' : 'Legal'} title={en ? ['Cookie', 'policy.'] : ar ? ['سياسة ملفات', 'تعريف الارتباط.'] : ['Política de', 'cookies.']} aside={(en ? 'Updated ' : ar ? 'آخر تحديث ' : 'Actualizada el ') + UPDATED} />
   <article class="legal on-light section">
     <div class="wrap legal__body">
-      {fr ? <CookiesFr /> : en ? (
+      {ar ? <CookiesAr /> : en ? (
         <>
           <p class="legal__lead">This site uses no cookies. It only stores, in your browser, your response to the cookie notice and, if you use the footer switch, your animation preference.</p>
           <h2>What is stored</h2>

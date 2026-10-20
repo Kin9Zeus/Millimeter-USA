@@ -1,21 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
-import PrivacyFr from '../components/legal/PrivacyFr.astro';
+import PrivacyAr from '../components/legal/PrivacyAr.astro';
 import { t, CONTACT, ROUTES, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const all = t(lang);
-const UPDATED = '2026-10-10';
+const UPDATED = '2026-10-20';
 const en = lang === 'en';
-const fr = lang === 'fr';
+const ar = lang === 'ar';
 const mail = CONTACT.email;
 ---
 <Base lang={lang} page="privacy" crumb={all.footer.privacy}>
-  <PageHead eyebrow={en ? 'Legal' : 'Legal'} title={en ? ['Privacy', 'policy.'] : fr ? ['Politique de', 'confidentialité.'] : ['Política de', 'privacidad.']} aside={(en ? 'Updated ' : fr ? 'Mise à jour le ' : 'Actualizada el ') + UPDATED} />
+  <PageHead eyebrow={ar ? 'قانوني' : 'Legal'} title={en ? ['Privacy', 'policy.'] : ar ? ['سياسة', 'الخصوصية.'] : ['Política de', 'privacidad.']} aside={(en ? 'Updated ' : ar ? 'آخر تحديث ' : 'Actualizada el ') + UPDATED} />
   <article class="legal on-light section">
     <div class="wrap legal__body">
-      {fr ? <PrivacyFr /> : en ? (
+      {ar ? <PrivacyAr /> : en ? (
         <>
           <p class="legal__lead">This document describes exactly what this site does with your data. It is written against the site's actual code, not a template: if a processing activity is not listed here, it does not happen.</p>
           <h2>1. Who is responsible</h2>
@@ -27,7 +27,7 @@ const mail = CONTACT.email;
               <tr><td>Name and email</td><td>Contact and careers forms</td><td>Yes</td></tr>
               <tr><td>Phone, studio or company, project location, role</td><td>Contact form</td><td>No</td></tr>
               <tr><td>Message content</td><td>Contact form</td><td>Yes</td></tr>
-              <tr><td>City/state, area of interest, introduction</td><td>Careers form</td><td>No</td></tr>
+              <tr><td>City and country, area of interest, introduction</td><td>Careers form</td><td>No</td></tr>
               <tr><td>Résumé (PDF file, with everything it contains)</td><td>Careers form</td><td>Yes</td></tr>
               <tr><td>IP address</td><td>Every visit, in server logs; and to rate-limit forms</td><td>Automatic</td></tr>
             </tbody>
@@ -51,8 +51,8 @@ const mail = CONTACT.email;
             </tbody>
           </table></div>
           <p>The WhatsApp and Instagram buttons are plain links: this site loads nothing from Meta while you browse. Fonts, images and videos are served from this domain.</p>
-          <h2>5. Your rights under US state privacy laws</h2>
-          <p>Residents of states with consumer privacy laws (for example California under the CCPA/CPRA, Texas under the TDPSA, and others) have the right to know and access the personal information we hold, to correct it, to delete it, to obtain a portable copy, and to opt out of its sale, sharing for cross-context behavioral advertising, or profiling.</p>
+          <h2>5. Your rights</h2>
+          <p>Depending on where you live, privacy laws such as the EU General Data Protection Regulation (including in Spain), the UAE Personal Data Protection Law, Colombia’s Law 1581 of 2012 and US state laws (for example California under the CCPA/CPRA and Texas under the TDPSA) give you the right to know and access the personal information we hold, to correct it, to delete it, to obtain a portable copy, and to opt out of its sale, sharing for cross-context behavioral advertising, or profiling.</p>
           <ul>
             <li><strong>We do not sell personal information and do not share it for targeted advertising.</strong> There is therefore nothing to opt out of; we also honor Global Privacy Control (GPC) signals by default because no tracking exists.</li>
             <li>We do not collect sensitive personal information on purpose. Please do not include it in your message or résumé.</li>
@@ -90,7 +90,7 @@ const mail = CONTACT.email;
               <tr><td>Nombre y email</td><td>Formularios de contacto y empleo</td><td>Sí</td></tr>
               <tr><td>Teléfono, estudio o empresa, ubicación del proyecto, perfil</td><td>Formulario de contacto</td><td>No</td></tr>
               <tr><td>Contenido del mensaje</td><td>Formulario de contacto</td><td>Sí</td></tr>
-              <tr><td>Ciudad/estado, área de interés, presentación</td><td>Formulario de empleo</td><td>No</td></tr>
+              <tr><td>Ciudad y país, área de interés, presentación</td><td>Formulario de empleo</td><td>No</td></tr>
               <tr><td>CV (archivo PDF, con todo lo que contenga)</td><td>Formulario de empleo</td><td>Sí</td></tr>
               <tr><td>Dirección IP</td><td>Cada visita, en registros del servidor; y para limitar envíos</td><td>Automático</td></tr>
             </tbody>
@@ -114,8 +114,8 @@ const mail = CONTACT.email;
             </tbody>
           </table></div>
           <p>Los botones de WhatsApp e Instagram son enlaces simples: este sitio no carga nada de Meta mientras navegas. Fuentes, imágenes y videos se sirven desde este dominio.</p>
-          <h2>5. Tus derechos según las leyes estatales de EE. UU.</h2>
-          <p>Los residentes de estados con leyes de privacidad (por ejemplo California con la CCPA/CPRA, Texas con la TDPSA, entre otros) tienen derecho a conocer y acceder a sus datos, corregirlos, eliminarlos, obtener una copia portable y oponerse a su venta, a su uso para publicidad dirigida o a la elaboración de perfiles.</p>
+          <h2>5. Tus derechos</h2>
+          <p>Según dónde residas, leyes de privacidad como el Reglamento General de Protección de Datos de la UE (también en España), la Ley de Protección de Datos Personales de los Emiratos Árabes Unidos, la Ley 1581 de 2012 de Colombia y las leyes estatales de EE. UU. (por ejemplo California con la CCPA/CPRA y Texas con la TDPSA) te dan derecho a conocer y acceder a sus datos, corregirlos, eliminarlos, obtener una copia portable y oponerse a su venta, a su uso para publicidad dirigida o a la elaboración de perfiles.</p>
           <ul>
             <li><strong>No vendemos datos personales ni los compartimos para publicidad dirigida.</strong> No hay nada de lo que excluirse; además respetamos por defecto las señales Global Privacy Control (GPC) porque no existe rastreo.</li>
             <li>No recogemos datos sensibles a propósito. Por favor, no los incluyas en tu mensaje ni en tu CV.</li>
@@ -142,7 +142,7 @@ const mail = CONTACT.email;
           <p>Si algo relevante cambia —por ejemplo, si algún día se añade analítica— esta página y su fecha se actualizan antes de que el cambio entre en vigor. Consulta también la <a href={ROUTES.cookies[lang]}>política de cookies</a>.</p>
         </>
       )}
-      <p class="legal__updated mono">{en ? 'Last updated' : fr ? 'Dernière mise à jour' : 'Última actualización'}: {UPDATED}</p>
+      <p class="legal__updated mono">{en ? 'Last updated' : ar ? 'آخر تحديث' : 'Última actualización'}: {UPDATED}</p>
     </div>
   </article>
 </Base>
