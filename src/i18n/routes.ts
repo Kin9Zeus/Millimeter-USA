@@ -41,7 +41,7 @@ export const LOCALE: Record<Lang, string> = { en: 'en', es: 'es', ar: 'ar' };
 export const OG_LOCALE: Record<Lang, string> = { en: 'en_US', es: 'es_ES', ar: 'ar_AR' };
 export const LANG_NAME: Record<Lang, string> = { en: 'English', es: 'Español', ar: 'العربية' };
 /** Short label for the header switcher. */
-export const LANG_SHORT: Record<Lang, string> = { en: 'EN', es: 'ES', ar: 'ع' };
+export const LANG_SHORT: Record<Lang, string> = { en: 'EN', es: 'ES', ar: 'AR' };
 export const DIR: Record<Lang, 'ltr' | 'rtl'> = { en: 'ltr', es: 'ltr', ar: 'rtl' };
 
 export const CONTACT = {

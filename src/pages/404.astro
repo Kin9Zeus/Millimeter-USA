@@ -32,7 +32,7 @@ const label = (id: PageId, lang: 'en' | 'es') => (id === 'home' ? t(lang).nav.ho
           {pages.map((id) => (
             <li>
               <a href={ROUTES[id].en}>{label(id, 'en')}</a>
-              <span class="nf__alts"><a href={ROUTES[id].es} lang="es" class="nf__alt">ES</a> <a href={ROUTES[id].ar} lang="ar" class="nf__alt" title="العربية">ع</a></span>
+              <span class="nf__alts"><a href={ROUTES[id].es} lang="es" class="nf__alt">ES</a> <a href={ROUTES[id].ar} hreflang="ar" class="nf__alt" title="العربية">AR</a></span>
             </li>
           ))}
         </ul>
