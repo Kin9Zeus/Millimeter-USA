@@ -8,6 +8,8 @@
  *
  *   <MediaHero image={img} eyebrow="…" title={['Line 1', 'line 2']} intro="…" />
  *   Optional: seq="home" → frames in /media/seq/home/{d,m}. Video is ALWAYS played by the scroll, never looped (client rule).
+ *   Optional: split → for portrait photos: on wide screens the photo fills a full-height column beside the text
+ *   (no upscaling of a vertical image into a horizontal frame); on phones and portrait tablets it stays full-bleed.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -30,8 +32,9 @@ interface Props {
   /** Home hero is bigger and loads with high priority. */
   home?: boolean;
   h1?: boolean;
+  split?: boolean;
 }
-const { image, alt = '', eyebrow, title, intro, measure, run = '70svh', runPortrait = '55svh', pos = '50% 50%', seq, home = false, h1 = true } = Astro.props;
+const { image, alt = '', eyebrow, title, intro, measure, run = '70svh', runPortrait = '55svh', pos = '50% 50%', seq, home = false, h1 = true, split = false } = Astro.props;
 const widths = [640, 960, 1280, 1600, 2048, 2560].filter((w) => w <= image.width);
 const [avif, webp] = await Promise.all([
   getImage({ src: image, widths, format: 'avif', quality: 58 }),
@@ -42,16 +45,16 @@ const H = h1 ? 'h1' : 'h2';
 const countFrames = (v: 'd' | 'm') => {
   try { return fs.readdirSync(path.join(process.cwd(), 'public', 'media', 'seq', seq!, v)).filter((f) => f.endsWith('.webp')).length; } catch { return 0; }
 };
-const seqD = seq ? countFrames('d') : 0;
-const seqM = seq ? countFrames('m') : 0;
+const seqD = seq && !split ? countFrames('d') : 0;
+const seqM = seq && !split ? countFrames('m') : 0;
 const hasSeq = seqD + seqM > 0;
 ---
-<section class:list={['mh on-dark', { 'mh--home': home }]} data-mh style={`--run-d:${run}; --run-p:${runPortrait}; --pos:${pos}`}>
+<section class:list={['mh on-dark', { 'mh--home': home, 'mh--split': split }]} data-mh style={`--run-d:${run}; --run-p:${runPortrait}; --pos:${pos}`}>
   <div class="mh__sticky">
     <div class="mh__media" data-mh-media>
       <picture>
-        <source type="image/avif" srcset={avif.srcSet.attribute} sizes="100vw" />
-        <source type="image/webp" srcset={webp.srcSet.attribute} sizes="100vw" />
+        <source type="image/avif" srcset={avif.srcSet.attribute} sizes={split ? '(min-width: 901px) and (orientation: landscape) 46vw, 100vw' : '100vw'} />
+        <source type="image/webp" srcset={webp.srcSet.attribute} sizes={split ? '(min-width: 901px) and (orientation: landscape) 46vw, 100vw' : '100vw'} />
         <img src={webp.src} alt={alt} width={image.width} height={image.height} fetchpriority={home ? 'high' : 'auto'} loading={home ? 'eager' : 'eager'} decoding="async" data-mh-img />
       </picture>
       {hasSeq && <canvas class="mh__canvas" data-mh-seq={seq} data-count-d={seqD} data-count-m={seqM} aria-hidden="true"></canvas>}
@@ -91,6 +94,7 @@ const hasSeq = seqD + seqM > 0;
     linear-gradient(to bottom, rgba(18,16,13,.72) 0%, rgba(18,16,13,0) 22%),
     linear-gradient(to top, var(--ink) 0%, rgba(18,16,13,.35) 42%, rgba(18,16,13,0) 72%); }
   .mh__side { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to right, rgba(18,16,13,.7), rgba(18,16,13,0) 62%); }
+  :global([dir='rtl']) .mh__side { background: linear-gradient(to left, rgba(18,16,13,.7), rgba(18,16,13,0) 62%); }
 
   .mh__content { position: relative; z-index: 1; padding-top: calc(var(--header-h) + 2rem); padding-bottom: clamp(2.5rem, 8vh, 5.5rem); display: grid; gap: 1.25rem; justify-items: start; }
   .mh__title { display: grid; font-size: var(--fs-h1); line-height: 0.95; letter-spacing: -0.015em; max-width: 16ch; text-shadow: 0 0 2.5rem rgba(10,10,11,.5); }
@@ -99,13 +103,30 @@ const hasSeq = seqD + seqM > 0;
   .mh__measure { font-size: var(--fs-xs); letter-spacing: 0.2em; color: var(--copper); padding-top: 0.9rem; border-top: 1px solid rgba(200,145,90,.45); }
   .mh__intro { font-size: var(--fs-lg); line-height: 1.5; max-width: 46ch; color: color-mix(in srgb, var(--text-dark) 86%, transparent); }
 
-  .mh__cue { position: absolute; right: var(--gutter); bottom: 1.5rem; z-index: 1; }
+  .mh__cue { position: absolute; inset-inline-end: var(--gutter); bottom: 1.5rem; z-index: 1; }
+  /* The floating WhatsApp button owns that corner. */
+  .mh__cue { display: none; }
   .mh__cue i { display: block; width: 1px; height: 3rem; background: linear-gradient(var(--copper), transparent); animation: mhcue 2.2s var(--ease) infinite; transform-origin: top; }
   @keyframes mhcue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
   :global(html[data-motion='off']) .mh__cue { display: none; }
 
+  /* Split hero (wide landscape screens only): text column + full-height photo column, mirrored in RTL. */
+  @media (min-width: 901px) and (orientation: landscape) {
+    .mh--split .mh__media { inset-inline-start: auto; width: 46%; }
+    .mh--split .mh__media img { object-position: var(--pos); }
+    .mh--split .mh__media::after { content: ''; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(200,145,90,.18); }
+    .mh--split .mh__scrim { background: linear-gradient(to bottom, rgba(18,16,13,.85) 0%, rgba(18,16,13,.45) 9%, rgba(18,16,13,0) 20%); }
+    .mh--split .mh__side { background: linear-gradient(to right, var(--ink) 54%, rgba(18,16,13,.55) 56%, rgba(18,16,13,0) 66%); }
+    :global([dir='rtl']) .mh--split .mh__side { background: linear-gradient(to left, var(--ink) 54%, rgba(18,16,13,.55) 56%, rgba(18,16,13,0) 66%); }
+    .mh--split .mh__content { padding-inline-end: calc(46% + var(--gutter) * 2); }
+    .mh--split .mh__title { max-width: 14ch; }
+    :global(html[lang='ar']) .mh--split .mh__title { max-width: none; }
+    /* Naskh is wider than the Latin display face: one step smaller keeps the headline on two lines. */
+    :global(html[lang='ar']) .mh--split.mh--home .mh__title { font-size: clamp(2.5rem, 0.9rem + 4.2vw, 5.25rem); }
+  }
+
   @media (max-width: 700px) {
     /* Portrait crops put bright stone directly behind the stacked text: darken the whole lower two thirds. */
-    .mh__side { background: linear-gradient(to top, rgba(18,16,13,.85) 0%, rgba(18,16,13,.6) 45%, rgba(18,16,13,.3) 75%, rgba(18,16,13,.15) 100%); }
+    .mh__side, :global([dir='rtl']) .mh__side { background: linear-gradient(to top, rgba(18,16,13,.85) 0%, rgba(18,16,13,.6) 45%, rgba(18,16,13,.3) 75%, rgba(18,16,13,.15) 100%); }
   }
 </style>

@@ -2,10 +2,10 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import MediaHero from '../components/MediaHero.astro';
-
+import WorldMap from '../components/WorldMap.astro';
 import Cta from '../components/sections/Cta.astro';
 import Arrow from '../components/Arrow.astro';
-import { PROJECT_IMG, MISC, HERO } from '../data/media';
+import { PROJECT_IMG, MISC, HERO, DRAWINGS } from '../data/media';
 import { itemList } from '../lib/schema';
 import { t, ROUTES, type Lang } from '../i18n';
 interface Props { lang: Lang }
@@ -15,12 +15,12 @@ const d = all.projects;
 const site = new URL(Astro.site!).origin; // ROUTES already include the base path
 const schema = itemList(d.title, d.items.map((p) => ({ name: `${p.name} — ${p.piece}`, url: `${site}${ROUTES.projects[lang]}#${p.id}`, description: `${p.material}, ${p.thickness}, ${p.location}` })));
 const concepts = [
-  { img: MISC.console, en: 'Console · 5 mm', es: 'Consola · 5 mm', fr: 'Console · 5 mm' },
-  { img: MISC.fireplace, en: 'Fireplace wall · 1 & 5 mm', es: 'Muro chimenea · 1 y 5 mm', fr: 'Mur de cheminée · 1 et 5 mm' },
-  { img: MISC.kitchenIsland, en: 'Kitchen island · 1 mm + 2 cm', es: 'Isla de cocina · 1 mm + 2 cm', fr: 'Îlot de cuisine · 1 mm + 2 cm' },
-  { img: MISC.kitchen, en: 'Curved kitchen · 1 mm + 2 cm', es: 'Cocina curva · 1 mm + 2 cm', fr: 'Cuisine courbe · 1 mm + 2 cm' },
-  { img: MISC.bed, en: 'Bed wall · Cream Travertine 1 mm', es: 'Cabecero · Cream Travertine 1 mm', fr: 'Tête de lit · Cream Travertine 1 mm' },
-  { img: MISC.vanityGranite, en: 'Vanity · Delicatus granite', es: 'Vanity · granito Delicatus', fr: 'Meuble vasque · granit Delicatus' },
+  { img: MISC.console, en: 'Console · 5 mm', es: 'Consola · 5 mm', ar: 'كونسول · 5 مم' },
+  { img: MISC.fireplace, en: 'Fireplace wall · 1 & 5 mm', es: 'Muro chimenea · 1 y 5 mm', ar: 'جدار مدفأة · 1 و5 مم' },
+  { img: MISC.kitchenIsland, en: 'Kitchen island · 1 mm + 2 cm', es: 'Isla de cocina · 1 mm + 2 cm', ar: 'جزيرة مطبخ · 1 مم + 2 سم' },
+  { img: MISC.kitchen, en: 'Curved kitchen · 1 mm + 2 cm', es: 'Cocina curva · 1 mm + 2 cm', ar: 'مطبخ منحنٍ · 1 مم + 2 سم' },
+  { img: MISC.bed, en: 'Bed wall · Cream Travertine 1 mm', es: 'Cabecero · Cream Travertine 1 mm', ar: 'جدار السرير · Cream Travertine بسماكة 1 مم' },
+  { img: MISC.vanityGranite, en: 'Vanity · Delicatus granite', es: 'Vanity · granito Delicatus', ar: 'وحدة مغسلة · غرانيت Delicatus' },
 ];
 ---
 <Base lang={lang} page="projects" crumb={all.nav.projects} schema={[schema]}>
@@ -32,10 +32,10 @@ const concepts = [
       <article class={`case ${i % 2 ? 'on-light' : 'on-dark'}`} id={p.id} aria-labelledby={`${p.id}-t`}>
         <div class="wrap case__grid">
           <div class="case__hero media" data-reveal="clip">
-            <Image src={img.hero} alt={`${p.name}: ${p.piece} in ${p.material}, ${p.location}`} widths={[640, 960, 1280, 1600]} sizes="(max-width: 900px) 100vw, 55vw" quality={78} data-parallax="0.05" />
+            <Image src={img.hero} alt={`${p.name}: ${p.piece} — ${p.material}, ${p.location}`} widths={[640, 960, 1280, 1600]} sizes="(max-width: 900px) 100vw, 55vw" quality={78} data-parallax="0.05" />
           </div>
           <div class="case__copy">
-            <p class="case__loc mono">{p.location} · USA</p>
+            <p class="case__loc mono">{p.location}</p>
             <h2 id={`${p.id}-t`} class="display h-1">{p.name}</h2>
             <p class="case__piece display">{p.piece}</p>
             <dl class="case__spec">
@@ -52,7 +52,7 @@ const concepts = [
           <ul class="case__gallery" role="list">
             {img.gallery.map((g, k) => (
               <li class="media" data-reveal style={`--d:${k * 0.08}s`}>
-                <Image src={g} alt={`${p.name} — ${{ en: 'detail', es: 'detalle', fr: 'détail' }[lang]} ${k + 1}`} widths={[360, 540, 720, 960]} sizes="(max-width: 900px) 50vw, 25vw" quality={74} />
+                <Image src={g} alt={`${p.name} — ${{ en: 'detail', es: 'detalle', ar: 'تفصيل' }[lang]} ${k + 1}`} widths={[360, 540, 720, 960]} sizes="(max-width: 900px) 50vw, 25vw" quality={74} />
               </li>
             ))}
           </ul>
@@ -61,19 +61,47 @@ const concepts = [
     );
   })}
 
+  <section class="reach on-dark section" aria-labelledby="reach-title">
+    <div class="wrap">
+      <p class="eyebrow" id="reach-title">{all.nav.projects} · {d.legend.presence}</p>
+      <WorldMap lang={lang} />
+    </div>
+  </section>
+
+  <!-- Shop drawings (client folder “Design”): every piece is decided on paper first. -->
+  <section class="drawings on-light section" aria-labelledby="drawings-title">
+    <div class="wrap">
+      <div class="drawings__head">
+        <p class="eyebrow">{d.eyebrow}</p>
+        <h2 id="drawings-title" class="display h-1">{d.drawingsTitle}</h2>
+        <p class="body-lg">{d.drawingsBody}</p>
+      </div>
+      <ul class="drawings__grid" role="list">
+        {DRAWINGS.map((g, k) => (
+          <li class:list={['sheet', { 'sheet--wide': g.width > g.height }]} data-reveal style={`--d:${(k % 3) * 0.08}s`}>
+            <a href={g.src} target="_blank" rel="noopener" class="sheet__link" data-cursor={all.common.view}>
+              <Image src={g} alt={d.drawingsAlt[k]} widths={[480, 720, 1024]} sizes="(max-width: 620px) 100vw, (max-width: 900px) 50vw, 33vw" quality={80} />
+              <span class="sr-only"> ({all.common.newTab})</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
   <section class="concepts on-dark section" aria-labelledby="concepts-title">
     <div class="wrap">
       <div class="concepts__head">
-        <p class="eyebrow">{d.drawingsTitle}</p>
+        <p class="eyebrow">{{ en: 'Concepts', es: 'Conceptos', ar: 'تصورات' }[lang]}</p>
         <h2 id="concepts-title" class="display h-2">{d.nextTitle}</h2>
-        <p class="lede">{d.drawingsBody} {d.nextBody}</p>
+        <p class="lede">{d.nextBody}</p>
       </div>
       <ul class="concepts__grid" role="list">
         {concepts.map((c, i) => (
           <li data-reveal style={`--d:${(i % 3) * 0.08}s`}>
             <figure>
               <div class="media"><Image src={c.img} alt={c[lang]} widths={[400, 600, 800]} sizes="(max-width: 620px) 100vw, (max-width: 900px) 50vw, 33vw" quality={72} /></div>
-              <figcaption><span class="mono">{{ en: 'Concept', es: 'Concepto', fr: 'Concept' }[lang]}</span> {c[lang]}</figcaption>
+              <figcaption><span class="mono">{{ en: 'Concept', es: 'Concepto', ar: 'تصور' }[lang]}</span> {c[lang]}</figcaption>
             </figure>
           </li>
         ))}
@@ -104,12 +132,18 @@ const concepts = [
   .case__pieces li { font-size: var(--fs-sm); padding: 0.35rem 0.7rem; border: 1px solid var(--line); }
   .case__gallery { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
   .case__gallery li { aspect-ratio: 4 / 3; }
+  .drawings__head { display: grid; gap: 1.25rem; max-width: 48rem; }
+  .drawings__grid { margin-top: 3rem; columns: 3 18rem; column-gap: var(--gutter); }
+  .sheet { break-inside: avoid; margin-bottom: var(--gutter); background: #fff; box-shadow: 0 1px 0 var(--line), 0 18px 40px rgba(18,16,13,.08); }
+  .sheet__link { display: block; position: relative; }
+  .sheet__link :global(img) { width: 100%; height: auto; transition: transform 1s var(--ease); }
+  .sheet__link:hover :global(img) { transform: scale(1.02); }
   .concepts__head { display: grid; gap: 1.25rem; max-width: 48rem; }
   .concepts__grid { margin-top: 3rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem var(--gutter); }
   .concepts__grid figure { display: grid; gap: 0.75rem; }
   .concepts__grid .media { aspect-ratio: 4 / 5; }
   .concepts__grid figcaption { font-size: var(--fs-sm); color: var(--muted-dark); }
-  .concepts__grid figcaption .mono { color: var(--copper); font-size: var(--fs-xs); margin-right: 0.4rem; }
+  .concepts__grid figcaption .mono { color: var(--copper); font-size: var(--fs-xs); margin-inline-end: 0.4rem; }
   .concepts__cta { margin-top: 3rem; }
   @media (max-width: 900px) {
     .case__grid { grid-template-columns: 1fr; }

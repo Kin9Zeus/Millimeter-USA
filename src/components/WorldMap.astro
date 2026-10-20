@@ -1,0 +1,123 @@
+---
+// World map (client correction #15): quarries, fabrication and commercial presence on a dotted Natural Earth map.
+// The SVG is decorative-with-a-title; the same facts are listed in the legend below, so nothing is map-only.
+import { Image } from 'astro:assets';
+import { MISC } from '../data/media';
+import { WORLD, WORLD_DOTS, project } from '../data/world-dots';
+import { PRESENCE, FAB, QUARRIES, ROUTES_MAP, type Site } from '../data/sites';
+import { t, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang).projects;
+const name = (c: Site['c']) => d.countries[c];
+
+const at = (s: Site) => project(s.lat, s.lon);
+const node = (k: string): [number, number] =>
+  k === 'HOU' ? at(FAB[0]) : k === 'ESF' ? at(FAB[1]) : at(([...QUARRIES, ...PRESENCE].find((s) => s.c === k))!);
+const arc = ([a, b]: [string, string]) => {
+  const [x1, y1] = node(a), [x2, y2] = node(b);
+  const dx = x2 - x1, dy = y2 - y1, dist = Math.hypot(dx, dy);
+  const cx = (x1 + x2) / 2, cy = (y1 + y2) / 2 - Math.min(140, dist * 0.32);
+  return `M${x1.toFixed(1)} ${y1.toFixed(1)}Q${cx.toFixed(1)} ${cy.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+};
+const tri = (x: number, y: number, r = 7) => `M${x} ${y - r}L${x + r * 0.9} ${y + r * 0.6}L${x - r * 0.9} ${y + r * 0.6}Z`;
+const labelled = PRESENCE.filter((p) => !p.hq);
+const hq = PRESENCE.find((p) => p.hq)!;
+---
+<div class="wm">
+  <div class="wm__head">
+    <div class="wm__copy">
+      <h3 class="display wm__title">{d.mapTitle}</h3>
+      <p class="wm__intro">{d.mapIntro}</p>
+    </div>
+    <div class="wm__photo media" data-reveal="clip">
+      <Image src={MISC.quarry} alt="" widths={[480, 800, 1254]} sizes="(max-width: 900px) 100vw, 30vw" quality={72} data-parallax="0.06" />
+    </div>
+  </div>
+
+  <figure class="wm__map" data-wm>
+    <svg viewBox={`0 0 ${WORLD.width} ${WORLD.height}`} role="img" aria-labelledby="wm-t" direction="ltr">
+      <title id="wm-t">{`${d.mapTitle}. ${d.legend.quarry}: ${QUARRIES.map((q) => name(q.c)).join(', ')}. ${d.legend.fab}: Houston, ${name('ES')}. ${d.legend.presence}: ${PRESENCE.map((p) => name(p.c)).join(', ')}.`}</title>
+      <path class="wm__dots" d={WORLD_DOTS} />
+      <g class="wm__routes">
+        {ROUTES_MAP.map((r, i) => <path d={arc(r)} pathLength="1" style={`--i:${i}`} />)}
+      </g>
+      <g class="wm__quarries">
+        {QUARRIES.map((q) => { const [x, y] = at(q); return <path d={tri(x, y)}><title>{`${name(q.c)} · ${q.stones!.join(', ')}`}</title></path>; })}
+      </g>
+      <g class="wm__fab">
+        {FAB.map((f) => { const [x, y] = at(f); return <rect x={x - 9} y={y - 9} width="18" height="18" transform={`rotate(45 ${x} ${y})`} />; })}
+      </g>
+      <g class="wm__presence">
+        {PRESENCE.map((p) => { const [x, y] = at(p); return (
+          <g transform={`translate(${x} ${y})`}>
+            <circle r="16" class="wm__halo" />
+            <circle r="5" />
+          </g>
+        ); })}
+      </g>
+      <g class="wm__labels" aria-hidden="true">
+        {(() => { const [x, y] = at(hq); return <text x={x - 14} y={y + 34} text-anchor="end">{d.hqLabel}</text>; })()}
+        {labelled.map((p) => { const [x, y] = at(p); return <text x={x + 14} y={p.c === 'ES' ? y - 16 : y + 5}>{name(p.c)}</text>; })}
+      </g>
+    </svg>
+
+    <figcaption class="wm__legend">
+      <div class="wm__col">
+        <p class="wm__key wm__key--quarry">{d.legend.quarry}</p>
+        <ul role="list">{QUARRIES.map((q) => <li><strong>{name(q.c)}</strong> <span class="wm__stones" dir="ltr">{q.stones!.join(' · ')}</span></li>)}</ul>
+      </div>
+      <div class="wm__col">
+        <p class="wm__key wm__key--fab">{d.legend.fab}</p>
+        <ul role="list"><li><strong>Houston</strong> · {name('US')}</li><li><strong>{name('ES')}</strong></li></ul>
+      </div>
+      <div class="wm__col">
+        <p class="wm__key wm__key--presence">{d.legend.presence}</p>
+        <ul role="list">{PRESENCE.map((p) => <li><strong>{name(p.c)}</strong>{p.hq && <span class="wm__stones"> · {d.hqLabel}</span>}</li>)}</ul>
+      </div>
+      <p class="wm__note">{d.mapNote}</p>
+    </figcaption>
+  </figure>
+</div>
+
+<style>
+  .wm { margin-block: clamp(3rem, 6vw, 5rem); display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); }
+  .wm__head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: var(--gutter); align-items: end; }
+  .wm__copy { display: grid; gap: 1rem; }
+  .wm__title { font-size: var(--fs-2xl); }
+  .wm__intro { color: var(--muted-dark); max-width: 46ch; font-size: var(--fs-lg); }
+  .wm__photo { aspect-ratio: 16 / 9; }
+  .wm__photo :global(img) { position: absolute; inset: -6% 0; width: 100%; height: 112%; object-fit: cover; object-position: 50% 60%; }
+
+  .wm__map { display: grid; gap: 1.5rem; }
+  .wm__map svg { width: 100%; height: auto; overflow: visible; }
+  .wm__dots { fill: none; stroke: rgba(237, 234, 228, 0.2); stroke-width: 3.6; stroke-linecap: round; }
+  .wm__routes path { fill: none; stroke: var(--copper); stroke-width: 1.2; stroke-opacity: 0.55; stroke-dasharray: 1; stroke-dashoffset: 1; vector-effect: non-scaling-stroke;
+    transition: stroke-dashoffset 1.6s var(--ease) calc(0.25s + var(--i) * 0.12s); }
+  .wm__map:global(.is-in) .wm__routes path { stroke-dashoffset: 0; }
+  :global(html[data-motion='off']) .wm__routes path, :global(html:not(.js)) .wm__routes path { stroke-dashoffset: 0; transition: none; }
+  .wm__quarries path { fill: var(--ink); stroke: var(--copper); stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .wm__fab rect { fill: var(--text-dark); stroke: var(--ink); stroke-width: 2; }
+  .wm__presence circle { fill: var(--copper); }
+  .wm__presence .wm__halo { fill: rgba(200, 145, 90, 0.2); animation: wm-pulse 2.8s var(--ease) infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes wm-pulse { 0% { transform: scale(0.4); opacity: 1; } 100% { transform: scale(1.9); opacity: 0; } }
+  .wm__labels text { fill: var(--text-dark); font-family: var(--f-body); font-size: 15px; }
+
+  .wm__legend { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1.5rem var(--gutter); padding-top: 1.5rem; border-top: 1px solid var(--line-dark); font-size: var(--fs-sm); }
+  .wm__col ul { display: grid; gap: 0.35rem; margin-top: 0.75rem; color: color-mix(in srgb, var(--text-dark) 86%, transparent); }
+  .wm__col strong { font-weight: 600; color: var(--text-dark); }
+  .wm__stones { color: var(--muted-dark); font-size: var(--fs-xs); }
+  .wm__key { display: flex; align-items: center; gap: 0.6rem; font-size: var(--fs-xs); letter-spacing: 0.16em; text-transform: uppercase; color: var(--copper); }
+  .wm__key::before { content: ''; flex: none; width: 0.85rem; height: 0.85rem; }
+  .wm__key--quarry::before { clip-path: polygon(50% 0, 100% 90%, 0 90%); background: var(--copper); }
+  .wm__key--fab::before { width: 0.65rem; height: 0.65rem; background: var(--text-dark); transform: rotate(45deg); }
+  .wm__key--presence::before { border-radius: 50%; background: var(--copper); box-shadow: 0 0 0 4px rgba(200, 145, 90, 0.2); }
+  .wm__note { grid-column: 1 / -1; font-size: var(--fs-xs); color: var(--muted-dark); }
+
+  @media (max-width: 900px) {
+    .wm__head { grid-template-columns: 1fr; }
+    .wm__labels { display: none; }
+    .wm__dots { stroke-width: 4.6; }
+    .wm__legend { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,6 +1,7 @@
 """Builds web-ready media from the client folders and media-src/.
 
 - Client photos -> src/assets/** (slugged, max 2400px) so astro:assets can make AVIF/WebP srcsets
+- Client corrections (Oct 2026) -> heroes, applications, scenes and drawings (CORRECTIONS map)
 - Poster stills for scroll sequences -> public/media/video/<name>-poster.webp
 Scroll frame sequences themselves are built by scripts/video-frames.py (npm run frames).
 
@@ -71,10 +72,46 @@ def photos():
     print('  photos copied to src/assets')
 
 
+# Client corrections, October 2026 (correcciones_millimeter_usa/, read-only). Each entry: source → asset.
+# Runs after photos() so the approved replacements win over the original application photos.
+CORRECTIONS = {
+    'Portada/WhatsApp Image 2026-10-16 at 3.15.12 AM (1).jpeg': 'heroes/home',
+    'Cocina 02/WhatsApp Image 2026-10-16 at 3.18.11 AM (1).jpeg': 'heroes/technology',
+    'Cocina 03/WhatsApp Image 2026-10-16 at 3.17.28 AM (1).jpeg': 'heroes/materials',
+    'Cocina 01/Bookmatched stone sink with bronze faucet.png': 'applications/muros',
+    'Bathroom/WhatsApp Image 2026-10-16 at 3.16.57 AM (2).jpeg': 'applications/duchas',
+    'Furnitures/WhatsApp Image 2026-10-16 at 3.19.22 AM (1).jpeg': 'applications/mobiliario',
+    'Doors/WhatsApp Image 2026-10-16 at 3.19.21 AM (1).jpeg': 'applications/puertas',
+    'Cantera/WhatsApp Image 2026-10-16 at 3.16.16 AM.jpeg': 'scenes/warehouse',
+    'Cantera/WhatsApp Image 2026-10-16 at 7.08.43 AM.jpeg': 'scenes/quarry',
+    'Closet/Sculptural marble and oak kitchen island 00.png': 'scenes/closet-island',
+    'Vanity/WhatsApp Image 2026-10-16 at 3.14.27 AM (2).jpeg': 'scenes/vanity',
+    'Gruesos/WhatsApp Image 2026-10-16 at 3.24.05 AM.jpeg': 'scenes/thin-sheet',
+    'Design/WhatsApp Image 2026-10-16 at 3.16.57 AM.jpeg': 'drawings/01-freestanding-sink',
+    'Design/WhatsApp Image 2026-10-16 at 3.17.28 AM.jpeg': 'drawings/02-cabinet-section',
+    'Design/WhatsApp Image 2026-10-16 at 3.19.22 AM.jpeg': 'drawings/03-bedside-table',
+    'Design/WhatsApp Image 2026-10-16 at 3.20.33 AM.jpeg': 'drawings/04-console',
+    'Design/WhatsApp Image 2026-10-16 at 3.59.21 AM.jpeg': 'drawings/05-closet-island',
+}
+
+
+def corrections():
+    base = os.path.join(ROOT, 'correcciones_millimeter_usa')
+    if not os.path.isdir(base):
+        print('  corrections: folder not found, skipped')
+        return
+    for src, dst in CORRECTIONS.items():
+        # Re-encoded without metadata (EXIF/GPS never reaches the site); never upscaled.
+        copy_image(os.path.join(base, src), os.path.join(ASSETS, dst + '.jpg'))
+    print(f'  corrections: {len(CORRECTIONS)} images copied to src/assets')
+
+
 if __name__ == '__main__':
     import sys
-    what = set(sys.argv[1:]) or {'posters', 'photos'}
+    what = set(sys.argv[1:]) or {'posters', 'photos', 'corrections'}
     if 'posters' in what:
         poster('legacy', 'legacy.mp4')
     if 'photos' in what:
         photos()
+    if 'corrections' in what:
+        corrections()

@@ -9,7 +9,7 @@ const d = t(lang).carbon;
 <section class="carbon on-dark section cv" id="carbon-footprint" aria-labelledby="carbon-title">
   <div class="wrap carbon__grid">
     <div class="carbon__media media grain" data-reveal="clip">
-      <Image src={MISC.altuveDetail} alt={{ en: 'Built-in bar cabinet clad in 5 mm Dark Emperador marble, Altuve Residence, Houston', es: 'Mueble bar revestido en mármol Dark Emperador de 5 mm, Altuve Residence, Houston', fr: 'Meuble bar habillé de marbre Dark Emperador de 5 mm, Altuve Residence, Houston' }[lang]} widths={[640, 960, 1280, 1600]} sizes="(max-width: 900px) 100vw, 50vw" quality={70} data-parallax="0.08" />
+      <Image src={MISC.warehouse} alt={d.imageAlt} widths={[480, 720, 941]} sizes="(max-width: 900px) 100vw, 50vw" quality={70} data-parallax="0.08" />
       <span class="carbon__stamp mono" aria-hidden="true">80–90 %</span>
     </div>
     <div class="carbon__copy">
@@ -31,8 +31,8 @@ const d = t(lang).carbon;
 <style>
   .carbon__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2.5rem, 6vw, 7rem); align-items: center; }
   .carbon__media { aspect-ratio: 4 / 5; }
-  .carbon__media :global(img) { height: 116%; margin-top: -8%; object-position: 70% 50%; }
-  .carbon__stamp { position: absolute; right: 1rem; bottom: 1rem; color: var(--copper); font-size: var(--fs-sm); }
+  .carbon__media :global(img) { height: 116%; margin-top: -8%; object-position: 50% 55%; }
+  .carbon__stamp { position: absolute; inset-inline-end: 1rem; bottom: 1rem; background: rgba(18,16,13,.7); padding: 0.3rem 0.55rem; color: var(--copper); font-size: var(--fs-sm); }
   .carbon__copy { display: grid; gap: 1.5rem; }
   .carbon__list { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem var(--gutter); margin-top: 1rem; }
   .carbon__list div { border-top: 1px solid var(--copper); padding-top: 1rem; }

@@ -39,6 +39,9 @@ export const HERO = Object.fromEntries(
   ['home', 'technology', 'applications', 'materials', 'projects', 'casanova', 'contact', 'careers'].map((k) => [k, asset(`heroes/${k}`)]),
 ) as Record<'home' | 'technology' | 'applications' | 'materials' | 'projects' | 'casanova' | 'contact' | 'careers', ImageMetadata>;
 
+/** Shop drawings for Projects → “From drawing to piece” (order matches projects.drawingsAlt). */
+export const DRAWINGS = ['01-freestanding-sink', '02-cabinet-section', '03-bedside-table', '04-console', '05-closet-island'].map((k) => asset(`drawings/${k}`));
+
 export const MISC = {
   jesus: asset('team/jesus-casanova'),
   jesusShowroom: asset('photos/foto-profesional-jesus-casanova-2'),
@@ -48,7 +51,12 @@ export const MISC = {
   legacy: asset('scenes/legacy'),
   ceiling: asset('heroes/ceiling'),
   altuveDetail: asset('photos/bar-cabinet-5mm-2cm-altuve-residence-04'),
-  cta: asset('heroes/cta'),
+  // Client corrections, Oct 2026
+  cta: asset('scenes/vanity'),
+  warehouse: asset('scenes/warehouse'),
+  quarry: asset('scenes/quarry'),
+  closetIsland: asset('scenes/closet-island'),
+  thinSheet: asset('scenes/thin-sheet'),
   bed: asset('photos/cream-travertine-bed'),
   console: asset('photos/console-02-5mm'),
   fireplace: asset('photos/fireplace-01-5mm-1mm'),

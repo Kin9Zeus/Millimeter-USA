@@ -13,9 +13,9 @@ const privacy = ROUTES.privacy[lang];
 const consentText = kind === 'contact' ? f.consent : c.consent;
 // Static preview (GitHub Pages) has no API: the form validates but explains that sending opens at launch.
 const preview = import.meta.env.PUBLIC_PREVIEW === '1'
-  ? { en: 'Preview: online sending opens at launch. Meanwhile, reach us on WhatsApp or by email.', es: 'Vista previa: el envío en línea se activa al publicar. Mientras tanto, escríbenos por WhatsApp o email.', fr: 'Aperçu : l’envoi en ligne sera activé au lancement. En attendant, écrivez-nous sur WhatsApp ou par e-mail.' }[lang]
+  ? { en: 'Preview: online sending opens at launch. Meanwhile, reach us on WhatsApp or by email.', es: 'Vista previa: el envío en línea se activa al publicar. Mientras tanto, escríbenos por WhatsApp o email.', ar: 'معاينة: يُفعَّل الإرسال عبر الإنترنت عند الإطلاق. وحتى ذلك الحين، راسلنا عبر واتساب أو البريد الإلكتروني.' }[lang]
   : undefined;
-const consentParts = consentText.split(kind === 'contact' ? f.consentLink : ({ en: 'privacy policy', es: 'política de privacidad', fr: 'politique de confidentialité' }[lang]));
+const consentParts = consentText.split(kind === 'contact' ? f.consentLink : ({ en: 'privacy policy', es: 'política de privacidad', ar: 'سياسة الخصوصية' }[lang]));
 ---
 <form class="form" method="post" action={action} enctype={kind === 'careers' ? 'multipart/form-data' : 'application/x-www-form-urlencoded'} novalidate data-form={kind}
   data-msg-invalid={f.errorInvalid} data-msg-preview={preview} data-msg-generic={f.errorGeneric} data-msg-rate={f.errorRate} data-msg-sending={f.sending}>
@@ -94,7 +94,7 @@ const consentParts = consentText.split(kind === 'contact' ? f.consentLink : ({ e
     <div class="field field--full">
       <label class="check">
         <input type="checkbox" name="consent" value="yes" required aria-describedby={`${kind}-consent-err`} />
-        <span>{consentParts[0]}<a class="text-link" href={privacy} target="_blank" rel="noopener">{kind === 'contact' ? f.consentLink : ({ en: 'privacy policy', es: 'política de privacidad', fr: 'politique de confidentialité' }[lang])}</a>{consentParts[1]} *</span>
+        <span>{consentParts[0]}<a class="text-link" href={privacy} target="_blank" rel="noopener">{kind === 'contact' ? f.consentLink : ({ en: 'privacy policy', es: 'política de privacidad', ar: 'سياسة الخصوصية' }[lang])}</a>{consentParts[1]} *</span>
       </label>
       <p class="field-error" id={`${kind}-consent-err`} data-err="consent" data-msg={f.errors.consent}></p>
     </div>

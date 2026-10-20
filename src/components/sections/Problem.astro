@@ -1,14 +1,29 @@
 ---
+// The problem → the turn. The comparison is an axonometric shop-drawing of three volumes of the SAME stone
+// at true relative thickness (20 : 5 : 1), with real stone texture on the faces, the traditional slab's cut
+// face hatched as a section, and dimension lines that draw themselves as the volumes separate on scroll
+// (client correction #8: no bare lines; artistic, architectural, and the thickness readable at a glance).
+import { Image, getImage } from 'astro:assets';
+import { MATERIALS } from '../../data/materials';
+import { MISC } from '../../data/media';
 import { t, type Lang } from '../../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
-const d = t(lang).problem;
-// Section drawing: thicknesses to scale (20 mm : 5 mm : 1 mm).
+const all = t(lang);
+const d = all.problem;
+const imperial = all.units === 'imperial';
+
+const stone = MATERIALS.find((m) => m.id === 'new-capanelli')!;
+const tex = await getImage({ src: stone.image, width: 640, format: 'webp', quality: 70 });
+
+// Drawing geometry (SVG user units). 1 mm of stone = 3.2 units, so the volumes are to scale with each other.
+const MM = 3.2, W = 330, DX = 150, DY = -78, X0 = 120;
 const slabs = [
-  { label: { en: 'Traditional slab', es: 'Placa tradicional', fr: 'Plaque traditionnelle' }[lang], mm: 20, imp: '≈ 3/4 in', cls: 'trad' },
-  { label: 'MILLIMETER', mm: 5, imp: '≈ 1/5 in', cls: 'five' },
-  { label: 'MILLIMETER', mm: 1, imp: '≈ 1/25 in', cls: 'one' },
+  { key: 'trad', mm: 20, y: 120, label: d.trad, note: imperial ? '≈ 13 lb/ft²' : lang === 'es' ? '≈ 63,5 kg/m²' : '≈ 63.5 kg/m²' },
+  { key: 'five', mm: 5, y: 262, label: 'MILLIMETER', note: imperial ? '3–4 lb/ft²' : '15–20 kg/m²' },
+  { key: 'one', mm: 1, y: 368, label: 'MILLIMETER', note: imperial ? '≈ 1 lb/ft²' : lang === 'es' ? '≈ 4,9 kg/m²' : '≈ 4.9 kg/m²' },
 ];
+const pts = (a: number[][]) => a.map((p) => p.join(',')).join(' ');
 ---
 <section class="problem on-light section" id="problem" aria-labelledby="problem-title">
   <div class="wrap">
@@ -20,19 +35,69 @@ const slabs = [
     <p class="problem__statement display" data-ink>{d.statement}</p>
 
     <div class="problem__grid">
-      <figure class="drawing" aria-label={{ en: 'Thickness to scale: 20 mm, 5 mm and 1 mm', es: 'Espesores a escala: 20 mm, 5 mm y 1 mm', fr: 'Épaisseurs à l’échelle : 20 mm, 5 mm et 1 mm' }[lang]}>
-        {slabs.map((s) => (
-          <div class={`drawing__row drawing__row--${s.cls}`} data-reveal>
-            <div class="drawing__meta">
-              <span>{s.label}</span>
-              <span class="mono">{s.mm} mm <span class="muted">· {s.imp}</span></span>
-            </div>
-            <div class="drawing__slab" style={`--h: ${s.mm * 0.32}rem`}>
-              <span class="drawing__dim mono" aria-hidden="true">{s.mm}</span>
-            </div>
-          </div>
-        ))}
-        <figcaption class="muted">{{ en: 'Section drawing at relative scale.', es: 'Sección a escala relativa.', fr: 'Coupe à l’échelle relative.' }[lang]}</figcaption>
+      <figure class="axo" data-axo>
+        <svg viewBox="0 0 640 430" role="img" aria-labelledby="axo-t axo-d" direction="ltr">
+          <title id="axo-t">{d.drawingTitle}</title>
+          <desc id="axo-d">{d.drawingAlt}</desc>
+          <defs>
+            <pattern id="axo-stone" patternUnits="userSpaceOnUse" width="480" height="300" patternTransform="skewX(-28) scale(1 .62)">
+              <rect width="480" height="300" fill="#e3dccf" />
+              <!-- Texture loads when the drawing nears the viewport (main.ts → axo), so it never competes with the hero. -->
+              <image data-href={tex.src} width="480" height="300" preserveAspectRatio="xMidYMid slice" />
+            </pattern>
+            <pattern id="axo-hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+              <rect width="6" height="6" fill="#e9e2d6" />
+              <line x1="0" y1="0" x2="0" y2="6" stroke="#8a5527" stroke-width="1" />
+            </pattern>
+            <linearGradient id="axo-shade" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#12100d" stop-opacity=".05" />
+              <stop offset="1" stop-color="#12100d" stop-opacity=".22" />
+            </linearGradient>
+          </defs>
+
+          <!-- construction grid: the drawing sits on a sheet -->
+          <g class="axo__grid" aria-hidden="true">
+            {Array.from({ length: 9 }, (_, i) => <line x1={40 + i * 70} y1="20" x2={40 + i * 70} y2="420" />)}
+          </g>
+
+          {slabs.map((s, i) => {
+            const h = Math.max(s.mm * MM, 1.6);
+            const x1 = X0 + W, y = s.y;
+            const top = [[X0, y], [x1, y], [x1 + DX, y + DY], [X0 + DX, y + DY]];
+            const front = [[X0, y], [x1, y], [x1, y + h], [X0, y + h]];
+            const side = [[x1, y], [x1 + DX, y + DY], [x1 + DX, y + DY + h], [x1, y + h]];
+            return (
+              <g class={`axo__slab axo__slab--${s.key}`} data-axo-slab={i}>
+                <polygon class="axo__top" points={pts(top)} fill="url(#axo-stone)" />
+                <polygon class="axo__top-tone" points={pts(top)} />
+                <polygon class="axo__front" points={pts(front)} fill={s.key === 'trad' ? 'url(#axo-hatch)' : 'url(#axo-stone)'} />
+                <polygon class="axo__side" points={pts(side)} fill={s.key === 'trad' ? 'url(#axo-hatch)' : 'url(#axo-stone)'} />
+                <polygon class="axo__side-shade" points={pts(side)} fill="url(#axo-shade)" />
+                <polyline class="axo__edge" points={pts([[X0 + DX, y + DY], [X0, y], [X0, y + h], [x1, y + h], [x1 + DX, y + DY + h], [x1 + DX, y + DY], [X0 + DX, y + DY]])} />
+                <polyline class="axo__edge axo__edge--in" points={pts([[X0, y], [x1, y], [x1 + DX, y + DY]])} />
+                <line class="axo__edge axo__edge--in" x1={x1} y1={y} x2={x1} y2={y + h} />
+                {/* dimension line on the left: extension ticks + arrowed measure + figure */}
+                <g class="axo__dim" data-axo-dim>
+                  <line x1={X0 - 46} y1={y} x2={X0 - 6} y2={y} />
+                  <line x1={X0 - 46} y1={y + h} x2={X0 - 6} y2={y + h} />
+                  <line class="axo__dim-m" x1={X0 - 34} y1={y - 12} x2={X0 - 34} y2={y + h + 12} />
+                  <path d={`M${X0 - 38} ${y + 4} L${X0 - 30} ${y - 4} M${X0 - 38} ${y + h + 4} L${X0 - 30} ${y + h - 4}`} />
+                  <text x={X0 - 54} y={y + h / 2 + 6} text-anchor="end" class="axo__fig">{s.mm}<tspan class="axo__unit"> mm</tspan></text>
+                </g>
+              </g>
+            );
+          })}
+        </svg>
+
+        <ul class="axo__legend" role="list">
+          {slabs.map((s) => (
+            <li class={`axo__key axo__key--${s.key}`}>
+              <span class="axo__swatch" aria-hidden="true"></span>
+              <span class="axo__name">{s.label}</span>
+              <span class="axo__val mono" dir="ltr">{s.mm} mm · {s.note}</span>
+            </li>
+          ))}
+        </ul>
       </figure>
 
       <div class="problem__swap">
@@ -51,6 +116,13 @@ const slabs = [
             ))}
           </tbody>
         </table>
+
+        <figure class="proof">
+          <div class="proof__media media" data-reveal="clip">
+            <Image src={MISC.thinSheet} alt={d.photoAlt} widths={[400, 640, 900]} sizes="(max-width: 900px) 60vw, 18vw" quality={76} />
+          </div>
+          <figcaption class="proof__cap">{d.photoCaption}</figcaption>
+        </figure>
       </div>
     </div>
   </div>
@@ -59,28 +131,50 @@ const slabs = [
 <style>
   .problem__head { display: grid; gap: 1.5rem; max-width: 60rem; }
   .problem__statement { margin-top: clamp(3rem, 6vw, 6rem); font-size: clamp(1.75rem, 1.2rem + 2.2vw, 3.25rem); line-height: 1.18; max-width: 28ch; }
-  .problem__grid { margin-top: clamp(4rem, 8vw, 7rem); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2.5rem, 6vw, 7rem); align-items: start; }
+  .problem__grid { margin-top: clamp(4rem, 8vw, 7rem); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: start; }
 
-  .drawing { display: grid; gap: 2rem; }
-  .drawing__row { display: grid; gap: 0.75rem; }
-  .drawing__meta { display: flex; justify-content: space-between; gap: 1rem; font-size: var(--fs-sm); }
-  .drawing__slab { position: relative; height: var(--h); min-height: 1px; background: var(--sand-2); }
-  .drawing__row--five .drawing__slab, .drawing__row--one .drawing__slab { background: var(--copper-deep); }
-  .drawing__row--trad .drawing__slab { background: repeating-linear-gradient(-45deg, var(--sand-2) 0 6px, #cfc4b2 6px 7px); }
-  .drawing__dim { position: absolute; right: -0.25rem; top: 50%; transform: translate(100%, -50%); font-size: 0.6875rem; color: var(--muted); padding-left: 0.5rem; }
-  .drawing figcaption { font-size: var(--fs-xs); letter-spacing: 0.08em; }
+  /* ---- axonometric drawing ---- */
+  .axo { display: grid; gap: 1.5rem; }
+  .axo svg { width: 100%; height: auto; overflow: visible; }
+  .axo__grid line { stroke: rgba(18,16,13,.06); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .axo__top-tone { fill: #f1ece4; opacity: .12; }
+  .axo__slab--trad .axo__top-tone { fill: #12100d; opacity: .08; }
+  .axo__edge { fill: none; stroke: #12100d; stroke-width: 1.15; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .axo__edge--in { stroke-opacity: .35; }
+  .axo__slab--five .axo__front, .axo__slab--one .axo__front { filter: brightness(.82); }
+  .axo__slab--five .axo__edge, .axo__slab--one .axo__edge { stroke: #8a5527; }
+  .axo__dim line, .axo__dim path { stroke: #8a5527; stroke-width: 1; fill: none; vector-effect: non-scaling-stroke; }
+  .axo__dim-m { stroke-dasharray: 2 0; }
+  .axo__fig { font-family: var(--f-display); font-size: 30px; fill: #12100d; }
+  .axo__unit { font-family: var(--f-mono); font-size: 13px; fill: #6b6258; }
+  .axo__slab--one .axo__fig { fill: #8a5527; }
 
+  .axo__legend { display: grid; gap: 0.6rem; font-size: var(--fs-sm); }
+  .axo__key { display: grid; grid-template-columns: 1.1rem auto 1fr; gap: 0.75rem; align-items: center; padding-top: 0.6rem; border-top: 1px solid var(--line); }
+  .axo__swatch { width: 1.1rem; height: 0.7rem; background: #8a5527; }
+  .axo__key--trad .axo__swatch { background: repeating-linear-gradient(-45deg, #e9e2d6 0 3px, #8a5527 3px 4px); box-shadow: inset 0 0 0 1px #12100d; }
+  .axo__key--one .axo__swatch { height: 2px; }
+  .axo__key--five .axo__swatch { height: 6px; }
+  .axo__name { font-weight: 600; }
+  .axo__val { justify-self: end; color: var(--muted); font-size: var(--fs-xs); }
+
+  /* ---- the turn ---- */
   .problem__turn { font-size: var(--fs-lg); line-height: 1.6; max-width: 40ch; }
   .swap { margin-top: 2.5rem; width: 100%; border-collapse: collapse; font-size: var(--fs-base); }
-  .swap th { text-align: left; font-size: var(--fs-xs); font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding-bottom: 1rem; }
-  .swap th:last-child { color: var(--copper-deep); }
+  .swap th { text-align: start; font-size: var(--fs-xs); font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding-bottom: 1rem; }
+  .swap th:last-child { color: var(--copper-deep); padding-inline-start: 1.75rem; }
   .swap td { padding: 1.1rem 0; border-top: 1px solid var(--line); vertical-align: top; }
   .swap__to::before { content: '→'; display: inline-block; width: 1.75rem; color: var(--copper-deep); font-weight: 400; }
-  .swap th:last-child { padding-left: 1.75rem; }
+  :global([dir='rtl']) .swap__to::before { content: '←'; }
   .swap__to { font-weight: 600; color: var(--copper-deep); }
+
+  .proof { margin-top: 2.5rem; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 1.25rem; align-items: end; }
+  .proof__media { aspect-ratio: 3 / 4; }
+  .proof__cap { font-family: var(--f-display); font-style: italic; font-size: var(--fs-lg); line-height: 1.3; color: var(--muted); padding-bottom: 0.25rem; border-bottom: 1px solid var(--line); }
 
   @media (max-width: 900px) {
     .problem__grid { grid-template-columns: 1fr; }
-    .drawing__dim { display: none; }
+    .axo__fig { font-size: 40px; }
+    .axo__unit { font-size: 18px; }
   }
 </style>

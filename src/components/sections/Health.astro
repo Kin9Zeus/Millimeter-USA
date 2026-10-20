@@ -1,8 +1,13 @@
 ---
+// Health & safety. Silica is shown by STONE TYPE with ranges from the OSHA–NIOSH Hazard Alert (2026), so natural
+// stone is never presented as silica-free (client corrections #13 and #17). The chart is a real table: the bars
+// are decoration over rows a screen reader reads as "stone type → typical silica".
 import { t, type Lang } from '../../i18n';
-interface Props { lang: Lang; withTable?: boolean }
-const { lang, withTable = false } = Astro.props;
+interface Props { lang: Lang }
+const { lang } = Astro.props;
 const d = t(lang).health;
+const ticks = [0, 25, 50, 75, 100];
+const pct = (n: number) => (lang === 'es' ? `${n} %` : `${n}%`);
 ---
 <section class="health on-light section cv" id="health" aria-labelledby="health-title">
   <div class="wrap">
@@ -12,64 +17,90 @@ const d = t(lang).health;
       <p class="health__body">{d.body}</p>
     </div>
 
-    <div class="cmp">
-      <article class="cmp__card">
-        <p class="cmp__label">{d.quartzLabel}</p>
-        <p class="cmp__value display">{d.quartzValue}</p>
-        <div class="cmp__dots" aria-hidden="true" style="--n: 40"></div>
-        <p class="cmp__note">{d.quartzNote}</p>
-      </article>
-      <article class="cmp__card cmp__card--mm">
-        <p class="cmp__label">{d.mmLabel}</p>
-        <p class="cmp__value display">{d.mmValue}</p>
-        <div class="cmp__dots cmp__dots--half" aria-hidden="true" style="--n: 0"></div>
-        <p class="cmp__note">{d.mmNote}</p>
-      </article>
-    </div>
+    <figure class="sil" data-sil>
+      <table class="sil__table">
+        <caption class="sil__caption">{d.chartTitle}</caption>
+        <thead class="sr-only"><tr><th scope="col">{d.chartTitle}</th><th scope="col">{d.axis}</th></tr></thead>
+        <tbody>
+          {d.rows.map((r, i) => (
+            <tr class:list={['sil__row', { 'sil__row--mm': r.mm, 'sil__row--eng': !r.mm }]} style={`--a:${r.min};--b:${r.max};--i:${i}`}>
+              <th scope="row" class="sil__k">{r.k}</th>
+              <td class="sil__cell">
+                <span class="sil__track" aria-hidden="true"><span class="sil__bar" data-sil-bar></span></span>
+                <span class="sil__v mono" dir="ltr">{r.v}</span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div class="sil__axis" aria-hidden="true" dir="ltr">
+        {ticks.map((n) => <span style={`--t:${n}`}>{pct(n)}</span>)}
+      </div>
+      <figcaption class="sil__legend">
+        <span class="sil__key sil__key--mm">{d.inMm}</span>
+        <span class="sil__key sil__key--eng">{d.other}</span>
+      </figcaption>
+    </figure>
 
     <ul class="health__points" role="list">
-      {d.points.map((p, i) => <li data-reveal style={`--d:${i * 0.07}s`}>{p}</li>)}
+      {d.points.map((p, i) => (
+        <li data-reveal style={`--d:${i * 0.07}s`}>
+          <h3 class="health__pt">{p.t}</h3>
+          <p>{p.d}</p>
+        </li>
+      ))}
     </ul>
 
-    {withTable && (
-      <div class="tbl-wrap">
-        <table class="tbl">
-          <caption>{d.table.caption}</caption>
-          <thead><tr><th scope="col"></th><th scope="col">{d.quartzLabel}</th><th scope="col">MILLIMETER</th></tr></thead>
-          <tbody>{d.table.rows.map((r) => <tr><th scope="row">{r[0]}</th><td>{r[1]}</td><td class="tbl__mm">{r[2]}</td></tr>)}</tbody>
-        </table>
-      </div>
-    )}
-
-    <p class="health__src muted">{d.note}</p>
+    <p class="health__src muted">{d.note} <a class="text-link" href={d.sourceUrl} target="_blank" rel="noopener">{d.sourceLabel}</a></p>
   </div>
 </section>
 
 <style>
   .health__head { display: grid; gap: 1.5rem; max-width: 52rem; }
-  .health__body { font-size: var(--fs-lg); max-width: 50ch; }
-  .cmp { margin-top: clamp(3rem, 6vw, 5rem); display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); }
-  .cmp__card { background: var(--sand); padding: clamp(1.5rem, 3vw, 2.75rem); border-top: 1px solid #b9ad9b; display: grid; gap: 1.1rem; align-content: start; }
-  .cmp__card--mm { border-top-color: var(--copper-deep); }
-  .cmp__label { font-size: var(--fs-xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
-  .cmp__value { font-size: var(--fs-3xl); line-height: 0.9; }
-  .cmp__card--mm .cmp__value { color: var(--copper-deep); }
-  /* 100-dot grid (20 × 5) drawn with gradients: first --n dots filled = silica share. */
-  .cmp__dots { --d: 1.1rem; position: relative; width: calc(var(--d) * 20); max-width: 100%; aspect-ratio: 4 / 1;
-    background: radial-gradient(circle at center, rgba(18,16,13,.13) 0 34%, transparent 36%) 0 0 / var(--d) var(--d); }
-  .cmp__dots::before { content: ''; position: absolute; left: 0; top: 0; height: calc(var(--d) * 2); width: 100%;
-    background: radial-gradient(circle at center, var(--ink) 0 34%, transparent 36%) 0 0 / var(--d) var(--d); }
-  .cmp__dots[style*='--n: 0']::before { width: calc(var(--d) * 0.5); height: var(--d); background: radial-gradient(circle at right center, var(--copper-deep) 0 34%, transparent 36%) 0 0 / var(--d) var(--d); }
-  .cmp__note { color: var(--muted); max-width: 40ch; }
+  .health__body { font-size: var(--fs-lg); max-width: 56ch; }
+
+  /* ---- silica ranges ---- */
+  .sil { margin-top: clamp(3rem, 6vw, 5rem); padding: clamp(1.5rem, 3vw, 2.75rem); background: var(--sand); border-top: 1px solid var(--copper-deep); }
+  .sil__table { width: 100%; border-collapse: collapse; }
+  .sil__caption { text-align: start; font-size: var(--fs-xs); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding-bottom: 1.5rem; }
+  .sil__row { --track: minmax(0, 1fr); }
+  .sil__row th, .sil__row td { padding-block: 0.95rem; border-top: 1px solid var(--line); vertical-align: middle; }
+  .sil__k { width: 30%; text-align: start; font-weight: 500; padding-inline-end: 1.25rem; }
+  .sil__row--mm .sil__k { font-weight: 600; }
+  .sil__cell { display: grid; grid-template-columns: minmax(0, 1fr) 8.5rem; gap: 1rem; align-items: center; }
+  /* Track = 0–100 % scale, always left→right like any measuring instrument (also in RTL). */
+  .sil__track { position: relative; height: 1.15rem; direction: ltr;
+    background:
+      linear-gradient(90deg, rgba(18,16,13,.09) 1px, transparent 1px) 0 0 / 25% 100% repeat-x,
+      rgba(18,16,13,.04); }
+  .sil__bar { position: absolute; top: 0; bottom: 0; left: calc(var(--a) * 1%); width: max(calc((var(--b) - var(--a)) * 1%), 6px);
+    background: var(--copper-deep); transform-origin: left; transition: transform 1.1s var(--ease) calc(var(--i) * 0.12s); }
+  .sil__row--eng .sil__bar { background: repeating-linear-gradient(-45deg, #8d8476 0 3px, transparent 3px 7px); box-shadow: inset 0 0 0 1px #8d8476; }
+  :global(.js) .sil:not(.is-in) .sil__bar { transform: scaleX(0); }
+  :global(html[data-motion='off']) .sil__bar { transform: none !important; transition: none; }
+  .sil__v { font-size: var(--fs-lg); text-align: end; color: var(--ink); white-space: nowrap; }
+  .sil__row--mm .sil__v { color: var(--copper-deep); }
+  .sil__axis { position: relative; height: 1.5rem; margin-inline-start: 30%; margin-inline-end: 9.5rem; margin-top: 0.5rem; }
+  .sil__axis span { position: absolute; left: calc(var(--t) * 1%); transform: translateX(-50%); font-family: var(--f-mono); font-size: 0.6875rem; color: var(--muted); }
+  .sil__legend { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; font-size: var(--fs-sm); color: var(--muted); }
+  .sil__key { display: inline-flex; align-items: center; gap: 0.6rem; }
+  .sil__key::before { content: ''; width: 1.6rem; height: 0.7rem; background: var(--copper-deep); }
+  .sil__key--eng::before { background: repeating-linear-gradient(-45deg, #8d8476 0 3px, transparent 3px 7px); box-shadow: inset 0 0 0 1px #8d8476; }
+
   .health__points { margin-top: 2.5rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gutter); }
-  .health__points li { border-left: 1px solid var(--copper-deep); padding-left: 1rem; font-weight: 600; }
-  .tbl-wrap { margin-top: 3rem; overflow-x: auto; }
-  .tbl { width: 100%; border-collapse: collapse; min-width: 34rem; }
-  .tbl caption { text-align: left; font-size: var(--fs-xs); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding-bottom: 1rem; }
-  .tbl th, .tbl td { text-align: left; padding: 1rem 1rem 1rem 0; border-top: 1px solid var(--line); }
-  .tbl thead th { font-size: var(--fs-xs); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: var(--muted); }
-  .tbl tbody th { font-weight: 500; }
-  .tbl__mm { color: var(--copper-deep); font-weight: 600; }
-  .health__src { margin-top: 2rem; font-size: var(--fs-xs); }
-  @media (max-width: 900px) { .cmp { grid-template-columns: 1fr; } .health__points { grid-template-columns: 1fr 1fr; } }
+  .health__points li { border-inline-start: 1px solid var(--copper-deep); padding-inline-start: 1rem; display: grid; gap: 0.4rem; align-content: start; }
+  .health__pt { font-size: var(--fs-base); font-weight: 600; }
+  .health__points p { color: var(--muted); font-size: var(--fs-sm); }
+  .health__src { margin-top: 2rem; font-size: var(--fs-xs); max-width: 90ch; }
+
+  @media (max-width: 900px) {
+    .health__points { grid-template-columns: 1fr 1fr; }
+    .sil__row th, .sil__row td { display: block; border-top: 0; }
+    .sil__row th { padding-bottom: 0.4rem; border-top: 1px solid var(--line); width: auto; }
+    .sil__row td { padding-top: 0; }
+    .sil__cell { grid-template-columns: minmax(0, 1fr) 7rem; }
+    .sil__v { font-size: var(--fs-base); }
+    .sil__axis { margin-inline-start: 0; margin-inline-end: 8rem; }
+  }
+  @media (max-width: 520px) { .health__points { grid-template-columns: 1fr; } }
 </style>

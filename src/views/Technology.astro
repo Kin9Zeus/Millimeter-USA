@@ -17,7 +17,7 @@ const all = t(lang);
 const d = all.tech;
 ---
 <Base lang={lang} page="technology" crumb={all.nav.technology} schema={[faqSchema(all.faq.items)]}>
-  <MediaHero image={HERO.technology} seq="technology" eyebrow={d.eyebrow} title={d.title} intro={d.intro} measure={d.aside} pos="50% 45%" />
+  <MediaHero split image={HERO.technology} alt={d.alt} eyebrow={d.eyebrow} title={d.title} intro={d.intro} measure={d.aside} pos="45% 55%" />
 
   <section class="specs on-dark section--tight" aria-labelledby="specs-title">
     <div class="wrap">
@@ -41,7 +41,7 @@ const d = all.tech;
 
   <Weight lang={lang} />
   <Curve lang={lang} />
-  <Health lang={lang} withTable />
+  <Health lang={lang} />
   <Carbon lang={lang} />
 
   <section class="fit on-dark section--tight">

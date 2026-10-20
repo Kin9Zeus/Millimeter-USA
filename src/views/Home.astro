@@ -23,7 +23,7 @@ const { lang } = Astro.props;
 const d = t(lang);
 ---
 <Base lang={lang} page="home" schema={[faqSchema(d.faq.items)]}>
-  <MediaHero home image={HERO.home} seq="home" alt={{ en: 'Living room with a full-height feature wall in large-format book-matched Calacatta marble', es: 'Salón con un muro de mármol Calacatta en placas de gran formato a altura completa', fr: 'Salon avec un mur en marbre Calacatta en grands formats sur toute la hauteur' }[lang]} eyebrow={d.hero.eyebrow} title={d.hero.title} intro={d.hero.lede} measure="20 mm → 1 mm · 13 lb/ft² → < 1 lb/ft²" run="90svh" runPortrait="60svh" pos="62% 50%">
+  <MediaHero home split image={HERO.home} alt={d.hero.alt} eyebrow={d.hero.eyebrow} title={d.hero.title} intro={d.hero.lede} measure={d.hero.measure} run="90svh" runPortrait="60svh" pos="50% 55%">
     <div class="home-ctas">
       <a class="btn" href={ROUTES.contact[lang]} data-magnetic>{d.hero.cta}<Arrow /></a>
       <a class="btn btn--ghost" href="#problem">{d.hero.secondary}<Arrow dir="down" /></a>

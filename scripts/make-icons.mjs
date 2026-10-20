@@ -34,23 +34,26 @@ header.writeUInt8(32, 6); header.writeUInt8(32, 7); header.writeUInt8(0, 8); hea
 header.writeUInt16LE(1, 10); header.writeUInt16LE(32, 12); header.writeUInt32LE(png32.length, 14); header.writeUInt32LE(22, 18);
 fs.writeFileSync('public/favicon.ico', Buffer.concat([header, png32]));
 
-// Open Graph image 1200×630: realistic hero photo + gradient + official wordmark + mm rule.
+// Open Graph image 1200×630, split like the home hero: wordmark on ink + the (portrait) hero photo in a
+// full-height column on the right, so a vertical photograph is never upscaled into a horizontal frame.
 const logo = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 856 213" width="520" height="129"><path fill="${BONE}" fill-rule="evenodd" d="${d}"/></svg>`;
+const PHOTO_W = 470;
 const overlay = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
-  <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="${INK}" stop-opacity=".96"/><stop offset=".55" stop-color="${INK}" stop-opacity=".55"/><stop offset="1" stop-color="${INK}" stop-opacity="0"/></linearGradient></defs>
-  <rect width="1200" height="630" fill="url(#g)"/>
+  <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="${INK}" stop-opacity="1"/><stop offset="1" stop-color="${INK}" stop-opacity="0"/></linearGradient></defs>
+  <rect x="${1200 - PHOTO_W}" width="90" height="630" fill="url(#g)"/>
   <g stroke="${COPPER}" stroke-width="1.5">
     <line x1="72" y1="430" x2="592" y2="430"/>
     ${Array.from({ length: 27 }, (_, i) => `<line x1="${72 + i * 20}" y1="430" x2="${72 + i * 20}" y2="${i % 5 === 0 ? 444 : 437}"/>`).join('')}
   </g>
 </svg>`;
 fs.mkdirSync('public/og', { recursive: true });
-await sharp('src/assets/heroes/home.jpg')
-  .resize(1200, 630, { fit: 'cover', position: 'right' })
+const photo = await sharp('src/assets/heroes/home.jpg').resize(PHOTO_W, 630, { fit: 'cover', position: 'centre' }).toBuffer();
+await sharp({ create: { width: 1200, height: 630, channels: 3, background: INK } })
   .composite([
+    { input: photo, top: 0, left: 1200 - PHOTO_W },
     { input: Buffer.from(overlay), top: 0, left: 0 },
     { input: Buffer.from(logo), top: 250, left: 72 },
   ])
   .jpeg({ quality: 84, mozjpeg: true })
-  .toFile('public/og/millimeter-usa.jpg');
+  .toFile('public/og/millimeter.jpg');
 console.log('icons + og generated');

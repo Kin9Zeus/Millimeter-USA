@@ -14,6 +14,8 @@ if (root.dataset.motionFailsafe === '1') { root.dataset.motion = 'on'; delete ro
 root.dataset.motionReady = '1';
 const reduce = root.dataset.motion === 'off';
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+// Right-to-left pages (Arabic): horizontal motion runs the other way.
+const rtl = document.documentElement.dir === 'rtl';
 const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s);
 const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => Array.from(r.querySelectorAll<T>(s));
 
@@ -58,6 +60,8 @@ const io = new IntersectionObserver(
   }),
   { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
 );
+// Silica chart bars and world-map routes draw when their figure is on screen (same observer, whole figure).
+$$('[data-sil], [data-wm]').forEach((el) => { revealOf.set(el, [el]); io.observe(el); });
 $$('[data-reveal]').forEach((el) => {
   const target = el.dataset.reveal === 'clip' && el.parentElement ? el.parentElement : el;
   revealOf.set(target, [...(revealOf.get(target) ?? []), el]);
@@ -164,6 +168,24 @@ function heroes() {
   });
 }
 
+/* ---------------- thickness drawing: the three volumes separate and their dimensions draw in ---------------- */
+function axo() {
+  const fig = $('[data-axo]');
+  if (!fig) return;
+  // Stone texture is deferred until the drawing is close (it must never become the page's LCP candidate).
+  near(fig, () => $$<SVGImageElement>('image[data-href]', fig).forEach((im) => im.setAttribute('href', im.dataset.href!)), '100% 0px');
+  if (reduce) return;
+  near(fig, () => {
+    const slabs = $$('[data-axo-slab]', fig);
+    const dims = $$('[data-axo-dim]', fig);
+    const tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: fig, start: 'top 85%', end: 'center 45%', scrub: 0.6 } });
+    // Start stacked (as one block) and open up into the exploded section.
+    const from = [70, 0, -55];
+    slabs.forEach((g, i) => tl.from(g, { y: from[i] ?? 0, duration: 1 }, 0));
+    dims.forEach((g, i) => tl.from(g, { opacity: 0, x: -14, duration: 0.45 }, 0.45 + i * 0.12));
+  });
+}
+
 /* ---------------- scroll-played footage outside heroes (never looped) ---------------- */
 function scrubSequences() {
   if (reduce) return;
@@ -212,7 +234,7 @@ function hscroll() {
   mm.add('(min-width: 901px)', () => {
     const dist = () => track.scrollWidth - innerWidth;
     const tween = gsap.to(track, {
-      x: () => -dist(), ease: 'none',
+      x: () => (rtl ? dist() : -dist()), ease: 'none',
       scrollTrigger: {
         trigger: root, start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 0.6, invalidateOnRefresh: true, anticipatePin: 1,
         onUpdate: (st) => counter && (counter.style.transform = `scaleX(${st.progress})`),
@@ -220,7 +242,7 @@ function hscroll() {
     });
     $$('[data-hcard] img', root).forEach((img) => {
       gsap.fromTo(img, { scale: 1.18 }, { scale: 1, ease: 'none',
-        scrollTrigger: { trigger: img, containerAnimation: tween, start: 'left right', end: 'right left', scrub: true } });
+        scrollTrigger: { trigger: img, containerAnimation: tween, start: rtl ? 'right left' : 'left right', end: rtl ? 'left right' : 'right left', scrub: true } });
     });
   });
 }
@@ -328,6 +350,7 @@ async function boot() {
 async function rest() {
   splitLines();
   inkWords();
+  axo();
   scrubSequences();
   bars();
   counters();

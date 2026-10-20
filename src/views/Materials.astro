@@ -4,7 +4,6 @@ import Base from '../layouts/Base.astro';
 import MediaHero from '../components/MediaHero.astro';
 import { HERO } from '../data/media';
 import Cta from '../components/sections/Cta.astro';
-import Arrow from '../components/Arrow.astro';
 import { MATERIALS } from '../data/materials';
 import { itemList } from '../lib/schema';
 import { t, ROUTES, type Lang } from '../i18n';
@@ -18,12 +17,12 @@ const site = new URL(Astro.site!).origin; // ROUTES already include the base pat
 const schema = itemList(d.title, MATERIALS.map((m) => ({ name: `${m.name} — ${label(m.kind)}`, url: `${site}${ROUTES.materials[lang]}#${m.id}`, description: m.tone[lang] })));
 ---
 <Base lang={lang} page="materials" crumb={all.nav.materials} schema={[schema]}>
-  <MediaHero image={HERO.materials} seq="materials" eyebrow={d.eyebrow} title={d.title.split('. ').map((s, i, a) => (i < a.length - 1 ? s + '.' : s))} intro={d.intro} measure={`${MATERIALS.length} · 1–5 mm`} pos="50% 40%" />
+  <MediaHero split image={HERO.materials} alt={d.heroAlt} eyebrow={d.eyebrow} title={d.title.split('. ').map((s, i, a) => (i < a.length - 1 ? s + '.' : s))} intro={d.intro} measure={`${MATERIALS.length} · 1–5 mm`} pos="50% 50%" />
 
   <section class="mat on-dark section--tight" aria-label={d.eyebrow}>
     <div class="wrap">
       <div class="mat__bar">
-        <div class="filters" role="group" aria-label={{ en: 'Filter by stone type', es: 'Filtrar por tipo de piedra', fr: 'Filtrer par type de pierre' }[lang]} data-filters>
+        <div class="filters" role="group" aria-label={{ en: 'Filter by stone type', es: 'Filtrar por tipo de piedra', ar: 'تصفية حسب نوع الحجر' }[lang]} data-filters>
           {kinds.map((k) => <button type="button" data-filter={k} aria-pressed={k === 'all' ? 'true' : 'false'}>{label(k)}</button>)}
         </div>
         <p class="mono mat__count" aria-live="polite"><span data-filter-live>{MATERIALS.length}</span> / {MATERIALS.length}</p>
@@ -35,7 +34,7 @@ const schema = itemList(d.title, MATERIALS.map((m) => ({ name: `${m.name} — ${
             <figure>
               <div class="stone__media media">
                 <Image src={m.image} alt={`${m.name} ${label(m.kind).toLowerCase()}: ${m.tone[lang]}`} widths={[360, 540, 720]} sizes="(max-width: 520px) 50vw, (max-width: 900px) 33vw, 22vw" quality={72} loading={i < 4 ? 'eager' : 'lazy'} />
-                {m.featured && <span class="stone__flag mono">USA</span>}
+                {m.featured && <span class="stone__flag mono">{all.common.featured}</span>}
                 <span class="stone__mm mono" aria-hidden="true">1–5 mm</span>
               </div>
               <figcaption>
@@ -56,7 +55,6 @@ const schema = itemList(d.title, MATERIALS.map((m) => ({ name: `${m.name} — ${
         <p class="eyebrow">{d.chooseEyebrow}</p>
         <h2 id="choose-title" class="display h-1" data-split>{d.chooseTitle}</h2>
         {d.chooseBody.map((p) => <p class="body-lg">{p}</p>)}
-        <a class="btn" href={ROUTES.contact[lang]}>{d.requestSamples}<Arrow /></a>
       </div>
       <dl class="choose__list">
         {d.choose.map((c, i) => (
@@ -84,8 +82,8 @@ const schema = itemList(d.title, MATERIALS.map((m) => ({ name: `${m.name} — ${
   .stone__media { aspect-ratio: 1; }
   .stone__media :global(img) { transition: transform 1.2s var(--ease); }
   .stone:hover .stone__media :global(img) { transform: scale(1.08); }
-  .stone__flag { position: absolute; top: 0.75rem; left: 0.75rem; font-size: 0.625rem; padding: 0.25rem 0.45rem; background: var(--copper); color: var(--ink); letter-spacing: 0.1em; }
-  .stone__mm { position: absolute; right: 0.75rem; bottom: 0.75rem; font-size: var(--fs-xs); color: var(--text-dark); background: rgba(18,16,13,.7); padding: 0.25rem 0.5rem; opacity: 0; transform: translateY(6px); transition: all 0.4s var(--ease); }
+  .stone__flag { position: absolute; top: 0.75rem; inset-inline-start: 0.75rem; font-size: 0.625rem; padding: 0.25rem 0.45rem; background: var(--copper); color: var(--ink); letter-spacing: 0.1em; }
+  .stone__mm { position: absolute; inset-inline-end: 0.75rem; bottom: 0.75rem; font-size: var(--fs-xs); color: var(--text-dark); background: rgba(18,16,13,.7); padding: 0.25rem 0.5rem; opacity: 0; transform: translateY(6px); transition: all 0.4s var(--ease); }
   .stone:hover .stone__mm { opacity: 1; transform: none; }
   .stone figcaption { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; border-top: 1px solid var(--line-dark); padding-top: 0.75rem; }
   .stone__name { font-family: var(--f-display); font-size: var(--fs-lg); line-height: 1.1; }

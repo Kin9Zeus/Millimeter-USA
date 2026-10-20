@@ -1,13 +1,11 @@
 """Turns media-src/video/hero-<page>.mp4 into scroll frame sequences used by MediaHero:
 public/media/seq/<page>/d/NNN.webp (16:9, 1280 px) and /m/NNN.webp (9:16 crop, 640 px), at most 6 s.
-Also installs media-src/images/duchas.png as the shower application image.
 
     npm run frames                            # every hero video found
     python -I scripts/video-frames.py home    # just one
 Requires ffmpeg on PATH and Pillow.
 """
 import os, shutil, subprocess, sys
-from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VID = os.path.join(ROOT, 'media-src', 'video')
@@ -16,6 +14,8 @@ COUNT = 72          # frames per sequence
 SECONDS = 6         # client rule: videos are at most 6 s and only advance with the scroll
 # Extra sources that are not hero-<page>.mp4: page -> file in media-src/video
 EXTRA = {'casanova': 'legacy.mp4'}
+# Heroes that now show the client's still photograph in a split layout (Oct 2026 corrections): no sequence.
+STILL = {'home', 'technology', 'materials'}
 # Horizontal focus (0 = left, 1 = right) for the 9:16 mobile crop.
 FOCUS = {'casanova': 0.78, 'technology': 0.36}
 # Fewer frames for grainy footage (dust/film grain compresses poorly).
@@ -40,16 +40,7 @@ def frames(page):
         print(f'  {page}/{variant}: {len(os.listdir(out))} frames, {size:.1f} MB')
 
 
-def shower():
-    src = os.path.join(ROOT, 'media-src', 'images', 'duchas.png')
-    if not os.path.exists(src): return
-    im = Image.open(src).convert('RGB')
-    if im.width > 2400: im = im.resize((2400, round(im.height * 2400 / im.width)), Image.LANCZOS)
-    im.save(os.path.join(ROOT, 'src', 'assets', 'applications', 'duchas.jpg'), 'JPEG', quality=90, optimize=True, progressive=True)
-    print('  shower image installed -> src/assets/applications/duchas.jpg')
-
-
 if __name__ == '__main__':
-    pages = sys.argv[1:] or sorted({*(f[5:-4] for f in os.listdir(VID) if f.startswith('hero-') and f.endswith('.mp4')), *(k for k, v in EXTRA.items() if os.path.exists(os.path.join(VID, v)))})
+    found = {*(f[5:-4] for f in os.listdir(VID) if f.startswith('hero-') and f.endswith('.mp4')), *(k for k, v in EXTRA.items() if os.path.exists(os.path.join(VID, v)))}
+    pages = sys.argv[1:] or sorted(found - STILL)
     for p in pages: frames(p)
-    shower()
