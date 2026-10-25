@@ -16,7 +16,7 @@ const es: Dict = {
     },
     applications: {
       title: 'Aplicaciones — dónde va la piedra natural fina | MILLIMETER',
-      description: 'Muros decorativos, chimeneas, arcos y columnas, grandes duchas, mobiliario, puertas, superficies curvas y techos: ocho aplicaciones que el espesor de 1 a 5 mm hace posibles.',
+      description: 'Cocinas, baños, arcos y columnas, grandes duchas, mobiliario, puertas, superficies curvas y techos: ocho aplicaciones que el espesor de 1 a 5 mm hace posibles.',
     },
     materials: {
       title: 'Materiales — mármol, cuarcita y travertino de 1 a 5 mm | MILLIMETER',
@@ -101,7 +101,7 @@ const es: Dict = {
     title: ['Redefiniendo', 'la piedra natural.'],
     lede: 'Mármol, cuarcita y travertino reales en 1 y 5 milímetros: hasta un 90 % más ligeros, capaces de curvarse y de convertirse en mobiliario y arquitectura, y exactamente la misma piedra.',
     measure: 'De 20 mm a 1 mm de espesor · De aproximadamente 63,5 kg/m² a 4,9 kg/m² de peso',
-    alt: 'Cocina con una isla escultórica y un frente a altura completa en piedra natural gris verdosa con vetas blancas, y mobiliario de nogal',
+    alt: 'Cocina con una isla escultórica y un frente a altura completa en cuarcita Bianco Superior, gris verdosa con vetas blancas, y mobiliario de nogal',
     readThickness: 'Espesor',
     readWeight: 'Peso',
     final: 'Un milímetro.',
@@ -169,10 +169,10 @@ const es: Dict = {
     intro: 'Cada una existe por una razón concreta: el peso, la curvatura o la ausencia de juntas. No son ideas de catálogo, son consecuencias del material.',
     cta: 'Ver las aplicaciones en detalle',
     items: [
-      { id: 'walls', img: 'muros', alt: 'Muro de mármol oscuro bookmatched con lavabo integrado y grifo de bronce', thick: '5 mm', title: 'Muros decorativos', short: 'Paños de gran formato con pocas juntas y sin anclajes pesados.', long: 'Cada lámina mide hasta 3 metros, lo que permite cubrir paños de gran formato con pocas juntas. Con piedra tradicional habría que anclarlas a estructura propia; a 5 mm, el grosor que recomendamos para muros, se adhieren sobre el tabique que ya existe.' },
-      { id: 'fireplaces', img: 'chimeneas', alt: 'Chimenea revestida en piedra natural', thick: '1 y 5 mm', title: 'Chimeneas', short: 'Piedra fina sobre la estructura que ya existe.', long: 'La chimenea suele estar construida y revestida. MILLIMETER, en 1 y 5 mm, va encima de lo que hay, sin demoler, sin recalcular cargas y sin perder centímetros de hueco.' },
+      { id: 'kitchens', img: 'cocinas', alt: 'Cocina con una isla curva escultórica revestida en piedra natural crema cálida, mobiliario de roble y suelo en espiga', thick: '1 y 5 mm', title: 'Cocinas', short: 'Islas, frentes y salpicaderos en piedra real.', long: 'Islas envueltas en una sola lámina continua, remates curvos, frentes a altura completa y puertas de mueble revestidas en piedra. En 1 mm la piedra sigue la curva de una isla; en 5 mm cubre frentes y cantos de encimera sin anclajes pesados.' },
+      { id: 'bathrooms', img: 'banos', alt: 'Baño con bañera exenta revestida en mármol gris de veta fina', thick: '1 y 5 mm', title: 'Baños', short: 'Bañeras, muebles de baño y lavabos revestidos en piedra natural.', long: 'Bañeras exentas, muebles de baño y lavabos revestidos en piedra natural, con paredes en láminas grandes y pocas juntas. En 1 mm la piedra envuelve bañeras redondas y frentes curvos; en 5 mm cubre paredes y encimeras de baño.' },
       { id: 'architectural', img: 'arquitectonicos', alt: 'Arco revestido con una lámina continua de mármol', thick: '1 mm', title: 'Elementos arquitectónicos', short: 'Arcos y columnas revestidos en curva continua.', long: 'Arcos, bóvedas y columnas revestidos con una sola pieza que sigue la geometría. La veta recorre la curva en vez de cortarse en cada junta.' },
-      { id: 'showers', img: 'duchas', alt: 'Baño con bañera exenta revestida en mármol gris de veta fina', thick: '5 mm', title: 'Grandes duchas', short: 'Menos juntas: menos filtración y menos silicona.', long: 'Menos juntas es menos silicona, menos filtración y menos mantenimiento. En una ducha de obra es la diferencia entre diez años y dos.' },
+      { id: 'showers', img: 'duchas', alt: 'Ducha de obra revestida de suelo a techo con grandes placas de travertino de juntas casi invisibles', thick: '5 mm', title: 'Grandes duchas', short: 'Menos juntas: menos filtración y menos silicona.', long: 'Menos juntas es menos silicona, menos filtración y menos mantenimiento. En una ducha de obra es la diferencia entre diez años y dos.' },
       { id: 'furniture', img: 'mobiliario', alt: 'Mesita de noche en travertino y latón cepillado con un cajón de piedra abierto', thick: '1 y 5 mm', title: 'Mobiliario a medida', short: 'Frentes de piedra que abren y cierran de verdad.', long: 'Frentes, puertas y cajones de piedra, en 1 y 5 mm, que abren y cierran con herraje convencional, porque pesan lo que pesaría un tablero chapado.' },
       { id: 'doors', img: 'puertas', alt: 'Puerta pivotante de altura completa revestida en travertino en la entrada de una casa', thick: '5 mm', title: 'Puertas y paneles', short: 'Peso compatible con herrajes estándar.', long: 'Una hoja de puerta revestida en mármol de 5 mm entra dentro del rango de carga de una bisagra estándar. Con 2 cm de piedra, no.' },
       { id: 'curves', img: 'curvas', alt: 'Superficie curva revestida con una sola lámina de piedra natural', thick: '1 mm', title: 'Superficies curvas', short: 'Curva real, no un despiece que la simula.', long: 'La aplicación que define el producto. Curva continua real: ningún otro material natural la resuelve hoy sin despiece.' },

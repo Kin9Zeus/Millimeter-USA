@@ -33,8 +33,10 @@ interface Props {
   home?: boolean;
   h1?: boolean;
   split?: boolean;
+  /** Small photo credit on the image, e.g. the stone's name (review 21-oct #1). */
+  caption?: string;
 }
-const { image, alt = '', eyebrow, title, intro, measure, run = '70svh', runPortrait = '55svh', pos = '50% 50%', seq, home = false, h1 = true, split = false } = Astro.props;
+const { image, alt = '', eyebrow, title, intro, measure, run = '70svh', runPortrait = '55svh', pos = '50% 50%', seq, home = false, h1 = true, split = false, caption } = Astro.props;
 const widths = [640, 960, 1280, 1600, 2048, 2560].filter((w) => w <= image.width);
 const [avif, webp] = await Promise.all([
   getImage({ src: image, widths, format: 'avif', quality: 58 }),
@@ -57,6 +59,7 @@ const hasSeq = seqD + seqM > 0;
         <source type="image/webp" srcset={webp.srcSet.attribute} sizes={split ? '(min-width: 901px) and (orientation: landscape) 46vw, 100vw' : '100vw'} />
         <img src={webp.src} alt={alt} width={image.width} height={image.height} fetchpriority={home ? 'high' : 'auto'} loading={home ? 'eager' : 'eager'} decoding="async" data-mh-img />
       </picture>
+      {caption && <p class="mh__caption mono" dir="ltr">{caption}</p>}
       {hasSeq && <canvas class="mh__canvas" data-mh-seq={seq} data-count-d={seqD} data-count-m={seqM} aria-hidden="true"></canvas>}
     </div>
     <div class="mh__scrim" aria-hidden="true"></div>
@@ -88,6 +91,10 @@ const hasSeq = seqD + seqM > 0;
   .mh__media img, .mh__video, .mh__canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: var(--pos); }
   .mh__media img { transform-origin: 50% 60%; will-change: transform; }
   .mh__canvas { opacity: 0; transition: opacity 0.6s; }
+  /* Photo caption: small, legible on any stone, never over the headline (phones: top corner under the header). */
+  .mh__caption { position: absolute; z-index: 2; inset-inline-end: var(--gutter); top: calc(var(--header-h) + 0.75rem);
+    padding: 0.35rem 0.6rem; font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dark);
+    background: rgba(18,16,13,.55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); pointer-events: none; }
   :global(.mh.has-seq) .mh__canvas { opacity: 1; }
 
   .mh__scrim { position: absolute; inset: 0; pointer-events: none; background:
@@ -114,6 +121,7 @@ const hasSeq = seqD + seqM > 0;
   @media (min-width: 901px) and (orientation: landscape) {
     .mh--split .mh__media { inset-inline-start: auto; width: 46%; }
     .mh--split .mh__media img { object-position: var(--pos); }
+    .mh--split .mh__caption { top: auto; bottom: 1.25rem; inset-inline-end: auto; inset-inline-start: 1.25rem; }
     .mh--split .mh__media::after { content: ''; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(200,145,90,.18); }
     .mh--split .mh__scrim { background: linear-gradient(to bottom, rgba(18,16,13,.85) 0%, rgba(18,16,13,.45) 9%, rgba(18,16,13,0) 20%); }
     .mh--split .mh__side { background: linear-gradient(to right, var(--ink) 54%, rgba(18,16,13,.55) 56%, rgba(18,16,13,0) 66%); }

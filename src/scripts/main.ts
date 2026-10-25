@@ -162,7 +162,9 @@ function heroes() {
       scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: 0.6,
         onUpdate: seq ? (st) => seq!.set(st.progress) : undefined },
     });
-    if (img) tl.fromTo(img, { scale: 1.16, yPercent: 0 }, { scale: 1, yPercent: -3, duration: 1 }, 0);
+    // Split heroes show the client's photograph at its true framing: only a subtle push (review 21-oct #5: "too much zoom").
+    const push = hero.classList.contains('mh--split') ? 1.04 : 1.16;
+    if (img) tl.fromTo(img, { scale: push, yPercent: 0 }, { scale: 1, yPercent: -2, duration: 1 }, 0);
     if (side) tl.to(side, { opacity: 0.25, duration: 0.7 }, 0.3);
     if (content) tl.to(content, { y: -70, opacity: 0, duration: 0.45, ease: 'power1.in' }, 0.55);
   });

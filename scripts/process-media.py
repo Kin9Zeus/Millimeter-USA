@@ -35,19 +35,28 @@ def poster(name, src, at=0.8):
     print(f'  poster {name}')
 
 
-def copy_image(src, dst, max_w=2400):
+def copy_image(src, dst, max_w=2400, crop=None):
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     im = Image.open(src)
     im = im.convert('RGB')
+    if crop:
+        im = im.crop(crop)
     if im.width > max_w:
         im = im.resize((max_w, round(im.height * max_w / im.width)), Image.LANCZOS)
     im.save(dst, 'JPEG', quality=90, optimize=True, progressive=True)
 
 
 def photos():
-    # Applications (8)
+    # Applications: originals from aplicaciones/. Feature walls and fireplaces were retired (review 21-oct: kitchens and
+    # bathrooms come from CORRECTIONS); the shower is the full-height-slab still in media-src/images/duchas.png.
+    RETIRED = {'muros', 'chimeneas', 'duchas'}
     for f in os.listdir(os.path.join(ROOT, 'aplicaciones')):
-        copy_image(os.path.join(ROOT, 'aplicaciones', f), os.path.join(ASSETS, 'applications', slug(os.path.splitext(f)[0]) + '.jpg'))
+        k = slug(os.path.splitext(f)[0])
+        if k not in RETIRED:
+            copy_image(os.path.join(ROOT, 'aplicaciones', f), os.path.join(ASSETS, 'applications', k + '.jpg'))
+    shower = os.path.join(ROOT, 'media-src', 'images', 'duchas.png')
+    if os.path.exists(shower):
+        copy_image(shower, os.path.join(ASSETS, 'applications', 'duchas.jpg'))
     # Materials: canonical 12 + extra swatches from the mixed folder
     for f in os.listdir(os.path.join(ROOT, 'materiales')):
         copy_image(os.path.join(ROOT, 'materiales', f), os.path.join(ASSETS, 'materials', slug(os.path.splitext(f)[0]) + '.jpg'), 1800)
@@ -68,6 +77,8 @@ def photos():
         d = os.path.join(ROOT, 'media-src', sub)
         if os.path.isdir(d):
             for f in os.listdir(d):
+                if slug(os.path.splitext(f)[0]) == 'duchas':
+                    continue
                 copy_image(os.path.join(d, f), os.path.join(ASSETS, 'scenes', slug(os.path.splitext(f)[0]) + '.jpg'))
     print('  photos copied to src/assets')
 
@@ -76,10 +87,12 @@ def photos():
 # Runs after photos() so the approved replacements win over the original application photos.
 CORRECTIONS = {
     'Portada/WhatsApp Image 2026-10-16 at 3.15.12 AM (1).jpeg': 'heroes/home',
-    'Cocina 02/WhatsApp Image 2026-10-16 at 3.18.11 AM (1).jpeg': 'heroes/technology',
+    # Technology hero: the wide view of the kitchen (review 21-oct #5), cropped to drop the poster's title and logo.
+    'Cocina 02/WhatsApp Image 2026-10-16 at 3.18.11 AM (2).jpeg': ('heroes/technology', (0, 300, 941, 1345)),
+    # Applications: Kitchens and Bathrooms replace Fireplaces and Feature walls (review 21-oct #2).
+    'Cocina 02/WhatsApp Image 2026-10-16 at 3.18.11 AM (1).jpeg': 'applications/cocinas',
+    'Bathroom/WhatsApp Image 2026-10-16 at 3.16.57 AM (2).jpeg': 'applications/banos',
     'Cocina 03/WhatsApp Image 2026-10-16 at 3.17.28 AM (1).jpeg': 'heroes/materials',
-    'Cocina 01/Bookmatched stone sink with bronze faucet.png': 'applications/muros',
-    'Bathroom/WhatsApp Image 2026-10-16 at 3.16.57 AM (2).jpeg': 'applications/duchas',
     'Furnitures/WhatsApp Image 2026-10-16 at 3.19.22 AM (1).jpeg': 'applications/mobiliario',
     'Doors/WhatsApp Image 2026-10-16 at 3.19.21 AM (1).jpeg': 'applications/puertas',
     'Cantera/WhatsApp Image 2026-10-16 at 3.16.16 AM.jpeg': 'scenes/warehouse',
@@ -101,8 +114,9 @@ def corrections():
         print('  corrections: folder not found, skipped')
         return
     for src, dst in CORRECTIONS.items():
-        # Re-encoded without metadata (EXIF/GPS never reaches the site); never upscaled.
-        copy_image(os.path.join(base, src), os.path.join(ASSETS, dst + '.jpg'))
+        dst, box = dst if isinstance(dst, tuple) else (dst, None)
+        # Re-encoded without metadata (EXIF/GPS never reaches the site); never upscaled; optional crop box.
+        copy_image(os.path.join(base, src), os.path.join(ASSETS, dst + '.jpg'), crop=box)
     print(f'  corrections: {len(CORRECTIONS)} images copied to src/assets')
 
 

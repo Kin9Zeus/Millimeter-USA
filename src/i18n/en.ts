@@ -16,7 +16,7 @@ const en = {
     },
     applications: {
       title: 'Applications — where thin natural stone goes | MILLIMETER',
-      description: 'Feature walls, fireplaces, arches and columns, walk-in showers, custom furniture, doors, curved surfaces and ceilings: eight applications 1–5 mm makes possible.',
+      description: 'Kitchens, bathrooms, arches and columns, walk-in showers, custom furniture, doors, curved surfaces and ceilings: eight applications 1–5 mm makes possible.',
     },
     materials: {
       title: 'Materials — marble, quartzite & travertine at 1–5 mm | MILLIMETER',
@@ -101,7 +101,7 @@ const en = {
     title: ['Redefining', 'natural stone.'],
     lede: 'Real marble, quartzite and travertine at 1 and 5 millimeters: up to 90% lighter, able to curve and to become furniture and architecture — and exactly the same stone.',
     measure: '20 mm → 1 mm thick · ≈ 13 lb/ft² → 1 lb/ft²',
-    alt: 'Kitchen with a sculptural island and full-height backsplash in grey-green natural stone with white veining, walnut cabinetry',
+    alt: 'Kitchen with a sculptural island and full-height backsplash in Bianco Superior Quartzite, grey-green with white veining, and walnut cabinetry',
     readThickness: 'Thickness',
     readWeight: 'Weight',
     final: 'One millimeter.',
@@ -169,10 +169,10 @@ const en = {
     intro: 'Each one exists for a concrete reason: weight, curvature or the absence of joints. They are not catalog ideas — they are consequences of the material.',
     cta: 'See applications in detail',
     items: [
-      { id: 'walls', img: 'muros', alt: 'Bookmatched dark marble wall with an integrated basin and bronze faucet', thick: '5 mm', title: 'Feature walls', short: 'Large-format planes with few joints and no heavy anchoring.', long: 'Each sheet measures up to 3 meters (about 10 ft), which covers large-format planes with few joints. Traditional stone would need its own structure; at 5 mm, the thickness we recommend for walls, it bonds to the partition already there.' },
-      { id: 'fireplaces', img: 'chimeneas', alt: 'Fireplace surround clad in natural stone', thick: '1 & 5 mm', title: 'Fireplaces', short: 'Thin stone over the structure already there.', long: 'A fireplace is usually already built and clad. MILLIMETER, in 1 and 5 mm, goes over what exists — no demolition, no recalculated loads, no lost opening.' },
+      { id: 'kitchens', img: 'cocinas', alt: 'Kitchen with a sculptural curved island clad in warm cream natural stone, oak cabinetry and herringbone floor', thick: '1 & 5 mm', title: 'Kitchens', short: 'Islands, backsplashes and fronts in real stone.', long: 'Islands wrapped in one continuous sheet, curved ends, full-height backsplashes and stone-clad cabinet fronts. At 1 mm the stone follows the curve of an island; at 5 mm it covers backsplashes and worktop faces without heavy anchoring.' },
+      { id: 'bathrooms', img: 'banos', alt: 'Bathroom with a freestanding tub clad in grey marble with fine veining', thick: '1 & 5 mm', title: 'Bathrooms', short: 'Tubs, vanities and basins clad in natural stone.', long: 'Freestanding tubs, vanities and basins clad in natural stone, with walls in large sheets and few joints. At 1 mm the stone wraps round tubs and curved fronts; at 5 mm it covers walls and vanity tops.' },
       { id: 'architectural', img: 'arquitectonicos', alt: 'Arch clad in a continuous sheet of marble', thick: '1 mm', title: 'Architectural elements', short: 'Arches and columns clad in one continuous curve.', long: 'Arches, vaults and columns clad in a single piece that follows the geometry. The veining runs through the curve instead of breaking at every joint.' },
-      { id: 'showers', img: 'duchas', alt: 'Bathroom with a freestanding tub clad in grey marble with fine veining', thick: '5 mm', title: 'Walk-in showers', short: 'Fewer joints: less seepage, less silicone.', long: 'Fewer joints means less silicone, less seepage and less maintenance. In a built-in shower that is the difference between ten years and two.' },
+      { id: 'showers', img: 'duchas', alt: 'Walk-in shower clad floor to ceiling in large travertine slabs with almost invisible joints', thick: '5 mm', title: 'Walk-in showers', short: 'Fewer joints: less seepage, less silicone.', long: 'Fewer joints means less silicone, less seepage and less maintenance. In a built-in shower that is the difference between ten years and two.' },
       { id: 'furniture', img: 'mobiliario', alt: 'Bedside table in travertine and brushed brass with an open stone-clad drawer', thick: '1 & 5 mm', title: 'Custom furniture', short: 'Stone fronts that truly open and close.', long: 'Fronts, doors and drawers in stone, in 1 and 5 mm, that open and close on standard hardware, because they weigh what a veneered panel weighs.' },
       { id: 'doors', img: 'puertas', alt: 'Full-height pivot door clad in travertine at a house entrance', thick: '5 mm', title: 'Doors & panels', short: 'Weight compatible with standard hardware.', long: 'A door leaf clad in 5 mm marble sits inside the load range of a standard hinge. With 3/4 in of stone, it does not.' },
       { id: 'curves', img: 'curvas', alt: 'Curved surface clad in a single sheet of natural stone', thick: '1 mm', title: 'Curved surfaces', short: 'A real curve, not segments faking one.', long: 'The application that defines the product. A real, continuous curve: no other natural material solves it today without cutting it into segments.' },

@@ -2,6 +2,7 @@
 // - presence: commercial presence listed on millimeterbycasanova.com (USA, Spain, UAE, Colombia); Houston is HQ.
 // - fab: fabrication in Houston and Spain (confirmed by the client team, Oct 2026).
 // - quarry: countries of origin of the stones in the catalog (country-level, not specific quarries).
+//   Travertine = Cream Travertin Roman, Italy (client review 21-oct #4); other origins still to be confirmed.
 export type Country = 'US' | 'ES' | 'AE' | 'CO' | 'IT' | 'PT' | 'BR' | 'TR' | 'IR' | 'TN';
 export interface Site { c: Country; lat: number; lon: number; city?: string; hq?: boolean; stones?: string[] }
 
@@ -18,17 +19,16 @@ export const FAB: Site[] = [
 ];
 
 export const QUARRIES: Site[] = [
-  { c: 'IT', lat: 44.08, lon: 10.1, stones: ['Calacatta Venatina', 'Bianco Carrara', 'Verde Alpi'] },
+  { c: 'IT', lat: 44.08, lon: 10.1, stones: ['Calacatta Venatina', 'Bianco Carrara', 'Verde Alpi', 'Cream Travertin Roman'] },
   { c: 'ES', lat: 38.4, lon: -1.0, stones: ['Nero Marquina', 'Dark Emperador', 'Rojo Levante'] },
   { c: 'PT', lat: 38.84, lon: -7.59, stones: ['Dark Rosa Portugués'] },
   { c: 'BR', lat: -20.0, lon: -41.0, stones: ['Taj Mahal', 'Patagonia'] },
-  { c: 'TR', lat: 37.78, lon: 29.09, stones: ['Travertine'] },
   { c: 'IR', lat: 34.8, lon: 48.5, stones: ['Pietra Grey'] },
   { c: 'TN', lat: 35.6, lon: 8.7, stones: ['Sahara Noir'] },
 ];
 
 /** Supply routes drawn as arcs: quarry → workshop → markets. */
 export const ROUTES_MAP: [Country | 'HOU' | 'ESF', Country | 'HOU' | 'ESF'][] = [
-  ['IT', 'ESF'], ['PT', 'ESF'], ['TR', 'ESF'], ['IR', 'ESF'], ['TN', 'ESF'], ['BR', 'HOU'],
+  ['IT', 'ESF'], ['PT', 'ESF'], ['IR', 'ESF'], ['TN', 'ESF'], ['BR', 'HOU'],
   ['ESF', 'HOU'], ['HOU', 'CO'], ['ESF', 'AE'],
 ];

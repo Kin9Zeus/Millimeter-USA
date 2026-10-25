@@ -9,7 +9,7 @@ export const asset = (path: string): ImageMetadata => {
 };
 
 export const APP_IMG: Record<string, ImageMetadata> = Object.fromEntries(
-  ['muros', 'chimeneas', 'arquitectonicos', 'duchas', 'mobiliario', 'puertas', 'curvas', 'techos'].map((k) => [k, asset(`applications/${k}`)]),
+  ['cocinas', 'banos', 'arquitectonicos', 'duchas', 'mobiliario', 'puertas', 'curvas', 'techos'].map((k) => [k, asset(`applications/${k}`)]),
 );
 
 export const PROJECT_IMG = {
@@ -44,8 +44,6 @@ export const DRAWINGS = ['01-freestanding-sink', '02-cabinet-section', '03-bedsi
 
 export const MISC = {
   jesus: asset('team/jesus-casanova'),
-  jesusShowroom: asset('photos/foto-profesional-jesus-casanova-2'),
-  jesusCasual: asset('photos/foto-profesional-jesus-casanova-3'),
   curveA: asset('scenes/curve-a'),
   curveB: asset('scenes/curve-b'),
   legacy: asset('scenes/legacy'),

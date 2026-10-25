@@ -4,8 +4,8 @@ import Arrow from '../Arrow.astro';
 import Icon from '../Icon.astro';
 import { MISC } from '../../data/media';
 import { t, ROUTES, CONTACT, type Lang } from '../../i18n';
-interface Props { lang: Lang; showcase?: boolean }
-const { lang, showcase = false } = Astro.props;
+interface Props { lang: Lang }
+const { lang } = Astro.props;
 const all = t(lang);
 const d = all.jesus;
 ---
@@ -15,11 +15,6 @@ const d = all.jesus;
       <div class="media" data-reveal="clip">
         <Image src={MISC.jesus} alt={d.alt} widths={[400, 640, 900, 1200]} sizes="(max-width: 900px) 90vw, 40vw" quality={78} data-parallax="0.06" />
       </div>
-      {showcase && (
-        <div class="jesus__second media" data-reveal="clip" style="--d:.2s">
-          <Image src={MISC.jesusShowroom} alt={{ en: 'Jesús Casanova among MILLIMETER stone samples', es: 'Jesús Casanova entre muestras de piedra MILLIMETER', ar: 'خيسوس كاسانوفا بين عينات أحجار MILLIMETER' }[lang]} widths={[300, 500, 700]} sizes="(max-width: 900px) 45vw, 18vw" quality={74} />
-        </div>
-      )}
       <figcaption class="mono">MILLIMETER · Houston, TX</figcaption>
     </figure>
 
@@ -41,12 +36,11 @@ const d = all.jesus;
 </section>
 
 <style>
+  /* One portrait only (review 21-oct #7): it stays beside the biography while it is read. */
   .jesus__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2.5rem, 6vw, 7rem); align-items: start; }
-  .jesus__photo { position: relative; display: grid; gap: 1rem; }
+  .jesus__photo { position: sticky; top: calc(var(--header-h) + 2rem); display: grid; gap: 1rem; }
   .jesus__photo > .media { aspect-ratio: 4 / 5; }
   .jesus__photo .media :global(img) { height: 112%; margin-top: -6%; object-position: 50% 20%; }
-  .jesus__second { position: absolute; right: -2rem; bottom: 2.5rem; width: 40%; aspect-ratio: 3 / 5; border: 6px solid var(--bone); }
-  .jesus__second :global(img) { height: 100% !important; margin: 0 !important; }
   .jesus__photo figcaption { font-size: var(--fs-xs); color: var(--muted); }
   .jesus__copy { display: grid; gap: 1.25rem; padding-top: 1rem; }
   .jesus__role { font-size: var(--fs-xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--copper-deep); }
@@ -54,5 +48,5 @@ const d = all.jesus;
   .jesus__bio { display: grid; gap: 1rem; color: #3a332b; max-width: 56ch; text-align: justify; hyphens: auto; -webkit-hyphens: auto; text-wrap: wrap; }
   .jesus__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.75rem; }
   .jesus__reply { font-size: var(--fs-xs); color: var(--copper-deep); }
-  @media (max-width: 900px) { .jesus__grid { grid-template-columns: 1fr; } .jesus__second { right: 0.5rem; } }
+  @media (max-width: 900px) { .jesus__grid { grid-template-columns: 1fr; } .jesus__photo { position: static; max-width: 34rem; } }
 </style>
