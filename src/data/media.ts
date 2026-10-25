@@ -21,7 +21,7 @@ export const PROJECT_IMG = {
       asset('photos/vanity-5mm-1mm-wittman-03'),
     ],
   },
-  arch: {
+  barret: {
     hero: asset('photos/arch-5mm-1mm-barret'),
     gallery: [asset('photos/arch-5mm-1mm-barret-02'), asset('photos/arch-5mm-1mm-barret-01')],
   },

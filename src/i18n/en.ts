@@ -24,7 +24,7 @@ const en = {
     },
     projects: {
       title: 'Projects — built work and global reach | MILLIMETER',
-      description: 'Wittman Residence in Austin, a continuous marble arch in San Diego and the Altuve Residence in Houston: real pieces with material, thickness and finish, from quarries worldwide.',
+      description: 'Wittman Residence in Austin, the Barret Project in San Diego and the Altuve Residence in Houston: real pieces with material, thickness and finish, from quarries worldwide.',
     },
     casanova: {
       title: 'Casanova — a legacy shaped in stone | MILLIMETER',
@@ -271,7 +271,7 @@ const en = {
         pieces: ['Curved door · 1 mm', 'Integrated sink · 5 mm', 'Trim · 1 mm', 'Drawers · 1 mm'],
       },
       {
-        id: 'arch', name: 'Marble arch', piece: 'Continuous curved cladding', material: 'Calacatta Viola', thickness: '1 mm + 2 cm', finish: 'Polished', location: 'San Diego, CA', city: 'San Diego',
+        id: 'barret', name: 'Barret Project', piece: 'Arch in continuous curved cladding', material: 'Calacatta Viola', thickness: '1 mm + 2 cm', finish: 'Polished', location: 'San Diego, CA', city: 'San Diego',
         pieces: ['Arch cladding · 1 mm', 'Base · 2 cm'],
       },
       {
@@ -344,7 +344,7 @@ const en = {
       { q: 'Is it safer than engineered quartz?', a: 'It depends on the stone you choose, and we will not generalise. According to OSHA and NIOSH, marble and limestones such as travertine typically contain less than 5% crystalline silica, granite 10–50%, quartzite 95% or more, and engineered stone anywhere from under 0.2% to 95%, with conventional quartz surfaces at the top of that range. A MILLIMETER piece in marble or travertine therefore involves far less silica than conventional engineered quartz, and at 1 or 5 mm every cut removes a fraction of the material of a 2–3 cm slab. Whatever the stone, wet cutting, dust extraction and suitable protective equipment remain essential, and we confirm the technical data of the specific stone for each project.' },
       { q: 'Why choose MILLIMETER and natural stone over other materials?', a: 'Because it is the real stone: veining and tones that never repeat, the visual depth only a natural material has, and finishes worked by craftsmen — polished, honed or brushed surfaces, profiled edges, mouldings and mitred corners. Instead of a surface that imitates stone, MILLIMETER lets you work with authentic marble, quartzite or travertine at 1 and 5 mm, extending it to furniture, curves and architectural integration whenever the system and the chosen stone allow it.' },
       { q: 'How does it compare with engineered quartz and porcelain?', a: 'Each material has its place, so we stick to concrete differences. The resins in engineered quartz can be damaged, discolour or lose their sheen under high heat, so hot cookware needs a trivet. Porcelain is hard and stable, but its thin edges need care against impacts and are usually mitred or profiled. Natural stone can be repolished and its edges shaped, and every piece is unique; marble, in turn, is sensitive to acids and is sealed. We will tell you honestly which material suits your use, finish and budget.' },
-      { q: 'Where are you based and where do you work?', a: 'MILLIMETER Global LLC is headquartered in Houston, Texas, with commercial presence in the United States, Spain, the United Arab Emirates and Colombia. Built projects include the Wittman Residence in Austin, the Altuve Residence in Houston and a marble arch in San Diego. We work with architects, designers and private clients worldwide.' },
+      { q: 'Where are you based and where do you work?', a: 'MILLIMETER Global LLC is headquartered in Houston, Texas, with commercial presence in the United States, Spain, the United Arab Emirates and Colombia. Built projects include the Wittman Residence in Austin, the Altuve Residence in Houston and the Barret Project in San Diego. We work with architects, designers and private clients worldwide.' },
       { q: 'How do I get a quote?', a: 'Send plans, references or even a hand sketch through the contact form, by email or by WhatsApp. We reply within one business day, review the construction detail with you and only then prepare a closed quote.' },
     ],
   },

@@ -24,7 +24,7 @@ const es: Dict = {
     },
     projects: {
       title: 'Proyectos — obra construida y alcance internacional | MILLIMETER',
-      description: 'Wittman Residence en Austin, un arco de mármol continuo en San Diego y la Altuve Residence en Houston: piezas reales con su material, espesor y acabado, con piedra de canteras de todo el mundo.',
+      description: 'Wittman Residence en Austin, el Barret Project en San Diego y la Altuve Residence en Houston: piezas reales con su material, espesor y acabado, con piedra de canteras de todo el mundo.',
     },
     casanova: {
       title: 'Casanova — un legado forjado en piedra | MILLIMETER',
@@ -271,7 +271,7 @@ const es: Dict = {
         pieces: ['Puerta curva · 1 mm', 'Lavabo integrado · 5 mm', 'Cantos · 1 mm', 'Cajones · 1 mm'],
       },
       {
-        id: 'arch', name: 'Arco de mármol', piece: 'Revestimiento en curva continua', material: 'Calacatta Viola', thickness: '1 mm + 2 cm', finish: 'Pulido', location: 'San Diego, CA', city: 'San Diego',
+        id: 'barret', name: 'Barret Project', piece: 'Arco con revestimiento en curva continua', material: 'Calacatta Viola', thickness: '1 mm + 2 cm', finish: 'Pulido', location: 'San Diego, CA', city: 'San Diego',
         pieces: ['Revestimiento del arco · 1 mm', 'Base · 2 cm'],
       },
       {
@@ -344,7 +344,7 @@ const es: Dict = {
       { q: '¿Es más seguro que el cuarzo compacto?', a: 'Depende de la piedra que elijas, y no vamos a generalizar. Según OSHA y NIOSH, el mármol y las calizas como el travertino contienen normalmente menos del 5 % de sílice cristalina, el granito entre el 10 y el 50 %, la cuarcita el 95 % o más, y la piedra artificial desde menos del 0,2 % hasta el 95 %, con el cuarzo compacto convencional en la parte alta de ese rango. Por eso una pieza MILLIMETER en mármol o travertino implica mucha menos sílice que el cuarzo compacto convencional, y en 1 o 5 mm cada corte arranca una fracción del material de una placa de 2–3 cm. Sea cual sea la piedra, el corte en húmedo, la extracción de polvo y el equipo de protección adecuado siguen siendo imprescindibles, y confirmamos la ficha técnica de la piedra concreta en cada proyecto.' },
       { q: '¿Por qué elegir MILLIMETER y piedra natural frente a otros materiales?', a: 'Porque es la piedra auténtica: vetas y tonalidades que nunca se repiten, la profundidad visual que solo tiene un material natural y acabados trabajados por artesanos: superficies pulidas, apomazadas o cepilladas, cantos perfilados, molduras e ingletes. En lugar de una superficie que imita la piedra, MILLIMETER permite trabajar mármol, cuarcita o travertino reales en 1 y 5 mm, y llevarlos al mobiliario, a las curvas y a la integración arquitectónica cuando el sistema y la piedra elegida lo permiten.' },
       { q: '¿Cómo se compara con el cuarzo compacto y el porcelánico?', a: 'Cada material tiene su sitio, así que nos ceñimos a diferencias concretas. Las resinas del cuarzo compacto pueden sufrir daño, decoloración o pérdida de brillo ante calor elevado, por lo que conviene usar salvamanteles con recipientes calientes. El porcelánico es duro y estable, pero sus cantos finos requieren cuidado frente a impactos y suelen ingletearse o perfilarse. La piedra natural admite repulido y trabajo de cantos, y cada pieza es única; el mármol, a su vez, es sensible a los ácidos y se sella. Te diremos con honestidad qué material encaja con tu uso, acabado y presupuesto.' },
-      { q: '¿Dónde están y dónde trabajan?', a: 'MILLIMETER Global LLC tiene su sede en Houston, Texas, y presencia comercial en Estados Unidos, España, Emiratos Árabes Unidos y Colombia. Entre su obra construida están la Wittman Residence en Austin, la Altuve Residence en Houston y un arco de mármol en San Diego. Trabajamos con arquitectos, diseñadores y clientes privados de todo el mundo.' },
+      { q: '¿Dónde están y dónde trabajan?', a: 'MILLIMETER Global LLC tiene su sede en Houston, Texas, y presencia comercial en Estados Unidos, España, Emiratos Árabes Unidos y Colombia. Entre su obra construida están la Wittman Residence en Austin, la Altuve Residence en Houston y el Barret Project en San Diego. Trabajamos con arquitectos, diseñadores y clientes privados de todo el mundo.' },
       { q: '¿Cómo pido un presupuesto?', a: 'Envía planos, referencias o incluso un boceto a mano por el formulario de contacto, por email o por WhatsApp. Respondemos en menos de un día hábil, revisamos contigo el detalle constructivo y solo entonces preparamos un presupuesto cerrado.' },
     ],
   },

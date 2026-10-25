@@ -18,7 +18,7 @@ export const GET: APIRoute = ({ site }) => {
 - Formats: custom per project; sheets up to about 10 ft (3 m).
 - Applications: ${en.applications.items.map((i) => i.title.toLowerCase()).join(', ')}.
 - Materials: ${MATERIALS.map((m) => m.name).join(', ')}.
-- Built projects: Wittman Residence (Austin, TX — curved floating vanity, Cream Travertine, 1 mm + 5 mm); marble arch (San Diego, CA — Calacatta Viola, 1 mm + 2 cm); Altuve Residence (Houston, TX — bar cabinet, Dark Emperador, 5 mm).
+- Built projects: Wittman Residence (Austin, TX — curved floating vanity, Cream Travertine, 1 mm + 5 mm); Barret Project (San Diego, CA — continuous curved arch cladding, Calacatta Viola, 1 mm + 2 cm); Altuve Residence (Houston, TX — bar cabinet, Dark Emperador, 5 mm).
 - Company: ${CONTACT.company}, headquartered in Houston, Texas; presence in the United States, Spain, the United Arab Emirates and Colombia. Fabrication in Houston and Spain. More than 90 years and three generations working with natural stone, from a family tradition in Spain.
 - Contact: ${CONTACT.email} · WhatsApp ${CONTACT.whatsappDisplay} · Instagram ${CONTACT.instagramHandle}. Reply within one business day.
 
