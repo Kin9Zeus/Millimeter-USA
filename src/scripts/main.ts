@@ -14,6 +14,8 @@ if (root.dataset.motionFailsafe === '1') { root.dataset.motion = 'on'; delete ro
 root.dataset.motionReady = '1';
 const reduce = root.dataset.motion === 'off';
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+// Phones held sideways: too short for pinned sections (their content would sit below the fold, unreachable).
+const short = window.matchMedia('(orientation: landscape) and (max-height: 520px)').matches;
 // Right-to-left pages (Arabic): horizontal motion runs the other way.
 const rtl = document.documentElement.dir === 'rtl';
 const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s);
@@ -166,7 +168,7 @@ function heroes() {
     const push = hero.classList.contains('mh--split') ? 1.04 : 1.16;
     if (img) tl.fromTo(img, { scale: push, yPercent: 0 }, { scale: 1, yPercent: -2, duration: 1 }, 0);
     if (side) tl.to(side, { opacity: 0.25, duration: 0.7 }, 0.3);
-    if (content) tl.to(content, { y: -70, opacity: 0, duration: 0.45, ease: 'power1.in' }, 0.55);
+    if (content && !short) tl.to(content, { y: -70, opacity: 0, duration: 0.45, ease: 'power1.in' }, 0.55);
   });
 }
 
@@ -207,7 +209,7 @@ function curve() {
   if (!root) return;
   const steps = $$('[data-step]', root);
   const clad = $('[data-curve-after]', root);
-  if (reduce) { steps.forEach((s) => s.classList.add('is-on')); return; }
+  if (reduce || short) { steps.forEach((s) => s.classList.add('is-on')); root.classList.add('is-static'); return; }
   const meter = $('[data-curve-meter]', root);
   const setStep = (p: number) => {
     const i = Math.min(steps.length - 1, Math.floor(p * steps.length * 0.999));
@@ -233,7 +235,7 @@ function hscroll() {
   const track = $('[data-track]', root)!;
   const counter = $('[data-hcount]', root);
   const mm = gsap.matchMedia();
-  mm.add('(min-width: 901px)', () => {
+  mm.add('(min-width: 901px) and (min-height: 521px)', () => {
     const dist = () => track.scrollWidth - innerWidth;
     const tween = gsap.to(track, {
       x: () => (rtl ? dist() : -dist()), ease: 'none',

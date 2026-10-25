@@ -1,7 +1,7 @@
 ---
 // Health & safety. Silica is shown by STONE TYPE with ranges from the OSHA–NIOSH Hazard Alert (2026), so natural
-// stone is never presented as silica-free (client corrections #13 and #17). The chart is a real table: the bars
-// are decoration over rows a screen reader reads as "stone type → typical silica".
+// stone is never presented as silica-free (client corrections #13 and #17). The chart is a list a screen reader
+// reads as "stone type → crystalline silica: value"; the bars are decoration.
 import { t, type Lang } from '../../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -17,25 +17,22 @@ const pct = (n: number) => (lang === 'es' ? `${n} %` : `${n}%`);
       <p class="health__body">{d.body}</p>
     </div>
 
-    <figure class="sil" data-sil>
-      <table class="sil__table">
-        <caption class="sil__caption">{d.chartTitle}</caption>
-        <thead class="sr-only"><tr><th scope="col">{d.chartTitle}</th><th scope="col">{d.axis}</th></tr></thead>
-        <tbody>
-          {d.rows.map((r, i) => (
-            <tr class:list={['sil__row', { 'sil__row--mm': r.mm, 'sil__row--eng': !r.mm }]} style={`--a:${r.min};--b:${r.max};--i:${i}`}>
-              <th scope="row" class="sil__k">{r.k}</th>
-              <td class="sil__cell">
-                <span class="sil__track" aria-hidden="true"><span class="sil__bar" data-sil-bar></span></span>
-                <span class="sil__v mono" dir="ltr">{r.v}</span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div class="sil__axis" aria-hidden="true" dir="ltr">
-        {ticks.map((n) => <span style={`--t:${n}`}>{pct(n)}</span>)}
-      </div>
+    <!-- One grid shared by every row and the scale: label · bar · value on wide screens; on phones the label and
+         value share a line and the bar runs full width below, so the 0–100 % scale always lines up with the bars. -->
+    <figure class="sil" data-sil aria-labelledby="sil-cap">
+      <p class="sil__caption" id="sil-cap">{d.chartTitle}</p>
+      <ul class="sil__rows" role="list">
+        {d.rows.map((r, i) => (
+          <li class:list={['sil__row', { 'sil__row--mm': r.mm, 'sil__row--eng': !r.mm }]} style={`--a:${r.min};--b:${r.max};--i:${i}`}>
+            <span class="sil__k">{r.k}</span>
+            <span class="sil__track" aria-hidden="true"><span class="sil__bar"></span></span>
+            <span class="sil__v mono" dir="ltr"><span class="sr-only">{d.axis}: </span>{r.v}</span>
+          </li>
+        ))}
+        <li class="sil__row sil__row--axis" aria-hidden="true">
+          <span class="sil__ticks" dir="ltr">{ticks.map((n) => <span style={`--t:${n}`}>{pct(n)}</span>)}</span>
+        </li>
+      </ul>
       <figcaption class="sil__legend">
         <span class="sil__key sil__key--mm">{d.inMm}</span>
         <span class="sil__key sil__key--eng">{d.other}</span>
@@ -60,16 +57,14 @@ const pct = (n: number) => (lang === 'es' ? `${n} %` : `${n}%`);
   .health__body { font-size: var(--fs-lg); max-width: 56ch; }
 
   /* ---- silica ranges ---- */
-  .sil { margin-top: clamp(3rem, 6vw, 5rem); padding: clamp(1.5rem, 3vw, 2.75rem); background: var(--sand); border-top: 1px solid var(--copper-deep); }
-  .sil__table { width: 100%; border-collapse: collapse; }
-  .sil__caption { text-align: start; font-size: var(--fs-xs); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding-bottom: 1.5rem; }
-  .sil__row { --track: minmax(0, 1fr); }
-  .sil__row th, .sil__row td { padding-block: 0.95rem; border-top: 1px solid var(--line); vertical-align: middle; }
-  .sil__k { width: 30%; text-align: start; font-weight: 500; padding-inline-end: 1.25rem; }
+  .sil { margin-top: clamp(3rem, 6vw, 5rem); padding: clamp(1.25rem, 3vw, 2.75rem); background: var(--sand); border-top: 1px solid var(--copper-deep); }
+  .sil__caption { font-size: var(--fs-xs); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding-bottom: 1.25rem; }
+  .sil__rows { --cols: minmax(9rem, 30%) minmax(0, 1fr) 8.5rem; }
+  .sil__row { display: grid; grid-template-columns: var(--cols); gap: 0.5rem 1.25rem; align-items: center; padding-block: 0.95rem; border-top: 1px solid var(--line); }
+  .sil__k { font-weight: 500; min-width: 0; overflow-wrap: anywhere; }
   .sil__row--mm .sil__k { font-weight: 600; }
-  .sil__cell { display: grid; grid-template-columns: minmax(0, 1fr) 8.5rem; gap: 1rem; align-items: center; }
   /* Track = 0–100 % scale, always left→right like any measuring instrument (also in RTL). */
-  .sil__track { position: relative; height: 1.15rem; direction: ltr;
+  .sil__track { position: relative; height: 1.15rem; direction: ltr; min-width: 0;
     background:
       linear-gradient(90deg, rgba(18,16,13,.09) 1px, transparent 1px) 0 0 / 25% 100% repeat-x,
       rgba(18,16,13,.04); }
@@ -80,12 +75,26 @@ const pct = (n: number) => (lang === 'es' ? `${n} %` : `${n}%`);
   :global(html[data-motion='off']) .sil__bar { transform: none !important; transition: none; }
   .sil__v { font-size: var(--fs-lg); text-align: end; color: var(--ink); white-space: nowrap; }
   .sil__row--mm .sil__v { color: var(--copper-deep); }
-  .sil__axis { position: relative; height: 1.5rem; margin-inline-start: 30%; margin-inline-end: 9.5rem; margin-top: 0.5rem; }
-  .sil__axis span { position: absolute; left: calc(var(--t) * 1%); transform: translateX(-50%); font-family: var(--f-mono); font-size: 0.6875rem; color: var(--muted); }
+  /* Scale row: sits under the bar column. */
+  .sil__row--axis { border-top: 0; padding-block: 0.25rem 0; }
+  .sil__ticks { grid-column: 2; position: relative; height: 1.25rem; }
+  .sil__ticks span { position: absolute; left: calc(var(--t) * 1%); transform: translateX(-50%); font-family: var(--f-mono); font-size: 0.6875rem; color: var(--muted); white-space: nowrap; }
+  .sil__ticks span:first-child { transform: none; }
+  .sil__ticks span:last-child { transform: translateX(-100%); }
   .sil__legend { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; font-size: var(--fs-sm); color: var(--muted); }
   .sil__key { display: inline-flex; align-items: center; gap: 0.6rem; }
-  .sil__key::before { content: ''; width: 1.6rem; height: 0.7rem; background: var(--copper-deep); }
+  .sil__key::before { content: ''; flex: none; width: 1.6rem; height: 0.7rem; background: var(--copper-deep); }
   .sil__key--eng::before { background: repeating-linear-gradient(-45deg, #8d8476 0 3px, transparent 3px 7px); box-shadow: inset 0 0 0 1px #8d8476; }
+
+  /* Phones and narrow tablets: label + value on one line, the bar full width beneath. */
+  @media (max-width: 700px) {
+    .sil__row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'k v' 'bar bar'; row-gap: 0.6rem; }
+    .sil__k { grid-area: k; }
+    .sil__v { grid-area: v; font-size: var(--fs-base); }
+    .sil__track { grid-area: bar; }
+    .sil__row--axis { grid-template-areas: 'bar bar'; }
+    .sil__ticks { grid-area: bar; grid-column: 1 / -1; }
+  }
 
   .health__points { margin-top: 2.5rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gutter); }
   .health__points li { border-inline-start: 1px solid var(--copper-deep); padding-inline-start: 1rem; display: grid; gap: 0.4rem; align-content: start; }
@@ -95,12 +104,8 @@ const pct = (n: number) => (lang === 'es' ? `${n} %` : `${n}%`);
 
   @media (max-width: 900px) {
     .health__points { grid-template-columns: 1fr 1fr; }
-    .sil__row th, .sil__row td { display: block; border-top: 0; }
-    .sil__row th { padding-bottom: 0.4rem; border-top: 1px solid var(--line); width: auto; }
-    .sil__row td { padding-top: 0; }
-    .sil__cell { grid-template-columns: minmax(0, 1fr) 7rem; }
+    .sil__rows { --cols: minmax(8rem, 32%) minmax(0, 1fr) 6.5rem; }
     .sil__v { font-size: var(--fs-base); }
-    .sil__axis { margin-inline-start: 0; margin-inline-end: 8rem; }
   }
   @media (max-width: 520px) { .health__points { grid-template-columns: 1fr; } }
 </style>

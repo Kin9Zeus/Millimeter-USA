@@ -70,7 +70,7 @@ const year = new Date().getFullYear();
   .ftr__top { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: 2.5rem; }
   .ftr__logo { display: block; width: clamp(9rem, 14vw, 12rem); color: var(--text-dark); margin-bottom: 1.25rem; }
   .ftr__tag { font-family: var(--f-display); font-style: italic; font-size: var(--fs-lg); color: color-mix(in srgb, var(--text-dark) 80%, transparent); max-width: 24ch; }
-  .ftr__cta { display: inline-flex; align-items: center; gap: 0.9rem; margin-top: 1.5rem; font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--copper); }
+  .ftr__cta { display: inline-flex; align-items: center; gap: 0.9rem; margin-top: 1.5rem; min-height: 2.75rem; font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--copper); }
   .ftr__cta svg { transition: transform 0.4s var(--ease); }
   .ftr__cta:hover svg { transform: translateX(5px); }
   :global([dir='rtl']) .ftr__cta svg { scale: -1 1; }
@@ -81,7 +81,9 @@ const year = new Date().getFullYear();
   .ftr__col a:hover { color: var(--text-dark); }
   .ftr__note { margin-top: 1rem; font-size: var(--fs-xs); color: var(--muted-dark); }
   .ftr__note + .ftr__note { margin-top: 0.35rem; }
-  .ftr__soc { display: inline-flex; align-items: center; gap: 0.6rem; }
+  /* 24 px minimum touch height (WCAG 2.5.8). */
+  .ftr__soc { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 1.75rem; }
+  .ftr__col ul a:not(.ftr__soc) { display: inline-block; padding-block: 0.15rem; }
   .ftr__soc :global(.icon) { color: var(--copper); transition: color 0.3s, transform 0.4s var(--ease); }
   .ftr__soc:hover :global(.icon) { transform: translateY(-2px); }
   .ftr__col .ftr__soc--wa, .ftr__soc--wa :global(.icon) { color: var(--wa); }

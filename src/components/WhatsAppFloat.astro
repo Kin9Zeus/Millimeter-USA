@@ -18,7 +18,7 @@ const d = t(lang).common;
 <style>
   .wa-float {
     --size: 3.5rem;
-    position: fixed; z-index: 95; inset-inline-end: var(--gutter);
+    position: fixed; z-index: 95; inset-inline-end: max(var(--gutter), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
     bottom: calc(var(--gutter) + var(--ck-offset, 0px) + env(safe-area-inset-bottom, 0px));
     display: flex; align-items: center; height: var(--size); min-width: var(--size);
     border-radius: calc(var(--size) / 2); background: var(--wa); color: #fff;

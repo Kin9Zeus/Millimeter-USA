@@ -65,7 +65,7 @@ const d = all.applications;
   .apps__end { flex: 0 0 min(26rem, 80vw); display: grid; gap: 1.25rem; justify-items: start; padding-inline-end: var(--gutter); }
   .apps__end-t { font-size: var(--fs-xl); line-height: 1.15; }
 
-  @media (max-width: 900px) {
+  @media (max-width: 900px), (orientation: landscape) and (max-height: 520px) {
     .apps__viewport { height: auto; min-height: 0; display: block; padding-block: 5rem; }
     .apps__track { display: block; padding: 0; }
     .apps__intro { padding: 0 var(--gutter) 2.5rem; flex: none; }

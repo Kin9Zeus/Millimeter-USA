@@ -51,7 +51,7 @@ const seqD = seq && !split ? countFrames('d') : 0;
 const seqM = seq && !split ? countFrames('m') : 0;
 const hasSeq = seqD + seqM > 0;
 ---
-<section class:list={['mh on-dark', { 'mh--home': home, 'mh--split': split }]} data-mh style={`--run-d:${run}; --run-p:${runPortrait}; --pos:${pos}`}>
+<section class:list={['mh on-dark', { 'mh--home': home, 'mh--split': split, 'mh--caption': caption }]} data-mh style={`--run-d:${run}; --run-p:${runPortrait}; --pos:${pos}`}>
   <div class="mh__sticky">
     <div class="mh__media" data-mh-media>
       <picture>
@@ -131,6 +131,21 @@ const hasSeq = seqD + seqM > 0;
     :global(html[lang='ar']) .mh--split .mh__title { max-width: none; }
     /* Naskh is wider than the Latin display face: one step smaller keeps the headline on two lines. */
     :global(html[lang='ar']) .mh--split.mh--home .mh__title { font-size: clamp(2.5rem, 0.9rem + 4.2vw, 5.25rem); }
+  }
+
+  /* Phones held sideways: the hero scrolls with the page (no sticky run) so its buttons are always reachable,
+     and the headline scales with the screen height. */
+  @media (orientation: landscape) and (max-height: 520px) {
+    :global(html[data-motion='on']) .mh { height: auto; }
+    :global(html[data-motion='on']) .mh__sticky { position: relative; }
+    .mh__sticky, .mh:not(.mh--home) .mh__sticky { min-height: 100svh; }
+    .mh__title, .mh--home .mh__title { font-size: clamp(2rem, 1rem + 7svh, 3.25rem); }
+    .mh__intro { font-size: var(--fs-base); }
+  }
+
+  /* Full-bleed layouts: the caption sits under the header, so tall hero copy starts below it. */
+  @media not all and (min-width: 901px) and (orientation: landscape) {
+    .mh--caption .mh__content { padding-top: calc(var(--header-h) + 3.25rem); }
   }
 
   @media (max-width: 700px) {
