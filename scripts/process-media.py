@@ -8,7 +8,7 @@ Scroll frame sequences themselves are built by scripts/video-frames.py (npm run 
 Usage: npm run media   (requires ffmpeg on PATH and Pillow)
 Original client folders are read-only: this script never writes to them.
 """
-import os, re, subprocess, unicodedata
+import os, re, shutil, subprocess, unicodedata
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -57,9 +57,7 @@ def photos():
     shower = os.path.join(ROOT, 'media-src', 'images', 'duchas.png')
     if os.path.exists(shower):
         copy_image(shower, os.path.join(ASSETS, 'applications', 'duchas.jpg'))
-    # Materials: canonical 12 + extra swatches from the mixed folder
-    for f in os.listdir(os.path.join(ROOT, 'materiales')):
-        copy_image(os.path.join(ROOT, 'materiales', f), os.path.join(ASSETS, 'materials', slug(os.path.splitext(f)[0]) + '.jpg'), 1800)
+    # Materials come only from the client's Drive folder (materials() below, review 21-oct #3).
     mixed = os.path.join(ROOT, 'fotos_y_recursos_mixtos')
     for f in os.listdir(mixed):
         base, ext = os.path.splitext(f)
@@ -67,10 +65,8 @@ def photos():
             continue
         s = slug(base)
         if re.search(r'(marble|quartzite|travertine|terrazo)$', s) and 'bed' not in s:
-            name = s
-            copy_image(os.path.join(mixed, f), os.path.join(ASSETS, 'materials', 'x-' + name + '.jpg'), 1800)
-        else:
-            copy_image(os.path.join(mixed, f), os.path.join(ASSETS, 'photos', s + '.jpg'))
+            continue  # old swatches: superseded by the Drive folder
+        copy_image(os.path.join(mixed, f), os.path.join(ASSETS, 'photos', s + '.jpg'))
     copy_image(os.path.join(ROOT, 'equipo', 'jesus-casanova_main_pic.jpeg'), os.path.join(ASSETS, 'team', 'jesus-casanova.jpg'), 1600)
     # Art-directed scene stills (media-src/keyframes, media-src/images) -> src/assets/scenes
     for sub in ('keyframes', 'images'):
@@ -120,12 +116,63 @@ def corrections():
     print(f'  corrections: {len(CORRECTIONS)} images copied to src/assets')
 
 
+# Stone library (review 21-oct #3): the WHOLE gallery comes from the client's Drive folder «Materiales»,
+# kept locally (read-only, git-ignored) in materiales_drive/. File → material id used by src/data/materials.ts.
+MATERIALS_DRIVE = {
+    'Azure white  marble.png': 'azure-white',
+    'Bianco carrara marble.png': 'bianco-carrara',
+    'Capuccino quartzite.png': 'cappuccino',
+    'Cream roman travertine.png': 'cream-travertin-roman',
+    'Cream terrazo.png': 'cream-terrazzo',
+    'Cristallo lagoon quartzite.png': 'cristallo-lagoon',
+    'Cristallo quartzite.png': 'cristallo',
+    'Daino reale marble.png': 'daino-reale',
+    'Dark rosa portuges marble.jpg': 'dark-rosa-portugues',
+    'Earl white marble.png': 'earl-white',
+    'Four Season quartzite.png': 'four-season',
+    'Green patek marble.jpg': 'green-patek',
+    'Grey terrazo.png': 'grey-terrazzo',
+    'Grey travertine.png': 'grey-travertine',
+    'Greyish pink marble.jpeg': 'greyish-pink',
+    'Lilac marble.png': 'lilac',
+    'Nero marquina marble.png': 'nero-marquina',
+    'New Capanelli marble.png': 'new-capanelli',
+    'Nidali marble.png': 'nidali',
+    'Oreo marble.jpg': 'oreo',
+    'Patagonia quartzite.png': 'patagonia',
+    'Pietra grey marble.jpg': 'pietra-grey',
+    'Rojo Levante marble.jpeg': 'rojo-levante',
+    'Rojo travertino.jpeg': 'rojo-travertino',
+    'Sahara noir marble.png': 'sahara-noir',
+    'Taj mahal quartzite.png': 'taj-mahal',
+    'Verdi Alpi marble.png': 'verde-alpi',
+}
+
+
+def materials():
+    src = os.path.join(ROOT, 'materiales_drive')
+    if not os.path.isdir(src):
+        print('  materials: materiales_drive/ not found, skipped')
+        return
+    missing = [f for f in MATERIALS_DRIVE if not os.path.exists(os.path.join(src, f))]
+    extra = [f for f in os.listdir(src) if f not in MATERIALS_DRIVE]
+    if missing or extra:
+        raise SystemExit(f'materials: folder and map differ. missing={missing} unmapped={extra}')
+    out = os.path.join(ASSETS, 'materials')
+    shutil.rmtree(out, ignore_errors=True)  # the gallery is replaced as a whole, no stale swatches
+    for f, mid in MATERIALS_DRIVE.items():
+        copy_image(os.path.join(src, f), os.path.join(out, mid + '.jpg'), 1800)
+    print(f'  materials: {len(MATERIALS_DRIVE)} swatches written to src/assets/materials')
+
+
 if __name__ == '__main__':
     import sys
-    what = set(sys.argv[1:]) or {'posters', 'photos', 'corrections'}
+    what = set(sys.argv[1:]) or {'posters', 'photos', 'corrections', 'materials'}
     if 'posters' in what:
         poster('legacy', 'legacy.mp4')
     if 'photos' in what:
         photos()
     if 'corrections' in what:
         corrections()
+    if 'materials' in what:
+        materials()

@@ -16,6 +16,7 @@ dist/
 /materiales/
 /media-src/
 /correcciones_millimeter_usa/
+/materiales_drive/
 *.pdf
 
 # OS / editors / logs

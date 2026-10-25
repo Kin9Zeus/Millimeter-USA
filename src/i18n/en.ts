@@ -20,7 +20,7 @@ const en = {
     },
     materials: {
       title: 'Materials — marble, quartzite & travertine at 1–5 mm | MILLIMETER',
-      description: 'Azure White, New Capanelli, Patagonia, Taj Mahal, Sahara Noir, Earl White, Cappuccino, Cream Travertine and more, available from 1 to 5 millimeters.',
+      description: 'Azure White, New Capanelli, Patagonia, Taj Mahal, Sahara Noir, Earl White, Cappuccino, Cream Travertin Roman and more, available from 1 to 5 millimeters.',
     },
     projects: {
       title: 'Projects — built work and global reach | MILLIMETER',
@@ -92,6 +92,7 @@ const en = {
     marble: 'Marble',
     quartzite: 'Quartzite',
     travertine: 'Travertine',
+    terrazzo: 'Terrazzo',
     all: 'All',
     figuresNote: 'Figures from MILLIMETER Global LLC.',
   },

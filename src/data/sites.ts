@@ -19,8 +19,8 @@ export const FAB: Site[] = [
 ];
 
 export const QUARRIES: Site[] = [
-  { c: 'IT', lat: 44.08, lon: 10.1, stones: ['Calacatta Venatina', 'Bianco Carrara', 'Verde Alpi', 'Cream Travertin Roman'] },
-  { c: 'ES', lat: 38.4, lon: -1.0, stones: ['Nero Marquina', 'Dark Emperador', 'Rojo Levante'] },
+  { c: 'IT', lat: 44.08, lon: 10.1, stones: ['Bianco Carrara', 'Verde Alpi', 'Cream Travertin Roman'] },
+  { c: 'ES', lat: 38.4, lon: -1.0, stones: ['Nero Marquina', 'Rojo Levante'] },
   { c: 'PT', lat: 38.84, lon: -7.59, stones: ['Dark Rosa Portugués'] },
   { c: 'BR', lat: -20.0, lon: -41.0, stones: ['Taj Mahal', 'Patagonia'] },
   { c: 'IR', lat: 34.8, lon: 48.5, stones: ['Pietra Grey'] },

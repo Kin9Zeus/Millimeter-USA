@@ -7,7 +7,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const all = t(lang);
 const d = all.materials;
-const kind = (k: string) => all.common[k as 'marble' | 'quartzite' | 'travertine'];
+const kind = (k: string) => all.common[k as 'marble' | 'quartzite' | 'travertine' | 'terrazzo'];
 ---
 <section class="lib on-dark section cv" data-library aria-labelledby="lib-title">
   <div class="wrap lib__grid">

@@ -22,7 +22,7 @@ const ar: Dict = {
     },
     materials: {
       title: 'المواد — رخام وكوارتزيت وترافرتين بسماكة 1 إلى 5 مم | MILLIMETER',
-      description: 'Azure White وNew Capanelli وPatagonia وTaj Mahal وSahara Noir وEarl White وCappuccino وCream Travertine وغيرها، متوفرة بسماكة من 1 إلى 5 مليمترات.',
+      description: 'Azure White وNew Capanelli وPatagonia وTaj Mahal وSahara Noir وEarl White وCappuccino وCream Travertin Roman وغيرها، متوفرة بسماكة من 1 إلى 5 مليمترات.',
     },
     projects: {
       title: 'المشاريع — أعمال منفّذة وحضور دولي | MILLIMETER',
@@ -94,6 +94,7 @@ const ar: Dict = {
     marble: 'رخام',
     quartzite: 'كوارتزيت',
     travertine: 'ترافرتين',
+    terrazzo: 'تيرازو',
     all: 'الكل',
     figuresNote: 'الأرقام من MILLIMETER Global LLC.',
   },

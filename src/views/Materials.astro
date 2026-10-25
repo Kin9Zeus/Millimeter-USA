@@ -11,7 +11,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const all = t(lang);
 const d = all.materials;
-const kinds = ['all', 'marble', 'quartzite', 'travertine'] as const;
+const kinds = ['all', 'marble', 'quartzite', 'travertine', 'terrazzo'] as const;
 const label = (k: (typeof kinds)[number]) => all.common[k];
 const site = new URL(Astro.site!).origin; // ROUTES already include the base path
 const schema = itemList(d.title, MATERIALS.map((m) => ({ name: `${m.name} — ${label(m.kind)}`, url: `${site}${ROUTES.materials[lang]}#${m.id}`, description: m.tone[lang] })));

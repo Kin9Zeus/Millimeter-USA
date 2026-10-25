@@ -20,7 +20,7 @@ const es: Dict = {
     },
     materials: {
       title: 'Materiales — mármol, cuarcita y travertino de 1 a 5 mm | MILLIMETER',
-      description: 'Azure White, New Capanelli, Patagonia, Taj Mahal, Sahara Noir, Earl White, Cappuccino, Cream Travertine y más, disponibles de 1 a 5 milímetros.',
+      description: 'Azure White, New Capanelli, Patagonia, Taj Mahal, Sahara Noir, Earl White, Cappuccino, Cream Travertin Roman y más, disponibles de 1 a 5 milímetros.',
     },
     projects: {
       title: 'Proyectos — obra construida y alcance internacional | MILLIMETER',
@@ -92,6 +92,7 @@ const es: Dict = {
     marble: 'Mármol',
     quartzite: 'Cuarcita',
     travertine: 'Travertino',
+    terrazzo: 'Terrazo',
     all: 'Todos',
     figuresNote: 'Cifras de MILLIMETER Global LLC.',
   },
