@@ -12,6 +12,13 @@ export const APP_IMG: Record<string, ImageMetadata> = Object.fromEntries(
   ['cocinas', 'banos', 'arquitectonicos', 'duchas', 'mobiliario', 'puertas', 'curvas', 'techos'].map((k) => [k, asset(`applications/${k}`)]),
 );
 
+/** Portrait photos framed around a subject the client asked to keep whole (review 25-oct #3, #4): they keep their
+ *  4:5 frame on the Applications page too, and `focus` anchors the crop when a card gets shorter than 4:5. */
+export const APP_FRAME: Record<string, { tall: true; focus: string }> = {
+  cocinas: { tall: true, focus: '35% 70%' },
+  mobiliario: { tall: true, focus: '50% 100%' },
+};
+
 export const PROJECT_IMG = {
   wittman: {
     hero: asset('photos/vanity-1-and-5mm-wittman-ii'),

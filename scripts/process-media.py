@@ -82,14 +82,18 @@ def photos():
 # Client corrections, October 2026 (correcciones_millimeter_usa/, read-only). Each entry: source → asset.
 # Runs after photos() so the approved replacements win over the original application photos.
 CORRECTIONS = {
-    'Portada/WhatsApp Image 2026-10-16 at 3.15.12 AM (1).jpeg': 'heroes/home',
+    # Home hero: the island with the curved end beside the window (review 25-oct #1).
+    'Portada/WhatsApp Image 2026-10-16 at 3.15.12 AM.jpeg': 'heroes/home',
     # Technology hero: the wide view of the kitchen (review 21-oct #5), cropped to drop the poster's title and logo.
     'Cocina 02/WhatsApp Image 2026-10-16 at 3.18.11 AM (2).jpeg': ('heroes/technology', (0, 300, 941, 1345)),
     # Applications: Kitchens and Bathrooms replace Fireplaces and Feature walls (review 21-oct #2).
-    'Cocina 02/WhatsApp Image 2026-10-16 at 3.18.11 AM (1).jpeg': 'applications/cocinas',
+    # Kitchens card (review 25-oct #3): the "Cocina 2" photo without its slogan and logo, framed close on the curve
+    # of the island while keeping the backsplash and the hood. 4:5, the card's own ratio.
+    'Cocina 02/WhatsApp Image 2026-10-16 at 3.18.11 AM (2).jpeg': ('applications/cocinas', (110, 440, 760, 1252)),
     'Bathroom/WhatsApp Image 2026-10-16 at 3.16.57 AM (2).jpeg': 'applications/banos',
     'Cocina 03/WhatsApp Image 2026-10-16 at 3.17.28 AM (1).jpeg': 'heroes/materials',
-    'Furnitures/WhatsApp Image 2026-10-16 at 3.19.22 AM (1).jpeg': 'applications/mobiliario',
+    # Custom furniture (review 25-oct #4): the bedside table with its drawer closed, whole piece in frame (base and sides).
+    'Furnitures/WhatsApp Image 2026-10-16 at 3.19.22 AM.jpeg': 'applications/mobiliario',
     'Doors/WhatsApp Image 2026-10-16 at 3.19.21 AM (1).jpeg': 'applications/puertas',
     'Cantera/WhatsApp Image 2026-10-16 at 3.16.16 AM.jpeg': 'scenes/warehouse',
     'Cantera/WhatsApp Image 2026-10-16 at 7.08.43 AM.jpeg': 'scenes/quarry',

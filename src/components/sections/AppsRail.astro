@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Arrow from '../Arrow.astro';
-import { APP_IMG } from '../../data/media';
+import { APP_FRAME, APP_IMG } from '../../data/media';
 import { t, ROUTES, type Lang } from '../../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -24,7 +24,7 @@ const d = all.applications;
           <li class="card" data-hcard>
             <a href={`${ROUTES.applications[lang]}#${it.id}`} class="card__link" data-cursor={all.common.view}>
               <div class="card__media media">
-                <Image src={APP_IMG[it.img]} alt={it.alt} widths={[480, 720, 960, 1280]} sizes="(max-width: 900px) 78vw, 21vw" quality={78} loading="lazy" />
+                <Image src={APP_IMG[it.img]} alt={it.alt} widths={[480, 720, 960, 1280]} sizes="(max-width: 900px) 78vw, 21vw" quality={78} loading="lazy" style={APP_FRAME[it.img] && `object-position:${APP_FRAME[it.img].focus}`} />
                 <span class="card__thick mono">{it.thick}</span>
               </div>
               <h3 class="card__title display">{it.title}</h3>

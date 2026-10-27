@@ -60,5 +60,5 @@ export const CONTACT = {
   region: 'TX',
   country: 'US',
   /** Commercial presence (source: millimeterbycasanova.com). */
-  presence: ['US', 'ES', 'AE', 'CO'] as const,
+  presence: ['US', 'ES', 'AE'] as const,
 };

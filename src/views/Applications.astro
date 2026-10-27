@@ -5,7 +5,7 @@ import MediaHero from '../components/MediaHero.astro';
 
 import Cta from '../components/sections/Cta.astro';
 import Arrow from '../components/Arrow.astro';
-import { APP_IMG, HERO } from '../data/media';
+import { APP_FRAME, APP_IMG, HERO } from '../data/media';
 import { itemList } from '../lib/schema';
 import { t, ROUTES, type Lang } from '../i18n';
 interface Props { lang: Lang }
@@ -26,8 +26,10 @@ const schema = itemList(d.title, d.items.map((it) => ({ name: it.title, url: `${
     {d.items.map((it, i) => (
       <section class={`app ${i % 2 ? 'on-light' : 'on-dark'}`} id={it.id} aria-labelledby={`${it.id}-t`}>
         <div class={`wrap app__grid ${i % 2 ? 'app__grid--rev' : ''}`}>
-          <div class="app__media media" data-reveal="clip">
-            <Image src={APP_IMG[it.img]} alt={it.alt} widths={[640, 960, 1280, 1600, 2000]} sizes="(max-width: 900px) 100vw, 58vw" quality={74} data-parallax="0.06" />
+          <div class:list={['app__media media', { 'app__media--tall': APP_FRAME[it.img] }]} data-reveal="clip">
+            {APP_FRAME[it.img]
+              ? <Image src={APP_IMG[it.img]} alt={it.alt} widths={[480, 720, 960, 1280]} sizes="(max-width: 900px) 100vw, 34rem" quality={78} style={`object-position:${APP_FRAME[it.img].focus}`} />
+              : <Image src={APP_IMG[it.img]} alt={it.alt} widths={[640, 960, 1280, 1600, 2000]} sizes="(max-width: 900px) 100vw, 58vw" quality={74} data-parallax="0.06" />}
           </div>
           <div class="app__copy">
             <p class="app__thick mono">{it.thick}</p>
@@ -65,6 +67,9 @@ const schema = itemList(d.title, d.items.map((it) => ({ name: it.title, url: `${
   .app__grid--rev .app__media { order: 2; }
   .app__media { aspect-ratio: 4 / 3; }
   .app__media :global(img) { height: 112%; margin-top: -6%; }
+  /* Portrait photos the client wants whole (kitchen island, bedside table): their own 4:5 frame, no parallax overscan. */
+  .app__media--tall { aspect-ratio: 4 / 5; width: min(100%, 34rem); justify-self: center; }
+  .app__media--tall :global(img) { height: 100%; margin-top: 0; }
   .app__copy { display: grid; gap: 1.1rem; }
   .app__thick { color: var(--accent); font-size: var(--fs-sm); }
   .app__short { font-size: var(--fs-lg); font-weight: 500; }

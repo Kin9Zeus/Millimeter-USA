@@ -159,16 +159,39 @@ function heroes() {
       seq = new Sequence(canvas, canvas.dataset.mhSeq!, () => hero.classList.add('has-seq'));
       whenIdle(() => seq!.start());
     }
+    // Home on phones is a stacked (non-sticky) hero: the photo moves while the whole hero scrolls past.
+    const stacked = hero.classList.contains('mh--live') && window.matchMedia('(max-width: 700px) and (orientation: portrait)').matches;
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
-      scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: 0.6,
+      scrollTrigger: { trigger: hero, start: 'top top', end: stacked ? 'bottom top' : 'bottom bottom', scrub: 0.6,
         onUpdate: seq ? (st) => seq!.set(st.progress) : undefined },
     });
-    // Split heroes show the client's photograph at its true framing: only a subtle push (review 21-oct #5: "too much zoom").
-    const push = hero.classList.contains('mh--split') ? 1.04 : 1.16;
-    if (img) tl.fromTo(img, { scale: push, yPercent: 0 }, { scale: 1, yPercent: -2, duration: 1 }, 0);
+    if (hero.classList.contains('mh--live') && img) {
+      // Home hero (review 25-oct #1: "bastante movimiento", island always in view): the photo settles in on load,
+      // then travels with the scroll like a slow camera move and answers the pointer. The scale never drops below
+      // 1.04, so every shift stays inside the picture and the island never leaves the frame.
+      const pic = img.parentElement!;
+      gsap.from(pic, { scale: 1.18, xPercent: rtl ? -3 : 3, duration: 2.6, ease: 'expo.out', delay: 0.1 });
+      // Phones (stacked) start wider so the whole island, worktop included, is in the first frame.
+      const s0 = stacked ? 1.04 : 1.08;
+      tl.fromTo(img, { scale: s0, xPercent: 0, yPercent: 0 }, { scale: s0 + 0.16, xPercent: rtl ? 2.5 : -2.5, yPercent: stacked ? -4 : -5, duration: 1 }, 0);
+      if (finePointer) {
+        const xTo = gsap.quickTo(img, 'x', { duration: 1.2, ease: 'power3.out' });
+        const yTo = gsap.quickTo(img, 'y', { duration: 1.2, ease: 'power3.out' });
+        hero.addEventListener('pointermove', (e) => {
+          const r = hero.getBoundingClientRect();
+          xTo(((e.clientX - r.left) / r.width - 0.5) * -22);
+          yTo(((e.clientY - r.top) / r.height - 0.5) * -16);
+        }, { passive: true });
+        hero.addEventListener('pointerleave', () => { xTo(0); yTo(0); });
+      }
+    } else {
+      // Split heroes show the client's photograph at its true framing: only a subtle push (review 21-oct #5: "too much zoom").
+      const push = hero.classList.contains('mh--split') ? 1.04 : 1.16;
+      if (img) tl.fromTo(img, { scale: push, yPercent: 0 }, { scale: 1, yPercent: -2, duration: 1 }, 0);
+    }
     if (side) tl.to(side, { opacity: 0.25, duration: 0.7 }, 0.3);
-    if (content && !short) tl.to(content, { y: -70, opacity: 0, duration: 0.45, ease: 'power1.in' }, 0.55);
+    if (content && !short && !stacked) tl.to(content, { y: -70, opacity: 0, duration: 0.45, ease: 'power1.in' }, 0.55);
   });
 }
 

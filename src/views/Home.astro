@@ -23,7 +23,7 @@ const { lang } = Astro.props;
 const d = t(lang);
 ---
 <Base lang={lang} page="home" schema={[faqSchema(d.faq.items)]}>
-  <MediaHero home split image={HERO.home} alt={d.hero.alt} caption="Bianco Superior Quartzite" eyebrow={d.hero.eyebrow} title={d.hero.title} intro={d.hero.lede} measure={d.hero.measure} run="90svh" runPortrait="60svh" pos="50% 55%">
+  <MediaHero home split image={HERO.home} alt={d.hero.alt} caption="Bianco Superior Quartzite" eyebrow={d.hero.eyebrow} title={d.hero.title} intro={d.hero.lede} measure={d.hero.measure} run="90svh" runPortrait="60svh" pos="50% 72%" posPortrait="62% 50%" live>
     <div class="home-ctas">
       <a class="btn" href={ROUTES.contact[lang]} data-magnetic>{d.hero.cta}<Arrow /></a>
       <a class="btn btn--ghost" href="#problem">{d.hero.secondary}<Arrow dir="down" /></a>

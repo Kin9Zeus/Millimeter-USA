@@ -31,9 +31,13 @@ const imperial = all.units === 'imperial';
     </div>
 
     <figure class="weight__visual">
+      <div class="weight__shot">
       <div class="weight__media media grain">
-        <Image class="weight__img" src={MISC.ceiling} alt={{ en: 'A living room ceiling clad in 5 mm marble panels', es: 'Techo de un salón revestido con paneles de mármol de 5 mm', ar: 'سقف غرفة معيشة مكسو بألواح رخام بسماكة 5 مم' }[lang]} widths={[480, 800, 1200, 1600]} sizes="(max-width: 900px) 100vw, 45vw" quality={74} data-parallax="0.06" />
+        <Image class="weight__img" src={MISC.ceiling} alt={{ en: 'A living room ceiling clad in 5 mm Emperor Light marble panels', es: 'Techo de un salón revestido con paneles de mármol Emperor Light de 5 mm', ar: 'سقف غرفة معيشة مكسو بألواح رخام Emperor Light بسماكة 5 مم' }[lang]} widths={[480, 800, 1200, 1600]} sizes="(max-width: 900px) 100vw, 45vw" quality={74} data-parallax="0.06" />
         <span class="weight__tag mono" aria-hidden="true" dir="ltr">{imperial ? '5 mm · 3–4 lb/ft²' : '5 mm · 15–20 kg/m²'}</span>
+      </div>
+      <!-- Material of the ceiling (client review 25-oct #2): product name, never translated. -->
+      <p class="weight__material mono" dir="ltr">Emperor Light Marble</p>
       </div>
       <figcaption class="weight__big">
         <span class="display" data-count="93" data-prefix="−" data-suffix={lang === 'es' ? ' %' : '%'} data-from="0">{d.big}</span>
@@ -57,6 +61,8 @@ const imperial = all.units === 'imperial';
   .weight__visual { display: grid; gap: 1.5rem; }
   .weight__media { aspect-ratio: 16 / 11; background: #1d1611; }
   .weight__media :global(.weight__img) { position: absolute; inset: -6% 0; width: 100%; height: 112%; object-fit: cover; }
+  .weight__shot { display: grid; gap: 0.6rem; }
+  .weight__material { font-size: var(--fs-xs); letter-spacing: 0.08em; color: var(--muted-dark); justify-self: start; }
   .weight__tag { position: absolute; inset-inline-start: 1rem; bottom: 1rem; font-size: var(--fs-xs); color: var(--copper); background: rgba(18,16,13,.72); padding: 0.3rem 0.55rem; }
   .weight__big { display: grid; gap: 0.5rem; border-inline-start: 1px solid var(--copper); padding-inline-start: 1.5rem; }
   .weight__big .display { font-size: var(--fs-3xl); color: var(--copper); line-height: 0.9; }

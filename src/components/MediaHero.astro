@@ -35,8 +35,12 @@ interface Props {
   split?: boolean;
   /** Small photo credit on the image, e.g. the stone's name (review 21-oct #1). */
   caption?: string;
+  /** Stronger, livelier motion for the photo (home, review 25-oct #1). */
+  live?: boolean;
+  /** object-position on phones and portrait tablets, when the subject sits elsewhere in a full-bleed crop. */
+  posPortrait?: string;
 }
-const { image, alt = '', eyebrow, title, intro, measure, run = '70svh', runPortrait = '55svh', pos = '50% 50%', seq, home = false, h1 = true, split = false, caption } = Astro.props;
+const { image, alt = '', eyebrow, title, intro, measure, run = '70svh', runPortrait = '55svh', pos = '50% 50%', seq, home = false, h1 = true, split = false, caption, live = false, posPortrait } = Astro.props;
 const widths = [640, 960, 1280, 1600, 2048, 2560].filter((w) => w <= image.width);
 const [avif, webp] = await Promise.all([
   getImage({ src: image, widths, format: 'avif', quality: 58 }),
@@ -51,7 +55,7 @@ const seqD = seq && !split ? countFrames('d') : 0;
 const seqM = seq && !split ? countFrames('m') : 0;
 const hasSeq = seqD + seqM > 0;
 ---
-<section class:list={['mh on-dark', { 'mh--home': home, 'mh--split': split, 'mh--caption': caption }]} data-mh style={`--run-d:${run}; --run-p:${runPortrait}; --pos:${pos}`}>
+<section class:list={['mh on-dark', { 'mh--home': home, 'mh--split': split, 'mh--caption': caption, 'mh--live': live }]} data-mh style={`--run-d:${run}; --run-p:${runPortrait}; --pos:${pos}; --pos-p:${posPortrait ?? pos}`}>
   <div class="mh__sticky">
     <div class="mh__media" data-mh-media>
       <picture>
@@ -90,6 +94,11 @@ const hasSeq = seqD + seqM > 0;
   .mh__media { position: absolute; inset: 0; z-index: 0; background: #1b1713; }
   .mh__media img, .mh__video, .mh__canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: var(--pos); }
   .mh__media img { transform-origin: 50% 60%; will-change: transform; }
+  .mh__media picture { position: absolute; inset: 0; display: block; }
+  .mh--live .mh__media picture { will-change: transform; }
+  @media not all and (min-width: 901px) and (orientation: landscape) {
+    .mh__media img { object-position: var(--pos-p); }
+  }
   .mh__canvas { opacity: 0; transition: opacity 0.6s; }
   /* Photo caption: small, legible on any stone, never over the headline (phones: top corner under the header). */
   .mh__caption { position: absolute; z-index: 2; inset-inline-end: var(--gutter); top: calc(var(--header-h) + 0.75rem);
@@ -146,6 +155,19 @@ const hasSeq = seqD + seqM > 0;
   /* Full-bleed layouts: the caption sits under the header, so tall hero copy starts below it. */
   @media not all and (min-width: 901px) and (orientation: landscape) {
     .mh--caption .mh__content { padding-top: calc(var(--header-h) + 3.25rem); }
+  }
+
+  /* Home on phones (review 25-oct #1: the island must stay visible): photo on top framed on the island, text below
+     it instead of over it. The photo keeps moving with the scroll (main.ts). */
+  @media (max-width: 700px) and (orientation: portrait) {
+    :global(html[data-motion='on']) .mh--live { height: auto; }
+    .mh--live .mh__sticky, :global(html[data-motion='on']) .mh--live .mh__sticky { position: relative; display: block; min-height: 0; }
+    .mh--live .mh__media { position: relative; inset: auto; height: max(22rem, 52svh); overflow: hidden; }
+    .mh--live .mh__media img { object-position: 50% 58%; }
+    .mh--live .mh__media::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, var(--ink) 0%, rgba(18,16,13,0) 30%); }
+    .mh--live .mh__scrim { background: linear-gradient(to bottom, rgba(18,16,13,.72) 0%, rgba(18,16,13,0) 14%); }
+    .mh--live .mh__side { display: none; }
+    .mh--live .mh__content { margin-top: -3.5rem; padding-top: 0; }
   }
 
   @media (max-width: 700px) {
