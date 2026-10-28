@@ -61,14 +61,8 @@ const concepts = [
     );
   })}
 
-  <section class="reach on-dark section" aria-labelledby="reach-title">
-    <div class="wrap">
-      <p class="eyebrow" id="reach-title">{d.mapEyebrow}</p>
-      <WorldMap lang={lang} />
-    </div>
-  </section>
-
-  <!-- Shop drawings (client folder “Design”): every piece is decided on paper first. -->
+  <!-- Shop drawings (client folder “Design”): every piece is decided on paper first. Right after the built
+       projects so they lead into the drawings (client review 28-oct #3). -->
   <section class="drawings on-light section" aria-labelledby="drawings-title">
     <div class="wrap">
       <div class="drawings__head">
@@ -86,6 +80,13 @@ const concepts = [
           </li>
         ))}
       </ul>
+    </div>
+  </section>
+
+  <section class="reach on-dark section" aria-labelledby="reach-title">
+    <div class="wrap">
+      <p class="eyebrow" id="reach-title">{d.mapEyebrow}</p>
+      <WorldMap lang={lang} />
     </div>
   </section>
 

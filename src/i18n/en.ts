@@ -16,7 +16,7 @@ const en = {
     },
     applications: {
       title: 'Applications — where thin natural stone goes | MILLIMETER',
-      description: 'Kitchens, bathrooms, arches and columns, walk-in showers, custom furniture, doors, curved surfaces and ceilings: eight applications 1–5 mm makes possible.',
+      description: 'Doors and panels, kitchens, bathrooms, arches and columns, custom furniture, curved surfaces, ceilings and walk-in showers: eight applications 1–5 mm makes possible.',
     },
     materials: {
       title: 'Materials — marble, quartzite & travertine at 1–5 mm | MILLIMETER',
@@ -170,14 +170,14 @@ const en = {
     intro: 'Each one exists for a concrete reason: weight, curvature or the absence of joints. They are not catalog ideas — they are consequences of the material.',
     cta: 'See applications in detail',
     items: [
+      { id: 'doors', img: 'puertas', alt: 'Full-height pivot door clad in travertine at a house entrance', thick: '5 mm', title: 'Doors & panels', short: 'Weight compatible with standard hardware.', long: 'A door leaf clad in 5 mm marble sits inside the load range of a standard hinge. With 3/4 in of stone, it does not.' },
       { id: 'kitchens', img: 'cocinas', alt: 'Kitchen with a long curved island clad in warm cream natural stone, a matching stone backsplash and hood, and oak cabinetry', thick: '1 & 5 mm', title: 'Kitchens', short: 'Islands, backsplashes and fronts in real stone.', long: 'Islands wrapped in one continuous sheet, curved ends, full-height backsplashes and stone-clad cabinet fronts. At 1 mm the stone follows the curve of an island; at 5 mm it covers backsplashes and worktop faces without heavy anchoring.' },
       { id: 'bathrooms', img: 'banos', alt: 'Bathroom with a freestanding tub clad in grey marble with fine veining', thick: '1 & 5 mm', title: 'Bathrooms', short: 'Tubs, vanities and basins clad in natural stone.', long: 'Freestanding tubs, vanities and basins clad in natural stone, with walls in large sheets and few joints. At 1 mm the stone wraps round tubs and curved fronts; at 5 mm it covers walls and vanity tops.' },
       { id: 'architectural', img: 'arquitectonicos', alt: 'Arch clad in a continuous sheet of marble', thick: '1 mm', title: 'Architectural elements', short: 'Arches and columns clad in one continuous curve.', long: 'Arches, vaults and columns clad in a single piece that follows the geometry. The veining runs through the curve instead of breaking at every joint.' },
-      { id: 'showers', img: 'duchas', alt: 'Walk-in shower clad floor to ceiling in large travertine slabs with almost invisible joints', thick: '5 mm', title: 'Walk-in showers', short: 'Fewer joints: less seepage, less silicone.', long: 'Fewer joints means less silicone, less seepage and less maintenance. In a built-in shower that is the difference between ten years and two.' },
       { id: 'furniture', img: 'mobiliario', alt: 'Bedside table in travertine and brushed brass, its stone-clad drawer closed', thick: '1 & 5 mm', title: 'Custom furniture', short: 'Stone fronts that truly open and close.', long: 'Fronts, doors and drawers in stone, in 1 and 5 mm, that open and close on standard hardware, because they weigh what a veneered panel weighs.' },
-      { id: 'doors', img: 'puertas', alt: 'Full-height pivot door clad in travertine at a house entrance', thick: '5 mm', title: 'Doors & panels', short: 'Weight compatible with standard hardware.', long: 'A door leaf clad in 5 mm marble sits inside the load range of a standard hinge. With 3/4 in of stone, it does not.' },
       { id: 'curves', img: 'curvas', alt: 'Curved surface clad in a single sheet of natural stone', thick: '1 mm', title: 'Curved surfaces', short: 'A real curve, not segments faking one.', long: 'The application that defines the product. A real, continuous curve: no other natural material solves it today without cutting it into segments.' },
       { id: 'ceilings', img: 'techos', alt: 'Living room ceiling clad in 5 mm marble panels', thick: '5 mm', title: 'Ceilings', short: 'Viable only at 3–4 lb/ft², not 13–15.', long: 'Stone overhead. At 5 mm a square foot weighs 3–4 lb (15–20 kg/m²), against 13–15 lb (63–73 kg/m²) for traditional 3/4 in stone: that difference is what makes a ceiling possible.' },
+      { id: 'showers', img: 'duchas', alt: 'Walk-in shower clad floor to ceiling in large travertine slabs with almost invisible joints', thick: '5 mm', title: 'Walk-in showers', short: 'Fewer joints: less seepage, less silicone.', long: 'Fewer joints means less silicone, less seepage and less maintenance. In a built-in shower that is the difference between ten years and two.' },
     ],
     notListedTitle: 'Your application is not on the list?',
     notListedBody: 'It is probably still possible. The limit is set by the construction detail, and we review that with you before there is a quote.',
@@ -263,7 +263,7 @@ const en = {
     mapTitle: 'From the quarry to the project',
     mapIntro: 'Stone selected at its source, fabricated in our workshops and delivered wherever our clients build.',
     legend: { quarry: 'Quarries · stone origin', fab: 'Fabrication', presence: 'Commercial presence', dest: 'Destinations', supply: 'Quarry → workshop', delivery: 'Workshop → destination' },
-    countries: { US: 'United States', ES: 'Spain', AE: 'United Arab Emirates', IT: 'Italy', PT: 'Portugal', BR: 'Brazil', IR: 'Iran', TN: 'Tunisia', CN: 'China', IN: 'India', PE: 'Peru' },
+    countries: { US: 'United States', ES: 'Spain', AE: 'United Arab Emirates', CO: 'Colombia', IT: 'Italy', PT: 'Portugal', BR: 'Brazil', IR: 'Iran', TN: 'Tunisia', CN: 'China', IN: 'India', PE: 'Peru' },
     destinations: { LAX: 'Los Angeles', MTY: 'Monterrey', MIA: 'Miami', SDQ: 'Santo Domingo', PAR: 'Paris', NL: 'Netherlands', DXB: 'Dubai' },
     houston: 'Houston',
     hqLabel: 'Houston · headquarters',
@@ -348,7 +348,7 @@ const en = {
       { q: 'Is it safer than engineered quartz?', a: 'It depends on the stone you choose, and we will not generalise. According to OSHA and NIOSH, marble and limestones such as travertine typically contain less than 5% crystalline silica, granite 10–50%, quartzite 95% or more, and engineered stone anywhere from under 0.2% to 95%, with conventional quartz surfaces at the top of that range. A MILLIMETER piece in marble or travertine therefore involves far less silica than conventional engineered quartz, and at 1 or 5 mm every cut removes a fraction of the material of a 2–3 cm slab. Whatever the stone, wet cutting, dust extraction and suitable protective equipment remain essential, and we confirm the technical data of the specific stone for each project.' },
       { q: 'Why choose MILLIMETER and natural stone over other materials?', a: 'Because it is the real stone: veining and tones that never repeat, the visual depth only a natural material has, and finishes worked by craftsmen — polished, honed or brushed surfaces, profiled edges, mouldings and mitred corners. Instead of a surface that imitates stone, MILLIMETER lets you work with authentic marble, quartzite or travertine at 1 and 5 mm, extending it to furniture, curves and architectural integration whenever the system and the chosen stone allow it.' },
       { q: 'How does it compare with engineered quartz and porcelain?', a: 'Each material has its place, so we stick to concrete differences. The resins in engineered quartz can be damaged, discolour or lose their sheen under high heat, so hot cookware needs a trivet. Porcelain is hard and stable, but its thin edges need care against impacts and are usually mitred or profiled. Natural stone can be repolished and its edges shaped, and every piece is unique; marble, in turn, is sensitive to acids and is sealed. We will tell you honestly which material suits your use, finish and budget.' },
-      { q: 'Where are you based and where do you work?', a: 'MILLIMETER Global LLC is headquartered in Houston, Texas, with commercial presence in the United States, Spain and the United Arab Emirates. Built projects include the Wittman Residence in Austin, the Altuve Residence in Houston and the Barret Project in San Diego. We work with architects, designers and private clients worldwide.' },
+      { q: 'Where are you based and where do you work?', a: 'MILLIMETER Global LLC is headquartered in Houston, Texas, with commercial presence in the United States, Spain, the United Arab Emirates and Colombia. Built projects include the Wittman Residence in Austin, the Altuve Residence in Houston and the Barret Project in San Diego. We work with architects, designers and private clients worldwide.' },
       { q: 'How do I get a quote?', a: 'Send plans, references or even a hand sketch through the contact form, by email or by WhatsApp. We reply within one business day, review the construction detail with you and only then prepare a closed quote.' },
     ],
   },
@@ -371,7 +371,7 @@ const en = {
     nextBody: 'Jesús Casanova reads your enquiry personally. If the material does not fit your piece, we say so in the first reply.',
     directTitle: 'Direct',
     hq: 'Headquarters · Houston, Texas',
-    presence: 'Presence · United States · Spain · United Arab Emirates',
+    presence: 'Presence · United States · Spain · United Arab Emirates · Colombia',
   },
 
   form: {
@@ -442,7 +442,7 @@ const en = {
   footer: {
     tagline: 'Redefining natural stone.',
     hq: 'Headquarters · Houston, Texas',
-    presence: 'United States · Spain · United Arab Emirates',
+    presence: 'United States · Spain · United Arab Emirates · Colombia',
     pinterest: 'Pinterest',
     explore: 'Explore',
     contact: 'Contact',

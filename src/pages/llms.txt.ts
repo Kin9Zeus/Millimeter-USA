@@ -8,7 +8,7 @@ export const GET: APIRoute = ({ site }) => {
   const u = (p: string) => new URL(site!).origin + p; // ROUTES already include the base path
   const body = `# MILLIMETER by Casanova
 
-> Real natural stone (marble, quartzite, travertine and granite) processed to 1–5 mm thick: 80–90% lighter than traditional 3/4 in (2 cm) stone and genuinely curvable at 1 mm. MILLIMETER Global LLC is headquartered in Houston, Texas, with commercial presence in the United States, Spain and the United Arab Emirates, and is led by founder and CEO Jesús Casanova.
+> Real natural stone (marble, quartzite, travertine and granite) processed to 1–5 mm thick: 80–90% lighter than traditional 3/4 in (2 cm) stone and genuinely curvable at 1 mm. MILLIMETER Global LLC is headquartered in Houston, Texas, with commercial presence in the United States, Spain, the United Arab Emirates and Colombia, and is led by founder and CEO Jesús Casanova.
 
 ## Key facts
 - Thickness: 1 mm (curves, columns, arches, cabinet fronts) and 5 mm (feature walls, showers, doors, ceilings, countertops, integrated sinks).
@@ -19,7 +19,7 @@ export const GET: APIRoute = ({ site }) => {
 - Applications: ${en.applications.items.map((i) => i.title.toLowerCase()).join(', ')}.
 - Materials: ${MATERIALS.map((m) => m.name).join(', ')}.
 - Built projects: Wittman Residence (Austin, TX — curved floating vanity, Cream Travertine, 1 mm + 5 mm); Barret Project (San Diego, CA — continuous curved arch cladding, Calacatta Viola, 1 mm + 2 cm); Altuve Residence (Houston, TX — bar cabinet, Dark Emperador, 5 mm).
-- Company: ${CONTACT.company}, headquartered in Houston, Texas; presence in the United States, Spain and the United Arab Emirates. Fabrication in Houston and Spain. More than 90 years and three generations working with natural stone, from a family tradition in Spain.
+- Company: ${CONTACT.company}, headquartered in Houston, Texas; presence in the United States, Spain, the United Arab Emirates and Colombia. Fabrication in Houston and Spain. More than 90 years and three generations working with natural stone, from a family tradition in Spain.
 - Contact: ${CONTACT.email} · WhatsApp ${CONTACT.whatsappDisplay} · Instagram ${CONTACT.instagramHandle}. Reply within one business day.
 
 ## Pages

@@ -42,6 +42,7 @@ const DEST_LBL: Record<Dest, [number, number, Lbl['anchor']]> = {
 const labels: Lbl[] = [
   off(at(hq), 4, -16, d.hqLabel, 'start'),
   off(presenceAt('ES'), -16, -6, name('ES'), 'end'),
+  off(presenceAt('CO'), 10, 5, name('CO'), 'start'),
   off(presenceAt('AE'), 0, 26, `${dest('DXB')} · ${name('AE')}`, 'middle'),
   ...DESTINATIONS.filter((x) => x.id !== 'DXB').map((x) => { const [dx, dy, a] = DEST_LBL[x.id]; return off(at(x), dx, dy, dest(x.id), a); }),
 ];

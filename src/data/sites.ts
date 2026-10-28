@@ -2,9 +2,10 @@
 // which replaces every earlier map instruction. Four categories:
 // - quarry: countries of origin of the stone (country-level points, not specific quarries).
 // - fab: fabrication in Houston and Spain.
-// - presence: commercial presence in the United States (Houston HQ), Spain and the United Arab Emirates.
+// - presence: commercial presence in the United States (Houston HQ), Spain, the United Arab Emirates and Colombia
+//   (Colombia restored by the review of 28-oct, labelled with the country name).
 // - dest: destinations named by the client (Netherlands has no city specified, so it is a country point).
-export type Country = 'US' | 'ES' | 'AE' | 'IT' | 'PT' | 'BR' | 'IR' | 'TN' | 'CN' | 'IN' | 'PE';
+export type Country = 'US' | 'ES' | 'AE' | 'CO' | 'IT' | 'PT' | 'BR' | 'IR' | 'TN' | 'CN' | 'IN' | 'PE';
 export type Dest = 'LAX' | 'MIA' | 'NL' | 'PAR' | 'DXB' | 'SDQ' | 'MTY';
 export interface Site { c: Country; lat: number; lon: number; city?: string; hq?: boolean; stones?: string[] }
 export interface Destination { id: Dest; lat: number; lon: number }
@@ -13,6 +14,7 @@ export const PRESENCE: Site[] = [
   { c: 'US', lat: 29.76, lon: -95.37, city: 'Houston', hq: true },
   { c: 'ES', lat: 40.42, lon: -3.7 },
   { c: 'AE', lat: 25.2, lon: 55.27 },
+  { c: 'CO', lat: 4.71, lon: -74.07 },
 ];
 
 export const FAB: Site[] = [

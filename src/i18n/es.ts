@@ -16,7 +16,7 @@ const es: Dict = {
     },
     applications: {
       title: 'Aplicaciones — dónde va la piedra natural fina | MILLIMETER',
-      description: 'Cocinas, baños, arcos y columnas, grandes duchas, mobiliario, puertas, superficies curvas y techos: ocho aplicaciones que el espesor de 1 a 5 mm hace posibles.',
+      description: 'Puertas y paneles, cocinas, baños, arcos y columnas, mobiliario, superficies curvas, techos y grandes duchas: ocho aplicaciones que el espesor de 1 a 5 mm hace posibles.',
     },
     materials: {
       title: 'Materiales — mármol, cuarcita y travertino de 1 a 5 mm | MILLIMETER',
@@ -170,14 +170,14 @@ const es: Dict = {
     intro: 'Cada una existe por una razón concreta: el peso, la curvatura o la ausencia de juntas. No son ideas de catálogo, son consecuencias del material.',
     cta: 'Ver las aplicaciones en detalle',
     items: [
+      { id: 'doors', img: 'puertas', alt: 'Puerta pivotante de altura completa revestida en travertino en la entrada de una casa', thick: '5 mm', title: 'Puertas y paneles', short: 'Peso compatible con herrajes estándar.', long: 'Una hoja de puerta revestida en mármol de 5 mm entra dentro del rango de carga de una bisagra estándar. Con 2 cm de piedra, no.' },
       { id: 'kitchens', img: 'cocinas', alt: 'Cocina con una larga isla curva revestida en piedra natural crema cálida, frente y campana en la misma piedra y mobiliario de roble', thick: '1 y 5 mm', title: 'Cocinas', short: 'Islas, frentes y salpicaderos en piedra real.', long: 'Islas envueltas en una sola lámina continua, remates curvos, frentes a altura completa y puertas de mueble revestidas en piedra. En 1 mm la piedra sigue la curva de una isla; en 5 mm cubre frentes y cantos de encimera sin anclajes pesados.' },
       { id: 'bathrooms', img: 'banos', alt: 'Baño con bañera exenta revestida en mármol gris de veta fina', thick: '1 y 5 mm', title: 'Baños', short: 'Bañeras, muebles de baño y lavabos revestidos en piedra natural.', long: 'Bañeras exentas, muebles de baño y lavabos revestidos en piedra natural, con paredes en láminas grandes y pocas juntas. En 1 mm la piedra envuelve bañeras redondas y frentes curvos; en 5 mm cubre paredes y encimeras de baño.' },
       { id: 'architectural', img: 'arquitectonicos', alt: 'Arco revestido con una lámina continua de mármol', thick: '1 mm', title: 'Elementos arquitectónicos', short: 'Arcos y columnas revestidos en curva continua.', long: 'Arcos, bóvedas y columnas revestidos con una sola pieza que sigue la geometría. La veta recorre la curva en vez de cortarse en cada junta.' },
-      { id: 'showers', img: 'duchas', alt: 'Ducha de obra revestida de suelo a techo con grandes placas de travertino de juntas casi invisibles', thick: '5 mm', title: 'Grandes duchas', short: 'Menos juntas: menos filtración y menos silicona.', long: 'Menos juntas es menos silicona, menos filtración y menos mantenimiento. En una ducha de obra es la diferencia entre diez años y dos.' },
       { id: 'furniture', img: 'mobiliario', alt: 'Mesita de noche en travertino y latón cepillado, con su cajón de piedra cerrado', thick: '1 y 5 mm', title: 'Mobiliario a medida', short: 'Frentes de piedra que abren y cierran de verdad.', long: 'Frentes, puertas y cajones de piedra, en 1 y 5 mm, que abren y cierran con herraje convencional, porque pesan lo que pesaría un tablero chapado.' },
-      { id: 'doors', img: 'puertas', alt: 'Puerta pivotante de altura completa revestida en travertino en la entrada de una casa', thick: '5 mm', title: 'Puertas y paneles', short: 'Peso compatible con herrajes estándar.', long: 'Una hoja de puerta revestida en mármol de 5 mm entra dentro del rango de carga de una bisagra estándar. Con 2 cm de piedra, no.' },
       { id: 'curves', img: 'curvas', alt: 'Superficie curva revestida con una sola lámina de piedra natural', thick: '1 mm', title: 'Superficies curvas', short: 'Curva real, no un despiece que la simula.', long: 'La aplicación que define el producto. Curva continua real: ningún otro material natural la resuelve hoy sin despiece.' },
       { id: 'ceilings', img: 'techos', alt: 'Techo de un salón revestido con paneles de mármol de 5 mm', thick: '5 mm', title: 'Techos', short: 'Solo viable a 15–20 kg/m², no a 63–73.', long: 'Piedra sobre la cabeza. En 5 mm el metro cuadrado pesa entre 15 y 20 kg, frente a los 63–73 kg de la piedra tradicional de 2 cm: esa diferencia es la que hace posible el techo.' },
+      { id: 'showers', img: 'duchas', alt: 'Ducha de obra revestida de suelo a techo con grandes placas de travertino de juntas casi invisibles', thick: '5 mm', title: 'Grandes duchas', short: 'Menos juntas: menos filtración y menos silicona.', long: 'Menos juntas es menos silicona, menos filtración y menos mantenimiento. En una ducha de obra es la diferencia entre diez años y dos.' },
     ],
     notListedTitle: '¿Tu aplicación no está en la lista?',
     notListedBody: 'Probablemente también se pueda. El límite lo marca el detalle constructivo, y ese lo revisamos contigo antes de que exista presupuesto.',
@@ -263,7 +263,7 @@ const es: Dict = {
     mapTitle: 'De la cantera al proyecto',
     mapIntro: 'Piedra seleccionada en su origen, fabricada en nuestros talleres y entregada allí donde construyen nuestros clientes.',
     legend: { quarry: 'Canteras · origen de la piedra', fab: 'Fabricación', presence: 'Presencia comercial', dest: 'Destinos', supply: 'Cantera → taller', delivery: 'Taller → destino' },
-    countries: { US: 'Estados Unidos', ES: 'España', AE: 'Emiratos Árabes Unidos', IT: 'Italia', PT: 'Portugal', BR: 'Brasil', IR: 'Irán', TN: 'Túnez', CN: 'China', IN: 'India', PE: 'Perú' },
+    countries: { US: 'Estados Unidos', ES: 'España', AE: 'Emiratos Árabes Unidos', CO: 'Colombia', IT: 'Italia', PT: 'Portugal', BR: 'Brasil', IR: 'Irán', TN: 'Túnez', CN: 'China', IN: 'India', PE: 'Perú' },
     destinations: { LAX: 'Los Ángeles', MTY: 'Monterrey', MIA: 'Miami', SDQ: 'Santo Domingo', PAR: 'París', NL: 'Holanda', DXB: 'Dubái' },
     houston: 'Houston',
     hqLabel: 'Houston · sede',
@@ -348,7 +348,7 @@ const es: Dict = {
       { q: '¿Es más seguro que el cuarzo compacto?', a: 'Depende de la piedra que elijas, y no vamos a generalizar. Según OSHA y NIOSH, el mármol y las calizas como el travertino contienen normalmente menos del 5 % de sílice cristalina, el granito entre el 10 y el 50 %, la cuarcita el 95 % o más, y la piedra artificial desde menos del 0,2 % hasta el 95 %, con el cuarzo compacto convencional en la parte alta de ese rango. Por eso una pieza MILLIMETER en mármol o travertino implica mucha menos sílice que el cuarzo compacto convencional, y en 1 o 5 mm cada corte arranca una fracción del material de una placa de 2–3 cm. Sea cual sea la piedra, el corte en húmedo, la extracción de polvo y el equipo de protección adecuado siguen siendo imprescindibles, y confirmamos la ficha técnica de la piedra concreta en cada proyecto.' },
       { q: '¿Por qué elegir MILLIMETER y piedra natural frente a otros materiales?', a: 'Porque es la piedra auténtica: vetas y tonalidades que nunca se repiten, la profundidad visual que solo tiene un material natural y acabados trabajados por artesanos: superficies pulidas, apomazadas o cepilladas, cantos perfilados, molduras e ingletes. En lugar de una superficie que imita la piedra, MILLIMETER permite trabajar mármol, cuarcita o travertino reales en 1 y 5 mm, y llevarlos al mobiliario, a las curvas y a la integración arquitectónica cuando el sistema y la piedra elegida lo permiten.' },
       { q: '¿Cómo se compara con el cuarzo compacto y el porcelánico?', a: 'Cada material tiene su sitio, así que nos ceñimos a diferencias concretas. Las resinas del cuarzo compacto pueden sufrir daño, decoloración o pérdida de brillo ante calor elevado, por lo que conviene usar salvamanteles con recipientes calientes. El porcelánico es duro y estable, pero sus cantos finos requieren cuidado frente a impactos y suelen ingletearse o perfilarse. La piedra natural admite repulido y trabajo de cantos, y cada pieza es única; el mármol, a su vez, es sensible a los ácidos y se sella. Te diremos con honestidad qué material encaja con tu uso, acabado y presupuesto.' },
-      { q: '¿Dónde están y dónde trabajan?', a: 'MILLIMETER Global LLC tiene su sede en Houston, Texas, y presencia comercial en Estados Unidos, España y Emiratos Árabes Unidos. Entre su obra construida están la Wittman Residence en Austin, la Altuve Residence en Houston y el Barret Project en San Diego. Trabajamos con arquitectos, diseñadores y clientes privados de todo el mundo.' },
+      { q: '¿Dónde están y dónde trabajan?', a: 'MILLIMETER Global LLC tiene su sede en Houston, Texas, y presencia comercial en Estados Unidos, España, Emiratos Árabes Unidos y Colombia. Entre su obra construida están la Wittman Residence en Austin, la Altuve Residence en Houston y el Barret Project en San Diego. Trabajamos con arquitectos, diseñadores y clientes privados de todo el mundo.' },
       { q: '¿Cómo pido un presupuesto?', a: 'Envía planos, referencias o incluso un boceto a mano por el formulario de contacto, por email o por WhatsApp. Respondemos en menos de un día hábil, revisamos contigo el detalle constructivo y solo entonces preparamos un presupuesto cerrado.' },
     ],
   },
@@ -371,7 +371,7 @@ const es: Dict = {
     nextBody: 'Jesús Casanova lee tu consulta personalmente. Si el material no encaja en tu pieza, te lo decimos en la primera respuesta.',
     directTitle: 'Directo',
     hq: 'Sede · Houston, Texas',
-    presence: 'Presencia · Estados Unidos · España · Emiratos Árabes Unidos',
+    presence: 'Presencia · Estados Unidos · España · Emiratos Árabes Unidos · Colombia',
   },
 
   form: {
@@ -442,7 +442,7 @@ const es: Dict = {
   footer: {
     tagline: 'Redefiniendo la piedra natural.',
     hq: 'Sede · Houston, Texas',
-    presence: 'Estados Unidos · España · Emiratos Árabes Unidos',
+    presence: 'Estados Unidos · España · Emiratos Árabes Unidos · Colombia',
     pinterest: 'Pinterest',
     explore: 'Explorar',
     contact: 'Contacto',
