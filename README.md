@@ -166,3 +166,7 @@ Secrets are never committed. Production values live only in the hosting provider
 Design & development by **[@Kin9Zeus](https://github.com/Kin9Zeus)**.
 
 Brand, photography, product data and copy © MILLIMETER by Casanova / MILLIMETER Global LLC. Shown here as a portfolio case study. All rights reserved.
+
+## License
+
+© 2026 Devleck (Aleck Martinez). **All rights reserved.** The code is published as a portfolio case study: you may read it and run it locally to evaluate it, but you may not copy, redistribute or use it in another product without written permission. Brand names, logos, photographs and texts belong to their respective owners. See [LICENSE](LICENSE) · Permissions: contact@devleck.com
