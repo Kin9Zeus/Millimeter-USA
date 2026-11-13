@@ -27,13 +27,41 @@ export const oneLine = (v: string) => v.replace(/[\r\n]+/g, ' ');
 export const isEmail = (v: string) => /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[^\s@<>()[\]\\,;:"]{2,}$/.test(v) && v.length <= 160;
 const escapeHtml = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 
-/** Bots fill the hidden field or submit faster than a human can type. */
-export function looksAutomated(form: FormData): boolean {
-  if (clean(form.get('website'), 200)) return true;
+/**
+ * Bots fill the hidden field, submit faster than a human can type, or POST straight to the
+ * endpoint without ever loading the page (so they have no timestamp). The timestamp is set by
+ * the page's script, so a missing or invalid one is treated as automated.
+ */
+export function looksAutomated(form: FormData): string | null {
+  if (clean(form.get('website'), 200)) return 'honeypot';
   const ts = Number(clean(form.get('ts'), 20));
-  if (!ts) return false; // no-JS submissions have no timestamp: allow
+  if (!ts) return 'no-timestamp';
   const elapsed = Date.now() - ts;
-  return elapsed < 2500 || elapsed > 1000 * 60 * 60 * 24;
+  if (elapsed < 2500) return 'too-fast';
+  if (elapsed > 1000 * 60 * 60 * 24) return 'stale';
+  return null;
+}
+
+/** Overall cap per endpoint: bounds the inbox even if an attacker rotates IPs. */
+export function globalLimited(kind: string, max: number, windowMs: number): boolean {
+  return rateLimited(`global:${kind}`, max, windowMs);
+}
+
+/** The same message sent again within 24h (spam replays) is dropped silently. */
+const seen = new Map<string, number>();
+export function isDuplicate(...parts: string[]): boolean {
+  const now = Date.now();
+  const key = parts.map((p) => p.toLowerCase().replace(/\s+/g, ' ').trim()).join('|').slice(0, 6000);
+  for (const [k, t] of seen) if (now - t > 86_400_000) seen.delete(k);
+  if (seen.has(key)) return true;
+  if (seen.size > 2000) seen.clear();
+  seen.set(key, now);
+  return false;
+}
+
+/** Log blocked attempts (no personal data) so abuse is visible in the Railway logs. */
+export function logBlocked(kind: string, reason: string, ip: string) {
+  console.warn(`[forms] blocked ${kind} reason=${reason} ip=${ip}`);
 }
 
 /* ---------- PDF checks (content, not extension) ---------- */

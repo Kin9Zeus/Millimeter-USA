@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { clean, oneLine, isEmail, looksAutomated, rateLimited, clientIp, sendMail, respond, sameOrigin, checkPdf } from '../../lib/server/forms';
+import { clean, oneLine, isEmail, looksAutomated, rateLimited, globalLimited, logBlocked, clientIp, sendMail, respond, sameOrigin, checkPdf } from '../../lib/server/forms';
 import { ROUTES } from '../../i18n/routes';
 
 export const prerender = false;
@@ -10,14 +10,16 @@ export const POST: APIRoute = async ({ request, clientAddress, site }) => {
   if (len > 6 * 1024 * 1024) return respond(request, 413, { ok: false, error: 'size', fields: ['cv'] });
   const ip = clientIp(request, clientAddress);
   // Stricter than the contact form: résumés are heavier and rarer.
-  if (rateLimited(`careers:${ip}`, 3, 60 * 60 * 1000)) return respond(request, 429, { ok: false, error: 'rate' });
+  if (rateLimited(`careers:${ip}`, 3, 60 * 60 * 1000)) { logBlocked('careers', 'rate-ip', ip); return respond(request, 429, { ok: false, error: 'rate' }); }
+  if (globalLimited('careers', 20, 60 * 60 * 1000)) { logBlocked('careers', 'rate-global', ip); return respond(request, 429, { ok: false, error: 'rate' }); }
 
   let form: FormData;
   try { form = await request.formData(); } catch { return respond(request, 400, { ok: false, error: 'body' }); }
 
   const lang = clean(form.get('lang'), 2) === 'es' ? 'es' : 'en';
   const back = `${ROUTES.careers[lang]}?sent=1`;
-  if (looksAutomated(form)) return respond(request, 200, { ok: true }, back);
+  const bot = looksAutomated(form);
+  if (bot) { logBlocked('careers', bot, ip); return respond(request, 200, { ok: true }, back); }
 
   const name = oneLine(clean(form.get('name'), 120));
   const email = oneLine(clean(form.get('email'), 160));

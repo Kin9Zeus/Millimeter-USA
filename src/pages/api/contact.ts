@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { clean, oneLine, isEmail, looksAutomated, rateLimited, clientIp, sendMail, respond, sameOrigin } from '../../lib/server/forms';
+import { clean, oneLine, isEmail, looksAutomated, rateLimited, globalLimited, isDuplicate, logBlocked, clientIp, sendMail, respond, sameOrigin } from '../../lib/server/forms';
 import { ROUTES } from '../../i18n/routes';
 
 export const prerender = false;
@@ -7,7 +7,9 @@ export const prerender = false;
 export const POST: APIRoute = async ({ request, clientAddress, site }) => {
   if (!sameOrigin(request, site)) return respond(request, 403, { ok: false, error: 'origin' });
   const ip = clientIp(request, clientAddress);
-  if (rateLimited(`contact:${ip}`, 5, 10 * 60 * 1000)) return respond(request, 429, { ok: false, error: 'rate' });
+  if (Number(request.headers.get('content-length') || 0) > 64 * 1024) return respond(request, 413, { ok: false, error: 'size' });
+  if (rateLimited(`contact:${ip}`, 5, 10 * 60 * 1000)) { logBlocked('contact', 'rate-ip', ip); return respond(request, 429, { ok: false, error: 'rate' }); }
+  if (globalLimited('contact', 40, 60 * 60 * 1000)) { logBlocked('contact', 'rate-global', ip); return respond(request, 429, { ok: false, error: 'rate' }); }
 
   let form: FormData;
   try { form = await request.formData(); } catch { return respond(request, 400, { ok: false, error: 'body' }); }
@@ -15,7 +17,8 @@ export const POST: APIRoute = async ({ request, clientAddress, site }) => {
   const lang = clean(form.get('lang'), 2) === 'es' ? 'es' : 'en';
   const back = `${ROUTES.contact[lang]}?sent=1`;
   // Silently accept bot submissions so they get no signal.
-  if (looksAutomated(form)) return respond(request, 200, { ok: true }, back);
+  const bot = looksAutomated(form);
+  if (bot) { logBlocked('contact', bot, ip); return respond(request, 200, { ok: true }, back); }
 
   const name = oneLine(clean(form.get('name'), 120));
   const email = oneLine(clean(form.get('email'), 160));
@@ -32,6 +35,8 @@ export const POST: APIRoute = async ({ request, clientAddress, site }) => {
   if (message.length < 10) fields.push('message');
   if (!consent) fields.push('consent');
   if (fields.length) return respond(request, 400, { ok: false, error: 'invalid', fields });
+
+  if (isDuplicate('contact', email, message)) { logBlocked('contact', 'duplicate', ip); return respond(request, 200, { ok: true }, back); }
 
   const sent = await sendMail(import.meta.env.PROD ? process.env : { ...import.meta.env, ...process.env }, {
     subject: `[MILLIMETER USA] ${name}${company ? ` · ${company}` : ''}${location ? ` · ${location}` : ''}`,
